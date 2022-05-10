@@ -5,7 +5,8 @@
     "build:contracts": "npm run clean && npm run build-ts && npm run cp",
     "build-ts": "node build.js",
     "clean": "rimraf ./dist",
-    "cp": "copyfiles -u 1 ./src/**/*.json dist"
+    "cp": "copyfiles -u 1 ./src/**/*.json dist",
+    "test": "jest test"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.16.7",
