@@ -5,14 +5,14 @@ UnietDAO is a series of Smart Contract on Arweave to coordinate the  creation of
 For example, we still lack of a common definition of the fields for the metadata of NFTs. How do I use my NFT Car in a different game if the names of the fields in the metadata are different? We can’t achieve real interoperability unless we all speak the same language.
 
 **Example**
-This is the (Opensea recommendation of metadata)[https://docs.opensea.io/docs/metadata-standards] of one NFT:
+This is the [Opensea recommendation of metadata](https://docs.opensea.io/docs/metadata-standards) of one NFT:
 ```json
 {
   "description": "Friendly OpenSea Creature that enjoys long swims in the ocean.",
   "external_url": "https://openseacreatures.io/3",
   "image": "https://storage.googleapis.com/opensea-prod.appspot.com/puffs/3.png",
   "name": "Dave Starbelly",
-  "attributes": [ ... ],
+  "attributes": [],
 }
 ```
 
@@ -50,12 +50,12 @@ We are usig JSON schemas to define the different fields.
 ## The contract (smartweave)
 The smartweave contract that we are using is keeping basic information:
 - proposals : list of proposals (add, edit, open, approved, abandoned)
- - Proposal to add a new fields
- - Proposal to change a field
+  - Proposal to add a new fields
+  - Proposal to change a field
 - contributors (editor, contributor and user).
- - editors, can add more editors and contributors
- - contributors : can change the state of a proposal
- - users : can create proposals and comment on them
+  - editors, can add more editors and contributors
+  - contributors : can change the state of a proposal
+  - users : can create proposals and comment on them
 
 Everytime a proposal to add/edit a field is approved by one of the contributors, the list of fields of that schema (standard) is aupdated and a ew version of the standard is created following semantinc versioning (major.minor.patch)
 At any time, any user can comment in any of the (add/edit/open) fields.
