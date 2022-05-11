@@ -23,7 +23,7 @@ export const setRole = async (
   }
 
   if (!['contributor', 'editor', 'user'].includes(role)) {
-    throw new ContractError('Role must be contributor or editor');
+    throw new ContractError('Role must be contributor, editor or user');
   }
   state.contributors[userId].role = role
   return { state };

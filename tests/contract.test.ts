@@ -43,7 +43,7 @@ describe('Testing the Profit Sharing Token', () => {
     LoggerFactory.INST.logLevel('error');
 
     smartweave = SmartWeaveNodeFactory.memCached(arweave);
-    wallet= await arweave.wallets.generate();
+    wallet = await arweave.wallets.generate();
     await addFunds(arweave, wallet);
     editorAddress = await arweave.wallets.jwkToAddress(wallet);
 
