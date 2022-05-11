@@ -18,6 +18,7 @@ export const addVersion = async (
     "proposer": caller,
     "name" : name,
     "status": "proposal",
+    "version" : "",
     "comments": [{
       "text": comment,
       "by": caller

@@ -63,8 +63,8 @@ describe('Testing the Profit Sharing Token', () => {
       "major": 0,
       "minor": 0,
       "patch": 0,
-      "currentVersion" : 0,
-      "openVersion" : 0,
+      "currentVersion" : -1,
+      "openVersion" : -1,
       "contributors": [{
         "address": editorAddress,
         "role": "editor",
@@ -130,14 +130,36 @@ describe('Testing the Profit Sharing Token', () => {
     await mineBlock(arweave);
     const newState = await contract.readState();
     const state:any = newState.state;
-    console.log('====================================\n', state)
     expect(state.versions.length).toEqual(1);
     expect(state.versionId).toEqual(1);
     expect(state.versions[0].name).toEqual('proposal #1');
+    expect(state.versions[0].status).toEqual('proposal');
     expect(state.versions[0].proposer).toEqual(userAddress);
     expect(state.versions[0].comments[0].by).toEqual(userAddress);
     expect(state.versions[0].comments[0].text).toEqual('test comment');
   });
+
+  it('should open and close the version', async () => {
+    contract = smartweave.contract(contractAddr).connect(wallet);
+    await contract.writeInteraction({ function: 'setStatus', versionId: 0, status: 'open', update: '' });
+    await mineBlock(arweave);
+    let newState = await contract.readState();
+    let state:any = newState.state;
+    expect(state.versions[0].status).toEqual('open');
+    await contract.writeInteraction({ function: 'setStatus', versionId: 0, status: 'approved', update: 'major' });
+    await mineBlock(arweave);
+    newState = await contract.readState();
+    state = newState.state;
+    expect(state.versions[0].status).toEqual('approved');
+    expect(state.versions[0].version).toEqual('1.0.0');
+    expect(state.major).toEqual(1);
+    expect(state.minor).toEqual(0);
+    expect(state.patch).toEqual(0);
+    expect(state.openVersion).toEqual(-1);
+    expect(state.currentVersion).toEqual(0);
+ 
+  });
+
 
 
 });

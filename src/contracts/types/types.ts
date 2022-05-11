@@ -23,6 +23,7 @@ export interface Version {
   name: string;
   status: 'proposal' | 'open' | 'abandoned' | 'approved';
   fields: Field[];
+  version: string;
 }
 
 export interface UniteSchemaState {

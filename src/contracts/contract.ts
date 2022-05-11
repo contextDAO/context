@@ -1,6 +1,7 @@
 import { addContributor } from './actions/write/addContributor';
 import { setRole } from './actions/write/setRole';
 import { addVersion } from './actions/write/addVersion';
+import { setStatus } from './actions/write/setStatus';
 import { getContributors } from './actions/read/getContributors';
 import { PstAction, ContractResult, UniteSchemaState } from './types/types';
 
@@ -19,6 +20,8 @@ export async function handle(
       return await setRole(state, action);
     case 'addVersion':
       return await addVersion(state, action);
+    case 'setStatus':
+      return await setStatus(state, action);
     case 'getContributors':
       return await getContributors(state, action);
     default:
