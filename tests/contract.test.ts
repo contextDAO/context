@@ -3,18 +3,11 @@ import ArLocal from 'arlocal';
 import Arweave from 'arweave';
 import { JWKInterface } from 'arweave/node/lib/wallet';
 import path from 'path';
-import { addFunds, mineBlock } from '../utils/_helpers';
-import { UniteSchemaState, Field, Version, Comment } from '../src/contracts/types/types';
+import { addFunds, mineBlock, GlobalAr, writeInteraction } from '../utils/_helpers';
+import { UniteSchemaState, Field, Proposal, Comment } from '../src/contracts/types/types';
+import { Contract, SmartWeave, SmartWeaveNodeFactory, LoggerFactory } from 'redstone-smartweave';
 
-import {
-  Contract,
-  SmartWeave,
-  SmartWeaveNodeFactory,
-  LoggerFactory,
-  InteractionResult,
-} from 'redstone-smartweave';
-
-describe('Testing the Profit Sharing Token', () => {
+describe('Testing the Unite DAO Contract', () => {
   let contractSrc: string;
 
   let wallet: JWKInterface;
@@ -24,17 +17,15 @@ describe('Testing the Profit Sharing Token', () => {
   let user: JWKInterface;
   let userAddress: string;
 
-  let arweave: Arweave;
-  let arlocal: ArLocal;
-  let smartweave: SmartWeave;
+  let ga: GlobalAr = {} as GlobalAr;
+
   let contract: Contract;
-  let contractAddr: string;
 
   beforeAll(async () => {
-    arlocal = new ArLocal(1820);
-    await arlocal.start();
+    ga.arlocal = new ArLocal(1820);
+    await ga.arlocal.start();
 
-    arweave = Arweave.init({
+    ga.arweave = Arweave.init({
       host: 'localhost',
       port: 1820,
       protocol: 'http',
@@ -42,49 +33,48 @@ describe('Testing the Profit Sharing Token', () => {
 
     LoggerFactory.INST.logLevel('error');
 
-    smartweave = SmartWeaveNodeFactory.memCached(arweave);
-    wallet = await arweave.wallets.generate();
-    await addFunds(arweave, wallet);
-    editorAddress = await arweave.wallets.jwkToAddress(wallet);
+    ga.smartweave = SmartWeaveNodeFactory.memCached(ga.arweave);
+    wallet = await ga.arweave.wallets.generate();
+    await addFunds(ga.arweave, wallet);
+    editorAddress = await ga.arweave.wallets.jwkToAddress(wallet);
 
-    contributor = await arweave.wallets.generate();
-    await addFunds(arweave, contributor);
-    contributorAddress = await arweave.wallets.jwkToAddress(contributor);
+    contributor = await ga.arweave.wallets.generate();
+    await addFunds(ga.arweave, contributor);
+    contributorAddress = await ga.arweave.wallets.jwkToAddress(contributor);
 
-    user = await arweave.wallets.generate();
-    await addFunds(arweave, user);
-    userAddress = await arweave.wallets.jwkToAddress(user);
+    user = await ga.arweave.wallets.generate();
+    await addFunds(ga.arweave, user);
+    userAddress = await ga.arweave.wallets.jwkToAddress(user);
 
     contractSrc = fs.readFileSync(path.join(__dirname, '../dist/contract.js'), 'utf8');
 
     const initialState: UniteSchemaState = {
       "contributorId": 0,
-      "versionId": 0,
+      "proposalId": 0,
+      "lastProposal" : -1,
+      "openProposal" : -1,
       "major": 0,
       "minor": 0,
       "patch": 0,
-      "currentVersion" : -1,
-      "openVersion" : -1,
       "contributors": [{
         "address": editorAddress,
         "role": "editor",
       }],
-      "versions": <Version[]>[],
-      "comments": <Comment[]>[]
+      "proposals": <Proposal[]>[],
     };
 
-    contractAddr = await smartweave.createContract.deploy({
+    ga.contractAddr = await ga.smartweave.createContract.deploy({
       wallet,
       initState: JSON.stringify(initialState),
       src: contractSrc,
     });
     
-    contract = smartweave.contract(contractAddr).connect(wallet);
-    await mineBlock(arweave);
+    contract = ga.smartweave.contract(ga.contractAddr).connect(wallet);
+    await mineBlock(ga.arweave);
   });
 
   afterAll(async () => {
-    await arlocal.stop();
+    await ga.arlocal.stop();
   });
 
   it('should read state and contributors', async () => {
@@ -95,29 +85,19 @@ describe('Testing the Profit Sharing Token', () => {
   });
 
   it('should add a contributor', async () => {
-    contract = smartweave.contract(contractAddr).connect(contributor);
-    await contract.writeInteraction({ function: 'addContributor' });
-    await mineBlock(arweave);
-    let newState = await contract.readState();
-    let state:any = newState.state;
+    let state:any = await writeInteraction(ga, contributor, { function: 'addContributor'});
     expect(state.contributors.length).toEqual(2);
     expect(state.contributors[1].address).toEqual(contributorAddress);
     expect(state.contributors[1].role).toEqual("user");
 
-    contract = smartweave.contract(contractAddr).connect(wallet);
-    await contract.writeInteraction({ function: 'setRole', userAddr: contributorAddress, role: 'contributor' });
-    await mineBlock(arweave);
-    newState = await contract.readState();
-    state = newState.state;
+    state = await writeInteraction(ga, wallet,
+      { function: 'setRole', userAddr: contributorAddress, role: 'contributor' }
+    );
     expect(state.contributors[1].role).toEqual("contributor");
   });
 
   it('should add a user', async () => {
-    contract = smartweave.contract(contractAddr).connect(user);
-    await contract.writeInteraction({ function: 'addContributor' });
-    await mineBlock(arweave);
-    const newState = await contract.readState();
-    const state:any = newState.state;
+    let state:any = await writeInteraction(ga, user, { function: 'addContributor'});
     expect(state.contributors.length).toEqual(3);
     expect(state.contributorId).toEqual(2);
     expect(state.contributors[2].address).toEqual(userAddress);
@@ -125,41 +105,94 @@ describe('Testing the Profit Sharing Token', () => {
   });
 
   it('should add a new version', async () => {
-    contract = smartweave.contract(contractAddr).connect(user);
-    await contract.writeInteraction({ function: 'addVersion', name: 'proposal #1', comment: 'test comment' });
-    await mineBlock(arweave);
-    const newState = await contract.readState();
-    const state:any = newState.state;
-    expect(state.versions.length).toEqual(1);
-    expect(state.versionId).toEqual(1);
-    expect(state.versions[0].name).toEqual('proposal #1');
-    expect(state.versions[0].status).toEqual('proposal');
-    expect(state.versions[0].proposer).toEqual(userAddress);
-    expect(state.versions[0].comments[0].by).toEqual(userAddress);
-    expect(state.versions[0].comments[0].text).toEqual('test comment');
+    const field: Field = {
+      name: 'field#1',
+      description: 'Description for field1',
+      type: 'text',
+    }
+
+    let state:any = await writeInteraction(ga, user,
+      { function: 'addField', fieldName: 'proposal #1', comment: 'comment#1', field }
+    );
+    expect(state.proposals.length).toEqual(1);
+    expect(state.proposalId).toEqual(1);
+    expect(state.proposals[0].name).toEqual('proposal #1');
+    expect(state.proposals[0].status).toEqual('add');
+    expect(state.proposals[0].field.name).toEqual('field#1');
+    expect(state.proposals[0].field.description).toEqual('Description for field1');
+    expect(state.proposals[0].field.type).toEqual('text');
+    expect(state.proposals[0].proposer).toEqual(userAddress);
+    expect(state.proposals[0].comments[0].by).toEqual(userAddress);
+    expect(state.proposals[0].comments[0].text).toEqual('comment#1');
   });
 
-  it('should open and close the version', async () => {
-    contract = smartweave.contract(contractAddr).connect(wallet);
-    await contract.writeInteraction({ function: 'setStatus', versionId: 0, status: 'open', update: '' });
-    await mineBlock(arweave);
-    let newState = await contract.readState();
-    let state:any = newState.state;
-    expect(state.versions[0].status).toEqual('open');
-    await contract.writeInteraction({ function: 'setStatus', versionId: 0, status: 'approved', update: 'major' });
-    await mineBlock(arweave);
-    newState = await contract.readState();
-    state = newState.state;
-    expect(state.versions[0].status).toEqual('approved');
-    expect(state.versions[0].version).toEqual('1.0.0');
+  it('should add a comment', async () => {
+    const state:any = await writeInteraction(ga, contributor,
+      { function: 'addComment', proposalId: 0, text: 'comment#2' }
+    );
+    console.log(state.proposals[0].comments)
+    expect(state.proposals[0].comments[1].text).toEqual('comment#2');
+    expect(state.proposals[0].comments[1].by).toEqual(contributorAddress);
+ 
+  });
+ 
+/*
+  it('should open and close the version - Approved', async () => {
+    let state:any = await writeInteraction(ga, wallet,
+      { function: 'setStatus', versionId: 0, status: 'open', update: '' }
+    );
+    expect(state.proposals[0].status).toEqual('open');
+    state = await writeInteraction(ga, wallet, 
+      { function: 'setStatus', versionId: 0, status: 'approved', update: 'major' }
+    );
+    expect(state.proposals[0].status).toEqual('approved');
+    expect(state.proposals[0].version).toEqual('1.0.0');
     expect(state.major).toEqual(1);
     expect(state.minor).toEqual(0);
     expect(state.patch).toEqual(0);
     expect(state.openVersion).toEqual(-1);
     expect(state.currentVersion).toEqual(0);
- 
   });
 
+  it('should add proposal and Abandon it', async () => {
+    let state:any = await writeInteraction(ga, user,
+      { function: 'addVersion', name: 'proposal #2', comment: 'test new comment' }
+    );
+    state = await writeInteraction(ga, wallet,
+      { function: 'setStatus', versionId: 1, status: 'abandoned', update: '' }
+    );
+    expect(state.proposals[1].status).toEqual('abandoned');
+    expect(state.openVersion).toEqual(-1);
+    expect(state.currentVersion).toEqual(0);
+  });
 
+  it('should open proposal and abandon it', async () => {
+    let state:any = await writeInteraction(ga, user,
+      { function: 'addVersion', name: 'proposal #3', comment: 'test new comment' }
+    );
+    state = await writeInteraction(ga, wallet,
+      { function: 'setStatus', versionId: 2, status: 'open', update: '' }
+    );
+    state = await writeInteraction(ga, wallet,
+      { function: 'setStatus', versionId: 2, status: 'abandoned', update: '' }
+    );
+    expect(state.proposals[2].status).toEqual('abandoned');
+    expect(state.openVersion).toEqual(-1);
+    expect(state.currentVersion).toEqual(0);
+  });
 
+  it('should add fields to a proposal', async () => {
+    let state:any = await writeInteraction(ga, user,
+      { function: 'addVersion', name: 'proposal #4', comment: 'test new comment' }
+    );
+    state = await writeInteraction(ga, wallet,
+      { function: 'setStatus', versionId: 3, status: 'open', update: '' }
+    );
+    expect(state.proposals[3].status).toEqual('open');
+    expect(state.openVersion).toEqual(3);
+    state = await writeInteraction(ga, wallet,
+      { function: 'addField', versionId: 3, status: 'open', update: '' }
+    );
+  });
+*/
 });

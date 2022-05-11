@@ -24,15 +24,18 @@ export const setStatus = async (
     state.openVersion = versionId;
   }
 
-  // Update status to abandoned.
-  if (status === 'abandoned' && version.status === 'open' && state.openVersion === versionId) {
+  // Update status to abandoned. It it was open, set openVersion to -1.
+  if (status === 'abandoned' && !['approved', 'abandoned'].includes(state.versions[versionId].status)) {
+    if (state.versions[versionId].status === 'open') {
+      state.openVersion = -1;
+    }
     state.versions[versionId].status = 'abandoned';
-    state.openVersion = -1;
   }
 
   // Update status to approved.
   if (status === 'approved' && version.status === 'open' && state.openVersion === versionId) {
     state.versions[versionId].status = 'approved';
+    state.versions[versionId].prevVersionId = state.currentVersion;
     state.openVersion = -1;
     state.currentVersion = versionId;
     switch (update) {

@@ -11,32 +11,32 @@ export interface Comment {
 export interface Field {
   name: string,
   description: string,
-  type: string,
-  min: number,
-  max: number,
-  proposer: string,
-  order: number
+  type: 'text' | 'number' | 'boolean' | 'select', 
+  min?: number,
+  max?: number,
+  values?: [string]
 }
 
-export interface Version {
-  proposer: string;
+export interface Proposal {
   name: string;
-  status: 'proposal' | 'open' | 'abandoned' | 'approved';
-  fields: Field[];
+  proposer: string;
+  status: 'add' | 'edit' | 'open' | 'abandoned' | 'approved';
   version: string;
+  prevProposalId: number;
+  field?: Field;
+  comments: Comment[];
 }
 
 export interface UniteSchemaState {
   contributorId: number;
-  versionId: number;
+  proposalId: number;
+  lastProposal: number;
+  openProposal: number;
   major: number;
   minor: number;
   patch: number;
-  currentVersion: number;
-  openVersion: number;
-  comments: Comment[];
   contributors: Contributor[];
-  versions: Version[];
+  proposals: Proposal[];
 }
 
 export interface PstAction {
@@ -50,6 +50,6 @@ export interface PstInput {
   qty: number;
 }
 
-export type PstFunction = 'addContributor' | 'getContributors' | 'getField' | 'addField' | 'editField' | 'addComment';
+export type PstFunction = 'addContributor' | 'getContributors' | 'addField' | 'addComment' | 'setRole' | 'setStatus';
 
 export type ContractResult = { state: UniteSchemaState } | { result: Field};
