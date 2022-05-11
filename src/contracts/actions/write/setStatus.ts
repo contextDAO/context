@@ -2,7 +2,7 @@ declare const ContractError;
 
 export const setStatus = async (
   state: UniteSchemaState,
-  { caller, input: {versionId, status, update } }: UniteSchemaAction
+  { caller, input: {proposalId, status, update } }: UniteSchemaAction
 ): Promise<ContractResult> => {
 
   // Check permissions.
@@ -11,33 +11,29 @@ export const setStatus = async (
     throw new ContractError("Caller is not the editor.");
   }
 
-  // Check Version.
-  const versions = state.versions;
-  const version: Version = versions[versionId];
-  if (!version) {
-    throw new ContractError("Version does not exist.")
+  // Check Proposal.
+  const proposals = state.proposals;
+  const proposal: Proposal = proposals[proposalId];
+  if (!proposal) {
+    throw new ContractError("Proposal does not exist.")
   }
 
-  // Update status to open.
-  if (status === 'open' && version.status === 'proposal' && state.openVersion < 0) {
-    state.versions[versionId].status = 'open';
-    state.openVersion = versionId;
-  }
-
-  // Update status to abandoned. It it was open, set openVersion to -1.
-  if (status === 'abandoned' && !['approved', 'abandoned'].includes(state.versions[versionId].status)) {
-    if (state.versions[versionId].status === 'open') {
-      state.openVersion = -1;
+  if (status === 'open' && proposal.status === 'proposal' && state.openProposal < 0) {
+    // Update status to open.
+    state.proposals[proposalId].status = 'open';
+    state.openProposal = proposalId;
+  } else if (status === 'abandoned' && !['approved', 'abandoned'].includes(state.proposals[proposalId].status)) {
+    // Update status to abandoned. It it was open, set openProposal to -1.
+    if (state.proposals[proposalId].status === 'open') {
+      state.openProposal = -1;
     }
-    state.versions[versionId].status = 'abandoned';
-  }
-
-  // Update status to approved.
-  if (status === 'approved' && version.status === 'open' && state.openVersion === versionId) {
-    state.versions[versionId].status = 'approved';
-    state.versions[versionId].prevVersionId = state.currentVersion;
-    state.openVersion = -1;
-    state.currentVersion = versionId;
+    state.proposals[proposalId].status = 'abandoned';
+  } else  if (status === 'approved' && proposal.status === 'open' && state.openProposal === proposalId) {
+    // Update status to approved.
+    state.proposals[proposalId].status = 'approved';
+    state.proposals[proposalId].prevProposalId = state.lastProposal;
+    state.openProposal = -1;
+    state.lastProposal = proposalId;
     switch (update) {
       case 'major':
         state.major = state.major + 1;
@@ -52,7 +48,15 @@ export const setStatus = async (
         state.patch= state.patch+ 1;
         break;
     }
-    state.versions[versionId].version = `${state.major}.${state.minor}.${state.patch}`;
+    state.proposals[proposalId].version = `${state.major}.${state.minor}.${state.patch}`;
+    if (proposal.fieldId < 0) {
+      state.fields.push(proposal.field);
+    } else { 
+      state.fields[proposal.fieldId] = proposal.field;
+      state.fields.push(proposal.field);
+    }
+  } else {
+    throw new ContractError("Invalid option")
   }
 
   return { state };

@@ -1,6 +1,6 @@
 import { addContributor } from './actions/write/addContributor';
 import { setRole } from './actions/write/setRole';
-import { addField } from './actions/write/addField';
+import { addProposal } from './actions/write/addProposal';
 import { addComment } from './actions/write/addComment';
 import { setStatus } from './actions/write/setStatus';
 import { getContributors } from './actions/read/getContributors';
@@ -19,8 +19,8 @@ export async function handle(
       return await addContributor(state, action);
     case 'setRole':
       return await setRole(state, action);
-    case 'addField':
-      return await addField(state, action);
+    case 'addProposal':
+      return await addProposal(state, action);
     case 'addComment':
       return await addComment(state, action);
     case 'setStatus':

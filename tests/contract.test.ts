@@ -4,7 +4,7 @@ import Arweave from 'arweave';
 import { JWKInterface } from 'arweave/node/lib/wallet';
 import path from 'path';
 import { addFunds, mineBlock, GlobalAr, writeInteraction } from '../utils/_helpers';
-import { UniteSchemaState, Field, Proposal, Comment } from '../src/contracts/types/types';
+import { UniteSchemaState, Field, Proposal } from '../src/contracts/types/types';
 import { Contract, SmartWeave, SmartWeaveNodeFactory, LoggerFactory } from 'redstone-smartweave';
 
 describe('Testing the Unite DAO Contract', () => {
@@ -61,6 +61,7 @@ describe('Testing the Unite DAO Contract', () => {
         "role": "editor",
       }],
       "proposals": <Proposal[]>[],
+      "fields": <Field[]>[],
     };
 
     ga.contractAddr = await ga.smartweave.createContract.deploy({
@@ -112,12 +113,13 @@ describe('Testing the Unite DAO Contract', () => {
     }
 
     let state:any = await writeInteraction(ga, user,
-      { function: 'addField', fieldName: 'proposal #1', comment: 'comment#1', field }
+      { function: 'addProposal', fieldName: 'proposal #1', fieldId: -1, comment: 'comment#1', field }
     );
     expect(state.proposals.length).toEqual(1);
     expect(state.proposalId).toEqual(1);
     expect(state.proposals[0].name).toEqual('proposal #1');
-    expect(state.proposals[0].status).toEqual('add');
+    expect(state.proposals[0].status).toEqual('proposal');
+    expect(state.proposals[0].fieldId).toEqual(-1);
     expect(state.proposals[0].field.name).toEqual('field#1');
     expect(state.proposals[0].field.description).toEqual('Description for field1');
     expect(state.proposals[0].field.type).toEqual('text');
@@ -130,69 +132,67 @@ describe('Testing the Unite DAO Contract', () => {
     const state:any = await writeInteraction(ga, contributor,
       { function: 'addComment', proposalId: 0, text: 'comment#2' }
     );
-    console.log(state.proposals[0].comments)
     expect(state.proposals[0].comments[1].text).toEqual('comment#2');
     expect(state.proposals[0].comments[1].by).toEqual(contributorAddress);
- 
   });
  
-/*
-  it('should open and close the version - Approved', async () => {
+  it('should open and approve the new proposal', async () => {
     let state:any = await writeInteraction(ga, wallet,
-      { function: 'setStatus', versionId: 0, status: 'open', update: '' }
+      { function: 'setStatus', proposalId: 0, status: 'open', update: '' }
     );
     expect(state.proposals[0].status).toEqual('open');
+
     state = await writeInteraction(ga, wallet, 
-      { function: 'setStatus', versionId: 0, status: 'approved', update: 'major' }
+      { function: 'setStatus', proposalId: 0, status: 'approved', update: 'major' }
     );
     expect(state.proposals[0].status).toEqual('approved');
     expect(state.proposals[0].version).toEqual('1.0.0');
     expect(state.major).toEqual(1);
     expect(state.minor).toEqual(0);
     expect(state.patch).toEqual(0);
-    expect(state.openVersion).toEqual(-1);
-    expect(state.currentVersion).toEqual(0);
+    expect(state.openProposal).toEqual(-1);
+    expect(state.lastProposal).toEqual(0);
+    expect(state.fields[0].name).toEqual('field#1');
+    expect(state.fields[0].description).toEqual('Description for field1');
+    expect(state.fields[0].type).toEqual('text');
   });
 
   it('should add proposal and Abandon it', async () => {
+    const field: Field = { name: 'N#2', description: 'D#2', type: 'text' }
     let state:any = await writeInteraction(ga, user,
-      { function: 'addVersion', name: 'proposal #2', comment: 'test new comment' }
+      { function: 'addProposal', fieldName: 'proposal #2', fieldId: -1, comment: 'comment#1', field }
     );
     state = await writeInteraction(ga, wallet,
-      { function: 'setStatus', versionId: 1, status: 'abandoned', update: '' }
+      { function: 'setStatus', proposalId: 1, status: 'abandoned', update: '' }
     );
     expect(state.proposals[1].status).toEqual('abandoned');
-    expect(state.openVersion).toEqual(-1);
-    expect(state.currentVersion).toEqual(0);
+    expect(state.openProposal).toEqual(-1);
+    expect(state.lastProposal).toEqual(0);
   });
 
-  it('should open proposal and abandon it', async () => {
+  it('should edit and approve one proposal', async () => {
+    const field: Field = { name: 'N#2', description: 'D#2', type: 'number' }
     let state:any = await writeInteraction(ga, user,
-      { function: 'addVersion', name: 'proposal #3', comment: 'test new comment' }
+      { function: 'addProposal', fieldName: 'proposal #3', fieldId: 0, comment: 'comment#1', field }
     );
     state = await writeInteraction(ga, wallet,
-      { function: 'setStatus', versionId: 2, status: 'open', update: '' }
+      { function: 'setStatus', proposalId: 2, status: 'open', update: '' }
     );
-    state = await writeInteraction(ga, wallet,
-      { function: 'setStatus', versionId: 2, status: 'abandoned', update: '' }
-    );
-    expect(state.proposals[2].status).toEqual('abandoned');
-    expect(state.openVersion).toEqual(-1);
-    expect(state.currentVersion).toEqual(0);
-  });
+    expect(state.proposals[2].status).toEqual('open');
 
-  it('should add fields to a proposal', async () => {
-    let state:any = await writeInteraction(ga, user,
-      { function: 'addVersion', name: 'proposal #4', comment: 'test new comment' }
+    state = await writeInteraction(ga, wallet, 
+      { function: 'setStatus', proposalId: 2, status: 'approved', update: 'patch' }
     );
-    state = await writeInteraction(ga, wallet,
-      { function: 'setStatus', versionId: 3, status: 'open', update: '' }
-    );
-    expect(state.proposals[3].status).toEqual('open');
-    expect(state.openVersion).toEqual(3);
-    state = await writeInteraction(ga, wallet,
-      { function: 'addField', versionId: 3, status: 'open', update: '' }
-    );
+    expect(state.proposals[2].status).toEqual('approved');
+    expect(state.proposals[2].version).toEqual('1.0.1');
+    expect(state.major).toEqual(1);
+    expect(state.minor).toEqual(0);
+    expect(state.patch).toEqual(1);
+    expect(state.openProposal).toEqual(-1);
+    expect(state.lastProposal).toEqual(2);
+    
+    expect(state.fields[0].name).toEqual('N#2');
+    expect(state.fields[0].description).toEqual('D#2');
+    expect(state.fields[0].type).toEqual('number');
   });
-*/
 });

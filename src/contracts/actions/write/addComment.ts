@@ -17,7 +17,7 @@ export const addComment = async (
   }
 
   // Check this is a valid proposalId
-  if (!state.proposals[proposalId] || !['add', 'edit', 'open'].includes(state.proposals[proposalId].status)) {
+  if (!state.proposals[proposalId] || !['proposal', 'open'].includes(state.proposals[proposalId].status)) {
     throw new ContractError('Invalid Proposal');
   }
   state.proposals[proposalId].comments.push({
