@@ -4,7 +4,7 @@ import minimist from 'minimist';
 import ArLocal from 'arlocal';
 import Arweave from 'arweave';
 import { JWKInterface } from 'arweave/node/lib/wallet';
-import { UniteSchemaState, Field, Version, Comment } from '../contracts/types/types';
+import { UniteSchemaState, Field, Proposal } from '../contracts/types/types';
 import {
   Contract,
   SmartWeave,
@@ -37,18 +37,18 @@ const main = async (network: string, walletFile: string) => {
 
   const initialState: UniteSchemaState = {
     "contributorId": 0,
-    "versionId": 0,
+    "proposalId": 0,
+    "lastProposal" : -1,
+    "openProposal" : -1,
     "major": 0,
     "minor": 0,
     "patch": 0,
-    "currentVersion" : 0,
-    "openVersion" : 0,
     "contributors": [{
       "address": address,
       "role": "editor",
     }],
-    "versions": <Version[]>[],
-    "comments": <Comment[]>[]
+    "proposals": <Proposal[]>[],
+    "fields": <Field[]>[],
   };
   LoggerFactory.INST.logLevel('error');
   smartweave = SmartWeaveNodeFactory.memCached(arweave);
