@@ -1,16 +1,13 @@
 import fs from 'fs';
 import path from 'path';
 import minimist from 'minimist';
-import ArLocal from 'arlocal';
 import Arweave from 'arweave';
 import { JWKInterface } from 'arweave/node/lib/wallet';
-import { UniteSchemaState, Field, Proposal } from '../contracts/types/types';
+import { UniteSchemaState, Proposal } from '../contracts/types/types';
 import {
-  Contract,
   SmartWeave,
   SmartWeaveNodeFactory,
   LoggerFactory,
-  InteractionResult,
 } from 'redstone-smartweave';
 
 const main = async (network: string, walletFile: string) => {
@@ -36,6 +33,8 @@ const main = async (network: string, walletFile: string) => {
   const address = await arweave.wallets.jwkToAddress(wallet)
 
   const initialState: UniteSchemaState = {
+    "title" : "Basic NFT",
+    "description": "Metadata standard for a Basic NFT",
     "contributorId": 0,
     "proposalId": 0,
     "lastProposal" : -1,
@@ -48,7 +47,6 @@ const main = async (network: string, walletFile: string) => {
       "role": "editor",
     }],
     "proposals": <Proposal[]>[],
-    "fields": <Field[]>[],
   };
   LoggerFactory.INST.logLevel('error');
   smartweave = SmartWeaveNodeFactory.memCached(arweave);

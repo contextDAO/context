@@ -30,6 +30,8 @@ export interface Proposal {
 }
 
 export interface UniteSchemaState {
+  title: string;
+  description: string;
   contributorId: number;
   proposalId: number;
   lastProposal: number;

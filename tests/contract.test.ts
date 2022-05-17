@@ -49,6 +49,8 @@ describe('Testing the Unite DAO Contract', () => {
     contractSrc = fs.readFileSync(path.join(__dirname, '../dist/contract.js'), 'utf8');
 
     const initialState: UniteSchemaState = {
+      "title": "Basic NFT Metadata",
+      "description": "STandard NFT metadata",
       "contributorId": 0,
       "proposalId": 0,
       "lastProposal" : -1,
