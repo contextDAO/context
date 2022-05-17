@@ -5,6 +5,6 @@ export const getContributors = async (
   const owner = state.owner;
   const contributors = state.contributors;
 
-  return { result: { editor: owner, contributors } };
+  return { result: { contributors } };
 };
 

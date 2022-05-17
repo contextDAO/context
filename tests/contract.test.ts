@@ -3,7 +3,7 @@ import ArLocal from 'arlocal';
 import Arweave from 'arweave';
 import { JWKInterface } from 'arweave/node/lib/wallet';
 import path from 'path';
-import { addFunds, mineBlock, GlobalAr, writeInteraction } from '../utils/_helpers';
+import { addFunds, mineBlock, GlobalAr, writeInteraction, readInteraction } from '../utils/_helpers';
 import { UniteSchemaState, Field, Proposal } from '../src/contracts/types/types';
 import { Contract, SmartWeave, SmartWeaveNodeFactory, LoggerFactory } from 'redstone-smartweave';
 
@@ -61,7 +61,6 @@ describe('Testing the Unite DAO Contract', () => {
         "role": "editor",
       }],
       "proposals": <Proposal[]>[],
-      "fields": <Field[]>[],
     };
 
     ga.contractAddr = await ga.smartweave.createContract.deploy({
@@ -126,6 +125,7 @@ describe('Testing the Unite DAO Contract', () => {
     expect(state.proposals[0].proposer).toEqual(userAddress);
     expect(state.proposals[0].comments[0].by).toEqual(userAddress);
     expect(state.proposals[0].comments[0].text).toEqual('comment#1');
+    expect(state.proposals[0].fields.length).toEqual(0);
   });
 
   it('should add a comment', async () => {
@@ -152,9 +152,9 @@ describe('Testing the Unite DAO Contract', () => {
     expect(state.patch).toEqual(0);
     expect(state.openProposal).toEqual(-1);
     expect(state.lastProposal).toEqual(0);
-    expect(state.fields[0].name).toEqual('field#1');
-    expect(state.fields[0].description).toEqual('Description for field1');
-    expect(state.fields[0].type).toEqual('text');
+    expect(state.proposals[0].fields[0].name).toEqual('field#1');
+    expect(state.proposals[0].fields[0].description).toEqual('Description for field1');
+    expect(state.proposals[0].fields[0].type).toEqual('text');
   });
 
   it('should add proposal and Abandon it', async () => {
@@ -171,7 +171,7 @@ describe('Testing the Unite DAO Contract', () => {
   });
 
   it('should edit and approve one proposal', async () => {
-    const field: Field = { name: 'N#2', description: 'D#2', type: 'number' }
+    const field: Field = { name: 'field#1.1', description: 'New description', type: 'number' }
     let state:any = await writeInteraction(ga, user,
       { function: 'addProposal', proposalName: 'proposal #3', fieldId: 0, comment: 'comment#1', field }
     );
@@ -190,9 +190,14 @@ describe('Testing the Unite DAO Contract', () => {
     expect(state.patch).toEqual(1);
     expect(state.openProposal).toEqual(-1);
     expect(state.lastProposal).toEqual(2);
-    
-    expect(state.fields[0].name).toEqual('N#2');
-    expect(state.fields[0].description).toEqual('D#2');
-    expect(state.fields[0].type).toEqual('number');
+    expect(state.proposals[2].fields[0].name).toEqual('field#1.1');
+    expect(state.proposals[2].fields[0].description).toEqual('New description');
+    expect(state.proposals[2].fields[0].type).toEqual('number');
+  });
+
+  it('should get the last proposal', async () => {
+    console.log(await readInteraction(ga, { function: 'getSchema' }));
+    const result = await readInteraction(ga, { function: 'getSchema' });
+    console.log(result);
   });
 });

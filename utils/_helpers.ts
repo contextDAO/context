@@ -28,3 +28,9 @@ export async function writeInteraction(ga: GlobalAr, wallet: JWKInterface, inter
   return state;
 }
 
+export async function readInteraction(ga: GlobalAr, interaction: any): Promise<any> {
+  const contract = ga.smartweave.contract(ga.contractAddr);
+  const { result } = await contract.viewState(interaction);
+  return result;
+}
+

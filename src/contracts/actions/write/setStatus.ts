@@ -30,6 +30,11 @@ export const setStatus = async (
     state.proposals[proposalId].status = 'abandoned';
   } else  if (status === 'approved' && proposal.status === 'open' && state.openProposal === proposalId) {
     // Update status to approved.
+    if (state.lastProposal >= 0) {
+      state.proposals[proposalId].fields = state.proposals[state.lastProposal].fields;
+    } else {
+      state.proposals[proposalId].fields = [];
+    }
     state.proposals[proposalId].status = 'approved';
     state.proposals[proposalId].prevProposalId = state.lastProposal;
     state.openProposal = -1;
@@ -49,11 +54,11 @@ export const setStatus = async (
         break;
     }
     state.proposals[proposalId].version = `${state.major}.${state.minor}.${state.patch}`;
+
     if (proposal.fieldId < 0) {
-      state.fields.push(proposal.field);
+      state.proposals[proposalId].fields.push(proposal.field);
     } else { 
-      state.fields[proposal.fieldId] = proposal.field;
-      state.fields.push(proposal.field);
+      state.proposals[proposalId].fields[proposal.fieldId] = proposal.field;
     }
   } else {
     throw new ContractError("Invalid option")

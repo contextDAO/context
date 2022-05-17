@@ -26,6 +26,7 @@ export interface Proposal {
   prevProposalId: number;
   field?: Field;
   comments: Comment[];
+  fields: Field[];
 }
 
 export interface UniteSchemaState {
@@ -38,7 +39,6 @@ export interface UniteSchemaState {
   patch: number;
   contributors: Contributor[];
   proposals: Proposal[];
-  fields: Field[];
 }
 
 export interface PstAction {
@@ -52,6 +52,6 @@ export interface PstInput {
   qty: number;
 }
 
-export type PstFunction = 'addContributor' | 'getContributors' | 'addProposal' | 'addComment' | 'setRole' | 'setStatus';
+export type PstFunction = 'addContributor' | 'getContributors' | 'addProposal' | 'addComment' | 'setRole' | 'setStatus' | 'getSchema';
 
 export type ContractResult = { state: UniteSchemaState } | { result: Field};

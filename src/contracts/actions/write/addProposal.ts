@@ -25,7 +25,8 @@ export const addProposal= async (
       "text": comment,
       "by": caller
     }],
-    "field": field
+    "field": field,
+    "fields": []
   };
   state.proposalId++;
   return { state };

@@ -4,6 +4,7 @@ import { addProposal } from './actions/write/addProposal';
 import { addComment } from './actions/write/addComment';
 import { setStatus } from './actions/write/setStatus';
 import { getContributors } from './actions/read/getContributors';
+import { getSchema } from './actions/read/getSchema';
 import { PstAction, ContractResult, UniteSchemaState } from './types/types';
 
 declare const ContractError;
@@ -27,6 +28,8 @@ export async function handle(
       return await setStatus(state, action);
     case 'getContributors':
       return await getContributors(state, action);
+    case 'getSchema':
+      return await getSchema(state, action);
     default:
       throw new ContractError(
         `No function supplied or function not recognised: "${input.function}"`
