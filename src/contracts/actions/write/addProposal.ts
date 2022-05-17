@@ -2,7 +2,7 @@ declare const ContractError;
 
 export const addProposal= async (
   state: UniteSchemaState,
-  { caller, input: {fieldName , fieldId, comment , field } }: UniteSchemaAction
+  { caller, input: {proposalName , fieldId, comment , field } }: UniteSchemaAction
 ): Promise<ContractResult> => {
 
   const contributors = state.contributors;
@@ -11,11 +11,11 @@ export const addProposal= async (
     throw new ContractError("Caller is not a user.")
   }
 
-  if (typeof fieldName !== 'string' && fieldName.length < 5) {
+  if (typeof proposalName !== 'string' && proposalName.length < 5) {
     throw new ContractError('Invalid Name');
   }
   state.proposals[state.proposalId] = {
-    "name" : fieldName,
+    "name" : proposalName,
     "proposer": caller,
     "status": "proposal",
     "fieldId" : fieldId,

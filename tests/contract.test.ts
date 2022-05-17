@@ -113,7 +113,7 @@ describe('Testing the Unite DAO Contract', () => {
     }
 
     let state:any = await writeInteraction(ga, user,
-      { function: 'addProposal', fieldName: 'proposal #1', fieldId: -1, comment: 'comment#1', field }
+      { function: 'addProposal', proposalName: 'proposal #1', fieldId: -1, comment: 'comment#1', field }
     );
     expect(state.proposals.length).toEqual(1);
     expect(state.proposalId).toEqual(1);
@@ -160,7 +160,7 @@ describe('Testing the Unite DAO Contract', () => {
   it('should add proposal and Abandon it', async () => {
     const field: Field = { name: 'N#2', description: 'D#2', type: 'text' }
     let state:any = await writeInteraction(ga, user,
-      { function: 'addProposal', fieldName: 'proposal #2', fieldId: -1, comment: 'comment#1', field }
+      { function: 'addProposal', proposalName: 'proposal #2', fieldId: -1, comment: 'comment#1', field }
     );
     state = await writeInteraction(ga, wallet,
       { function: 'setStatus', proposalId: 1, status: 'abandoned', update: '' }
@@ -173,7 +173,7 @@ describe('Testing the Unite DAO Contract', () => {
   it('should edit and approve one proposal', async () => {
     const field: Field = { name: 'N#2', description: 'D#2', type: 'number' }
     let state:any = await writeInteraction(ga, user,
-      { function: 'addProposal', fieldName: 'proposal #3', fieldId: 0, comment: 'comment#1', field }
+      { function: 'addProposal', proposalName: 'proposal #3', fieldId: 0, comment: 'comment#1', field }
     );
     state = await writeInteraction(ga, wallet,
       { function: 'setStatus', proposalId: 2, status: 'open', update: '' }
