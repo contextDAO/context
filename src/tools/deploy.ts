@@ -10,7 +10,12 @@ import {
   LoggerFactory,
 } from 'redstone-smartweave';
 
-const main = async (network: string, walletFile: string) => {
+const connections = {
+  localhost: { host: 'localhost', port: 1984, protocol: 'http' },
+  testnet: { host: 'testnet.redstone.tools', port: 443, protocol: 'https' }
+}
+
+const main = async (network: any, walletFile: string) => {
 
   if (!network || !walletFile) {
     console.log('Usage: node deploy.js --network=local|testnet|arweave --wallet=<json_wallet_file>');
@@ -23,11 +28,8 @@ const main = async (network: string, walletFile: string) => {
   let wallet: JWKInterface;
   let editorAddress: string;
 
-  arweave = Arweave.init({
-    host: 'localhost',
-    port: 1984,
-    protocol: 'http',
-  });
+  const connection = (network === 'localhost') ? connections.localhost : connections.testnet;
+  arweave = Arweave.init(connection);
 
   wallet = JSON.parse(fs.readFileSync(walletFile).toString());
   const address = await arweave.wallets.jwkToAddress(wallet)
