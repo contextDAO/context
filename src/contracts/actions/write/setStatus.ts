@@ -50,7 +50,7 @@ export const setStatus = async (
         state.patch = 0;
         break;
       case 'patch':
-        state.patch= state.patch+ 1;
+        state.patch= state.patch + 1;
         break;
     }
     state.proposals[proposalId].version = `${state.major}.${state.minor}.${state.patch}`;

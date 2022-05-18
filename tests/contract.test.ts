@@ -198,7 +198,6 @@ describe('Testing the Unite DAO Contract', () => {
   });
 
   it('should get the last proposal', async () => {
-    console.log(await readInteraction(ga, { function: 'getSchema' }));
     const result = await readInteraction(ga, { function: 'getSchema' });
     console.log(result);
   });
