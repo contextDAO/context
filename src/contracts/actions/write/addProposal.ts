@@ -14,20 +14,19 @@ export const addProposal= async (
   if (typeof proposalName !== 'string' && proposalName.length < 5) {
     throw new ContractError('Invalid Name');
   }
-  state.proposals[state.proposalId] = {
+
+  state.proposals.push({
     "name" : proposalName,
     "proposer": caller,
+    "versionId" : -1,
     "status": "proposal",
     "fieldId" : fieldId,
-    "version" : "",
-    "prevProposalId" : -1,
+    "field": field,
     "comments": [{
       "text": comment,
       "by": caller
     }],
-    "field": field,
-    "fields": []
-  };
-  state.proposalId++;
+  });
   return { state };
 };
+

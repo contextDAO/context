@@ -1,6 +1,6 @@
 declare const ContractError;
 
-export const setStatus = async (
+export const updateProposal = async (
   state: UniteSchemaState,
   { caller, input: {proposalId, status, update } }: UniteSchemaAction
 ): Promise<ContractResult> => {
@@ -18,27 +18,18 @@ export const setStatus = async (
     throw new ContractError("Proposal does not exist.")
   }
 
-  if (status === 'open' && proposal.status === 'proposal' && state.openProposal < 0) {
+  if (status === 'open' && proposal.status === 'proposal' && state.proposalId === -1) {
     // Update status to open.
     state.proposals[proposalId].status = 'open';
-    state.openProposal = proposalId;
+    state.proposalId = proposalId;
   } else if (status === 'abandoned' && !['approved', 'abandoned'].includes(state.proposals[proposalId].status)) {
     // Update status to abandoned. It it was open, set openProposal to -1.
-    if (state.proposals[proposalId].status === 'open') {
-      state.openProposal = -1;
-    }
+    state.proposalId = (status === 'open') ? -1 : state.proposalId;
     state.proposals[proposalId].status = 'abandoned';
-  } else  if (status === 'approved' && proposal.status === 'open' && state.openProposal === proposalId) {
-    // Update status to approved.
-    if (state.lastProposal >= 0) {
-      state.proposals[proposalId].fields = state.proposals[state.lastProposal].fields;
-    } else {
-      state.proposals[proposalId].fields = [];
-    }
+    state.proposalId = -1;
+  } else  if (status === 'approved' && proposal.status === 'open') {
+    // Add a new version.
     state.proposals[proposalId].status = 'approved';
-    state.proposals[proposalId].prevProposalId = state.lastProposal;
-    state.openProposal = -1;
-    state.lastProposal = proposalId;
     switch (update) {
       case 'major':
         state.major = state.major + 1;
@@ -53,13 +44,19 @@ export const setStatus = async (
         state.patch= state.patch + 1;
         break;
     }
-    state.proposals[proposalId].version = `${state.major}.${state.minor}.${state.patch}`;
+    const version: Version = {
+      proposalId: proposalId,
+      version: `${state.major}.${state.minor}.${state.patch}`,
+      fields: (state.versionId === -1) ? [] : state.versions[state.versionId].fields
+    };
 
     if (proposal.fieldId < 0) {
-      state.proposals[proposalId].fields.push(proposal.field);
+      version.fields.push(proposal.field);
     } else { 
-      state.proposals[proposalId].fields[proposal.fieldId] = proposal.field;
+      version.fields[proposal.fieldId] = proposal.field;
     }
+    state.versions.push(version)
+    state.proposalId = -1;
   } else {
     throw new ContractError("Invalid option")
   }

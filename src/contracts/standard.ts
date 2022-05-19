@@ -2,7 +2,7 @@ import { addContributor } from './actions/write/addContributor';
 import { setRole } from './actions/write/setRole';
 import { addProposal } from './actions/write/addProposal';
 import { addComment } from './actions/write/addComment';
-import { setStatus } from './actions/write/setStatus';
+import { updateProposal } from './actions/write/updateProposal';
 import { getContributors } from './actions/read/getContributors';
 import { getSchema } from './actions/read/getSchema';
 import { PstAction, ContractResult, UniteSchemaState } from './types/types';
@@ -24,8 +24,8 @@ export async function handle(
       return await addProposal(state, action);
     case 'addComment':
       return await addComment(state, action);
-    case 'setStatus':
-      return await setStatus(state, action);
+    case 'updateProposal':
+      return await updateProposal(state, action);
     case 'getContributors':
       return await getContributors(state, action);
     case 'getSchema':
