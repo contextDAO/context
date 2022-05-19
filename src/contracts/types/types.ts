@@ -1,3 +1,8 @@
+interface Standard {
+  standardId: string,
+  version: number
+}
+
 interface Contributor {
   address: string,
   role: 'user' | 'contributor' | 'editor'
@@ -32,6 +37,7 @@ export interface Proposal {
 export interface UniteSchemaState {
   title: string;
   description: string;
+  from: Standard; 
   contributorId: number;
   proposalId: number;
   lastProposal: number;
