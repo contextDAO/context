@@ -26,7 +26,6 @@ export interface Proposal {
   name: string;
   proposer: string;
   versionId: number;
-  fieldId: number;
   field?: Field;
   comments: Comment[];
   status: 'proposal' | 'open' | 'abandoned' | 'approved';

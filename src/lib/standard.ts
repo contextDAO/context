@@ -80,7 +80,7 @@ export default class Standard {
    */
   async addProposal(proposalName: string, comment: string, name: string, description: string, type: FieldType) {
     const field: Field = { name, description, type };
-    const interaction = { function: 'addProposal', proposalName, fieldId: -1, comment, field };
+    const interaction = { function: 'addProposal', proposalName, comment, field };
     await this.contract.writeInteraction(interaction);
   }
 

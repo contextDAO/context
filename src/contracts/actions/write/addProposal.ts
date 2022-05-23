@@ -2,7 +2,7 @@ declare const ContractError;
 
 export const addProposal= async (
   state: UniteSchemaState,
-  { caller, input: {proposalName , fieldId, comment , field } }: UniteSchemaAction
+  { caller, input: {proposalName , comment , field } }: UniteSchemaAction
 ): Promise<ContractResult> => {
 
   const contributors = state.contributors;
@@ -20,7 +20,6 @@ export const addProposal= async (
     "proposer": caller,
     "versionId" : -1,
     "status": "proposal",
-    "fieldId" : fieldId,
     "field": field,
     "comments": [{
       "text": comment,
