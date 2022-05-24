@@ -50,13 +50,10 @@ export const updateProposal = async (
       fields: (state.versionId === -1) ? [] : state.versions[state.versionId].fields
     };
 
-    if (proposal.fieldId < 0) {
-      version.fields.push(proposal.field);
-    } else { 
-      version.fields[proposal.fieldId] = proposal.field;
-    }
+    version.fields.push(proposal.field);
     state.versions.push(version)
     state.proposalId = -1;
+    state.versionId = state.versions.length - 1;
   } else {
     throw new ContractError("Invalid option")
   }

@@ -110,20 +110,19 @@ describe('Testing the Unite DAO Contract', () => {
     await standard.updateProposal(0, 'approved', 'major');
     await mineBlock(unite.arweave);
     const state: UniteSchemaState = await standard.readState();
-    console.log(state.proposals);
     expect(state.proposals[0].status).toEqual('approved');
     expect(state.versions[0].version).toEqual('1.0.0');
     expect(state.major).toEqual(1);
     expect(state.minor).toEqual(0);
     expect(state.patch).toEqual(0);
-    console.log(state.versions);
+    console.log(state);
     expect(state.versions[0].fields[0]?.name).toEqual('field#1');
     expect(state.versions[0].fields[0]?.description).toEqual('description');
     expect(state.versions[0].fields[0]?.type).toEqual('text');
     expect(state.proposalId).toEqual(-1);
     expect(state.versionId).toEqual(0);
   });
-/*
+
   it('should add one proposal and Abandon it', async () => {
     await standard.addProposal('prop#2', 'com#1', 'field#2', 'description', 'text');
     await mineBlock(unite.arweave);
@@ -152,6 +151,7 @@ describe('Testing the Unite DAO Contract', () => {
     expect(state.versionId).toEqual(1);
   });
 
+/*
   it('should get the last proposal', async () => {
     const { schema } = await readInteraction(ga, ga.contractAddr, { function: 'getSchema' });
     expect(schema['$schema']).toEqual('https://json-schema.org/draft/2020-12/schema');
