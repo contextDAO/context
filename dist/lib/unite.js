@@ -8,7 +8,7 @@ const redstone_smartweave_1 = require("redstone-smartweave");
 const state_1 = require("../utils/state");
 const standard_1 = __importDefault(require("./standard"));
 const metadata_1 = __importDefault(require("./metadata"));
-const src_1 = require("../../dist/src");
+const src_1 = require("../contracts/src");
 /**
  * @class Unite
  */

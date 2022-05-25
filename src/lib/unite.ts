@@ -6,7 +6,7 @@ import Standard from './standard'
 import { UniteSchemaState, StandardFrom } from '../contracts/types/standardTypes';
 import Metadata from './metadata'
 import { MetadataSchemaState } from '../contracts/types/metadataTypes';
-import { standardContractSource, metadataContractSource } from '../../dist/src'
+import { standardContractSource, metadataContractSource } from '../contracts/src'
 
 type Network = 'localhost' | 'testnet' | 'mainnet';
 

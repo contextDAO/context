@@ -31,5 +31,5 @@ build({
       const metadataContractSource : string = \`\n${standard}\`;
       export {standardContractSource, metadataContractSource };
     `
-    fs.writeFileSync('./dist/src.ts', fileContents);
+    fs.writeFileSync('./src/contracts/src.ts', fileContents);
   });
