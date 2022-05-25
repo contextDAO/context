@@ -1,7 +1,3 @@
-// import { init, addFunds, mineBlock, GlobalAr } from '../utils/arweave';
-// import { writeInteraction, readInteraction, readState, initialState } from '../utils/smartweave';
-// import Arweave from 'arweave';
-// import { Field, UniteSchemaState } from '../src/contracts/types/types';
 import { Unite, Standard, testWallet, mineBlock, initialState } from '../src/lib/index';
 import { JWKInterface } from 'arweave/node/lib/wallet';
 import { UniteSchemaState, StandardFrom } from '../src/contracts/types/standardTypes';
