@@ -1,4 +1,5 @@
-import { UniteSchemaState, Proposal, Version } from '../contracts/types/types';
+import { UniteSchemaState, Proposal, Version } from '../contracts/types/standardTypes';
+import { MetadataSchemaState } from '../contracts/types/metadataTypes';
 
 export const initialState: UniteSchemaState = {
   "title": "",
@@ -21,4 +22,7 @@ export const initialState: UniteSchemaState = {
   "versions": <Version[]>[],
 };
 
-
+export const initialMetadata: MetadataSchemaState = {
+  "title": "",
+  "description": ""
+}

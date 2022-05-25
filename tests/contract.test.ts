@@ -4,7 +4,7 @@
 // import { Field, UniteSchemaState } from '../src/contracts/types/types';
 import { Unite, Standard, testWallet, mineBlock, initialState } from '../src/lib/index';
 import { JWKInterface } from 'arweave/node/lib/wallet';
-import { UniteSchemaState, StandardFrom } from '../src/contracts/types/types';
+import { UniteSchemaState, StandardFrom } from '../src/contracts/types/standardTypes';
 
 describe('Testing the Unite DAO Contract', () => {
   let unite: Unite = {} as Unite;

@@ -5,7 +5,7 @@ import { addComment } from './actions/write/addComment';
 import { updateProposal } from './actions/write/updateProposal';
 import { getContributors } from './actions/read/getContributors';
 import { getSchema } from './actions/read/getSchema';
-import { PstAction, ContractResult, UniteSchemaState } from './types/types';
+import { PstAction, ContractResult, UniteSchemaState } from './types/standardTypes';
 
 declare const ContractError;
 
