@@ -6,7 +6,7 @@
     "build-ts": "node build.js",
     "clean": "rimraf ./dist",
     "cp": "copyfiles -u 1 ./src/**/*.json dist",
-    "test": "jest test"
+    "test": "jest test --detectOpenHandles"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.16.7",

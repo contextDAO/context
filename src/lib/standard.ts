@@ -15,6 +15,7 @@ type UpdateVersion = '' | 'major' | 'minor' | 'patch';
 export default class Standard {
   wallet: JWKInterface;
   contract: Contract;
+  contractAddr: string;
 
   /**
    * @constructor
@@ -22,9 +23,10 @@ export default class Standard {
    * @param {JWKInterface} wallet - Connected wallet
    * @param {Contract} contract - Interface to the contract
    */
-  constructor(wallet: JWKInterface, contract: Contract) {
+  constructor(wallet: JWKInterface, contract: Contract, contractAddr: string) {
     this.wallet = wallet;
     this.contract = contract;
+    this.contractAddr = contractAddr;
   }
 
   /**
@@ -106,4 +108,9 @@ export default class Standard {
     await this.contract.writeInteraction(interaction);
   }
 
+  async getSchema() : Promise<any>{
+    const interaction = { function: 'getSchema' };
+    const result: any = await this.contract.viewState(interaction);
+    return result.result.schema;
+  }
 }

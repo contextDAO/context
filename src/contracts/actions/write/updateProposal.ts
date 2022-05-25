@@ -50,7 +50,12 @@ export const updateProposal = async (
       fields: (state.versionId === -1) ? [] : state.versions[state.versionId].fields
     };
 
-    version.fields.push(proposal.field);
+    const fieldId: number = version.fields.findIndex((field: Field) => { return field.name === proposal.field.name });
+    if (fieldId >= 0) {
+      version.fields[fieldId] = proposal.field;
+    } else {
+      version.fields.push(proposal.field);
+    }
     state.versions.push(version)
     state.proposalId = -1;
     state.versionId = state.versions.length - 1;

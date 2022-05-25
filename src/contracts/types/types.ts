@@ -1,4 +1,4 @@
-interface Standard {
+export interface StandardFrom {
   standardId: string,
   version: number
 }
@@ -40,7 +40,7 @@ export interface Version {
 export interface UniteSchemaState {
   title: string;
   description: string;
-  from: Standard; 
+  from: StandardFrom; 
   contributorId: number;
   proposalId: number;
   versionId: number;

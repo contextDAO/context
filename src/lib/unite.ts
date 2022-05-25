@@ -5,7 +5,7 @@ import ArLocal from 'arlocal';
 import { Contract, SmartWeave, SmartWeaveNodeFactory, LoggerFactory } from 'redstone-smartweave';
 import { JWKInterface } from 'arweave/node/lib/wallet';
 import { initialState } from './state';
-import { UniteSchemaState } from '../contracts/types/types';
+import { UniteSchemaState, StandardFrom } from '../contracts/types/types';
 import Standard from './standard'
 
 type Network = 'localhost' | 'testnet' | 'mainnet';
@@ -92,9 +92,14 @@ export default class Unite {
    * @param {JWKInterface} wallet 
    * @return {Standard}
    */
-  async deployStandard(wallet: JWKInterface): Promise<Standard> {
+  async deployStandard(wallet: JWKInterface, title: string, description: string, standardFrom: StandardFrom = {} as StandardFrom): Promise<Standard> {
     const state: UniteSchemaState  = initialState;
+    state.title = title;
+    state.description = description;
     state.contributors[0].address = await this.getAddress(wallet);
+    if (standardFrom.standardId) {
+      state.from = standardFrom;
+    }
     const contractAddr = await this.smartweave.createContract.deploy({
       wallet,
       initState: JSON.stringify(state),
@@ -102,7 +107,7 @@ export default class Unite {
     });
 
     const contract: Contract = this.smartweave.contract(contractAddr).connect(wallet);
-    const standard = new Standard(wallet, contract);
+    const standard = new Standard(wallet, contract, contractAddr);
     return standard;
   }
 }

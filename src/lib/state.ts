@@ -1,8 +1,8 @@
 import { UniteSchemaState, Proposal, Version } from '../contracts/types/types';
 
 export const initialState: UniteSchemaState = {
-  "title": "Basic NFT Metadata",
-  "description": "STandard NFT metadata",
+  "title": "",
+  "description": "",
   "from": {
     "standardId" : "",
     "version" : 0

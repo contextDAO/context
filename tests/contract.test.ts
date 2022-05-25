@@ -4,7 +4,7 @@
 // import { Field, UniteSchemaState } from '../src/contracts/types/types';
 import { Unite, Standard, testWallet, mineBlock, initialState } from '../src/lib/index';
 import { JWKInterface } from 'arweave/node/lib/wallet';
-import { UniteSchemaState } from '../src/contracts/types/types';
+import { UniteSchemaState, StandardFrom } from '../src/contracts/types/types';
 
 describe('Testing the Unite DAO Contract', () => {
   let unite: Unite = {} as Unite;
@@ -40,7 +40,7 @@ describe('Testing the Unite DAO Contract', () => {
   })
 
   it('Should deploy a Standard', async () => {
-    standard = await unite.deployStandard(wallet)
+    standard = await unite.deployStandard(wallet, 'Base NFT', 'Basic NFT Metadata')
     await mineBlock(unite.arweave);
     const state: UniteSchemaState = await standard.readState();
     expect(state.contributors[0].address).toEqual(walletAddress);
@@ -115,7 +115,6 @@ describe('Testing the Unite DAO Contract', () => {
     expect(state.major).toEqual(1);
     expect(state.minor).toEqual(0);
     expect(state.patch).toEqual(0);
-    console.log(state);
     expect(state.versions[0].fields[0]?.name).toEqual('field#1');
     expect(state.versions[0].fields[0]?.description).toEqual('description');
     expect(state.versions[0].fields[0]?.type).toEqual('text');
@@ -135,11 +134,11 @@ describe('Testing the Unite DAO Contract', () => {
   it('should edit an existing and approve the proposal', async () => {
     await standard.addProposal('prop#3', 'com#1', 'field#1', 'New description', 'number');
     await mineBlock(unite.arweave);
+    await standard.updateProposal(2, 'open');
+    await mineBlock(unite.arweave);
     await standard.updateProposal(2, 'approved', 'patch');
     await mineBlock(unite.arweave);
     const state: UniteSchemaState = await standard.readState();
-    console.log(state.proposals);
-    console.log(state.versions);
     expect(state.proposals[2].status).toEqual('approved');
     expect(state.major).toEqual(1);
     expect(state.minor).toEqual(0);
@@ -151,41 +150,37 @@ describe('Testing the Unite DAO Contract', () => {
     expect(state.versionId).toEqual(1);
   });
 
-/*
   it('should get the last proposal', async () => {
-    const { schema } = await readInteraction(ga, ga.contractAddr, { function: 'getSchema' });
+    const schema = await standard.getSchema();
     expect(schema['$schema']).toEqual('https://json-schema.org/draft/2020-12/schema');
-    expect(schema['$id']).toEqual('ar:///1.0.1');
-    expect(schema.title).toEqual('Basic NFT Metadata');
+    expect(schema.title).toEqual('Base NFT');
     expect(schema.type).toEqual('object');
-    expect(schema.properties['field#1.1']).toEqual({description: 'New description', type: 'number'});
+    expect(schema.properties['field#1']).toEqual({description: 'New description', type: 'number'});
   });
 
   it('should add a contract with inheritance', async () => {
-    const state2 = initialState;
-    state2.from.standardId = ga.contractAddr;
-    state2.from.version = 2;
-    state2.contributors[0].address = ga.editorAddress;
-    const contractAddr2 = await ga.smartweave.createContract.deploy({
-      wallet: ga.wallet,
-      initState: JSON.stringify(state2),
-      src: ga.contractSrc,
-    });
-    
-    const contract2 = ga.smartweave.contract(contractAddr2).connect(ga.wallet);
-    await mineBlock(ga.arweave);
-    const baseState = await contract2.readState();
-    let state:any = baseState.state;
-    expect(state.from.standardId).toEqual(ga.contractAddr);
-    expect(state.from.version).toEqual(2);
-
-    const field: Field = {name: 'level', description: 'Level of the avatar', type: 'number'}
-    await writeInteraction(ga, contractAddr2, ga.wallet,{ function: 'addProposal', proposalName: 'proposal #1', fieldId: -1, comment: 'comment#1', field });
-    await writeInteraction(ga, contractAddr2, ga.wallet, { function: 'setStatus', proposalId: 0, status: 'open', update: '' });
-    state = await writeInteraction(ga, contractAddr2, ga.wallet, { function: 'setStatus', proposalId: 0, status: 'approved', update: 'major' });
-    console.log(state);
-    const { schema } = await readInteraction(ga, contractAddr2, { function: 'getSchema' });
-    console.log(schema);
+    const state: UniteSchemaState = await standard.readState();
+    const standardFrom : StandardFrom = {
+      standardId: standard.contractAddr,
+      version: state.versionId 
+    }
+    const avatar = await unite.deployStandard(wallet, 'avatar', 'NFT Avatars', standardFrom);
+    await mineBlock(unite.arweave);
+    let avatarState : UniteSchemaState = await avatar.readState();
+    expect(avatarState.from.standardId).toEqual(standard.contractAddr);
+    expect(avatarState.from.version).toEqual(1);
+    await avatar.addProposal('prop#1', 'com#1', 'level', 'Level', 'number');
+    await mineBlock(unite.arweave);
+    await avatar.updateProposal(0, 'open');
+    await mineBlock(unite.arweave);
+    await avatar.updateProposal(0, 'approved', 'major');
+    await mineBlock(unite.arweave);
+ 
+    avatarState = await avatar.readState();
+    const schema = await avatar.getSchema();
+    expect(schema.title).toEqual('avatar');
+    expect(schema.description).toEqual('NFT Avatars');
+    expect(schema.properties['field#1']).toEqual({description: 'New description', type: 'number'});
+    expect(schema.properties['level']).toEqual({description: 'Level', type: 'number'});
   });
-*/
 });

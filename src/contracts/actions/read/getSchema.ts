@@ -3,21 +3,21 @@ export const getSchema = async (
   { input: {} }: PstAction
 ): Promise<ContractResult> => {
 
-  let proposal = state.proposals[state.lastProposal];
   const schema = {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": `ar://${SmartWeave.transaction.id}/${proposal.version}`,
+    "$id": `ar://${SmartWeave.transaction.id}/${state.versionId}`,
     "title": state.title,
     "description": state.description,
     "type": "object",
     "properties" : {}
   }
 
-  let fields = proposal.fields;
+  // const version = state.versions[state.versionId];
+  let fields = state.versions[state.versionId].fields;
   if (state.from.standardId !== '') {
     const standardState = await SmartWeave.contracts.readContractState(state.from.standardId)
-    proposal = standardState.proposals[standardState.lastProposal];
-    fields = [ ...proposal.fields, ...fields];
+    const version = standardState.versions[standardState.versionId];
+    fields = [ ...version.fields, ...fields];
   }
   fields.forEach((field: Field) => {
     schema.properties[field.name] = {
