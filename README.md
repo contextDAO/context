@@ -52,6 +52,8 @@ The smartweave contract that we are using is keeping basic information:
 - proposals : list of proposals (add, edit, open, approved, abandoned)
   - Proposal to add a new fields
   - Proposal to change a field
+- versoins : Approved versions
+  - fields : List of fields
 - contributors (editor, contributor and user).
   - editors, can add more editors and contributors
   - contributors : can change the state of a proposal
