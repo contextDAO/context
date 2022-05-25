@@ -4,13 +4,13 @@ import Arweave from 'arweave';
 import ArLocal from 'arlocal';
 import { Contract, SmartWeave, SmartWeaveNodeFactory, LoggerFactory } from 'redstone-smartweave';
 import { JWKInterface } from 'arweave/node/lib/wallet';
-import { initialState, initialMetadata } from './state';
+import { initialState, initialMetadata } from '../utils/state';
 import Standard from './standard'
 import { UniteSchemaState, StandardFrom } from '../contracts/types/standardTypes';
 import Metadata from './metadata'
 import { MetadataSchemaState } from '../contracts/types/metadataTypes';
 
-type Network = 'localhost' | 'testnet' | 'mainnet';
+type Network = 'localhost' | 'testnet' | 'mainnet' | 'devnet';
 
 /**
  * @class Unite
@@ -43,10 +43,12 @@ export default class Unite {
   static async init (network: Network): Promise<Unite> {
     const unite = new Unite(network);
     let connection = {};
-    if (network === 'localhost') {
+    if (network === 'devnet') {
       unite.arlocal = new ArLocal(1820, false);
       await unite.arlocal.start();
       connection = { host: 'localhost', port: 1820, protocol: 'http' };
+    } else if (network === 'localhost') {
+      connection = { host: 'localhost', port: 1984, protocol: 'http' };
     } else if (network === 'testnet') {
       connection = { host: 'testnet.redstone.tools', port: 443, protocol: 'https' };
     } else if (network === 'mainnet') {
@@ -62,7 +64,7 @@ export default class Unite {
    * Stop arlocal
    */
   stop() {
-    (this.network === 'localhost' && this.arlocal !== null) && this.arlocal.stop()
+    (this.network === 'devnet' && this.arlocal !== null) && this.arlocal.stop()
   }
 
   /**

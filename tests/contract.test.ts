@@ -1,4 +1,4 @@
-import { Unite, Standard, testWallet, mineBlock, initialState } from '../src/lib/index';
+import { Unite, Standard, testWallet, mineBlock, initialState } from '../src/index';
 import { JWKInterface } from 'arweave/node/lib/wallet';
 import { UniteSchemaState, StandardFrom } from '../src/contracts/types/standardTypes';
 
@@ -13,7 +13,7 @@ describe('Testing the Unite DAO Contract', () => {
   let standard: Standard;
 
   beforeAll(async () => {
-    unite = await Unite.init('localhost');
+    unite = await Unite.init('devnet');
  });
 
   afterAll(async () => { 

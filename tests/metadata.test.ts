@@ -1,4 +1,4 @@
-import { Unite, Standard, testWallet, mineBlock, initialState } from '../src/lib/index';
+import { Unite, Standard, testWallet, mineBlock, initialState } from '../src/index';
 import { JWKInterface } from 'arweave/node/lib/wallet';
 import { MetadataSchemaState } from '../src/contracts/types/metadataTypes';
 import Metadata from '../src/lib/metadata'
