@@ -1,3 +1,4 @@
+const fs = require('fs');
 const { build } = require('esbuild');
 const replace = require('replace-in-file');
 
@@ -23,4 +24,12 @@ build({
       to: '',
       countMatches: true,
     });
+    const standard = fs.readFileSync('./dist/standard.js').toString()
+    const metadata = fs.readFileSync('./dist/metadata.js').toString()
+    const fileContents = `
+      const standardContractSource : string = \`\n${standard}\`;
+      const metadataContractSource : string = \`\n${standard}\`;
+      export {standardContractSource, metadataContractSource };
+    `
+    fs.writeFileSync('./dist/src.ts', fileContents);
   });

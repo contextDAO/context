@@ -5,7 +5,7 @@ export const getSchema = async (
 
   const schema = {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": `ar://${SmartWeave.transaction.id}/${state.versionId}`,
+    "$id": "ar://" + SmartWeave.transaction.id + "/" + state.versionId,
     "title": state.title,
     "description": state.description,
     "type": "object",

@@ -1,7 +1,4 @@
-import path from 'path';
-import fs from 'fs';
 import Arweave from 'arweave';
-import ArLocal from 'arlocal';
 import { Contract, SmartWeave, SmartWeaveNodeFactory, LoggerFactory } from 'redstone-smartweave';
 import { JWKInterface } from 'arweave/node/lib/wallet';
 import { initialState, initialMetadata } from '../utils/state';
@@ -9,18 +6,17 @@ import Standard from './standard'
 import { UniteSchemaState, StandardFrom } from '../contracts/types/standardTypes';
 import Metadata from './metadata'
 import { MetadataSchemaState } from '../contracts/types/metadataTypes';
+import { standardContractSource, metadataContractSource } from '../../dist/src'
 
-type Network = 'localhost' | 'testnet' | 'mainnet' | 'devnet';
+type Network = 'localhost' | 'testnet' | 'mainnet';
 
 /**
  * @class Unite
  */
 export default class Unite {
   network: Network;
-  arlocal: ArLocal | null;
   arweave: Arweave;
   smartweave: SmartWeave;
-  standardContractSrc: string;
 
   /**
    * @Constructor
@@ -28,10 +24,8 @@ export default class Unite {
    */
   constructor (network: Network ) {
     this.network = network;
-    this.arlocal = null;
     this.arweave = {} as Arweave;
     this.smartweave = {} as SmartWeave;
-    this.standardContractSrc = fs.readFileSync(path.join(__dirname, '../../dist/standard.js'), 'utf8');
   }
 
   /**
@@ -43,11 +37,7 @@ export default class Unite {
   static async init (network: Network): Promise<Unite> {
     const unite = new Unite(network);
     let connection = {};
-    if (network === 'devnet') {
-      unite.arlocal = new ArLocal(1820, false);
-      await unite.arlocal.start();
-      connection = { host: 'localhost', port: 1820, protocol: 'http' };
-    } else if (network === 'localhost') {
+    if (network === 'localhost') {
       connection = { host: 'localhost', port: 1984, protocol: 'http' };
     } else if (network === 'testnet') {
       connection = { host: 'testnet.redstone.tools', port: 443, protocol: 'https' };
@@ -64,7 +54,6 @@ export default class Unite {
    * Stop arlocal
    */
   stop() {
-    (this.network === 'devnet' && this.arlocal !== null) && this.arlocal.stop()
   }
 
   /**
@@ -107,7 +96,7 @@ export default class Unite {
     const contractAddr = await this.smartweave.createContract.deploy({
       wallet,
       initState: JSON.stringify(state),
-      src: this.standardContractSrc,
+      src: standardContractSource
     });
 
     const contract: Contract = this.smartweave.contract(contractAddr).connect(wallet);
@@ -128,7 +117,7 @@ export default class Unite {
     const contractAddr = await this.smartweave.createContract.deploy({
       wallet,
       initState: JSON.stringify(state),
-      src: this.standardContractSrc,
+      src: metadataContractSource,
     });
 
     const contract: Contract = this.smartweave.contract(contractAddr).connect(wallet);

@@ -46,7 +46,7 @@ export const updateProposal = async (
     }
     const version: Version = {
       proposalId: proposalId,
-      version: `${state.major}.${state.minor}.${state.patch}`,
+      version: state.major + "." + state.minor + "." + state.patch,
       fields: (state.versionId === -1) ? [] : state.versions[state.versionId].fields
     };
 

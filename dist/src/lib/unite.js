@@ -3,14 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const path_1 = __importDefault(require("path"));
-const fs_1 = __importDefault(require("fs"));
 const arweave_1 = __importDefault(require("arweave"));
-const arlocal_1 = __importDefault(require("arlocal"));
 const redstone_smartweave_1 = require("redstone-smartweave");
 const state_1 = require("../utils/state");
 const standard_1 = __importDefault(require("./standard"));
 const metadata_1 = __importDefault(require("./metadata"));
+const src_1 = require("../../dist/src");
 /**
  * @class Unite
  */
@@ -21,10 +19,8 @@ class Unite {
      */
     constructor(network) {
         this.network = network;
-        this.arlocal = null;
         this.arweave = {};
         this.smartweave = {};
-        this.standardContractSrc = fs_1.default.readFileSync(path_1.default.join(__dirname, '../../dist/standard.js'), 'utf8');
     }
     /**
      * Init Unite Instance
@@ -35,12 +31,7 @@ class Unite {
     static async init(network) {
         const unite = new Unite(network);
         let connection = {};
-        if (network === 'devnet') {
-            unite.arlocal = new arlocal_1.default(1820, false);
-            await unite.arlocal.start();
-            connection = { host: 'localhost', port: 1820, protocol: 'http' };
-        }
-        else if (network === 'localhost') {
+        if (network === 'localhost') {
             connection = { host: 'localhost', port: 1984, protocol: 'http' };
         }
         else if (network === 'testnet') {
@@ -58,7 +49,6 @@ class Unite {
      * Stop arlocal
      */
     stop() {
-        (this.network === 'devnet' && this.arlocal !== null) && this.arlocal.stop();
     }
     /**
      * getAddress
@@ -98,7 +88,7 @@ class Unite {
         const contractAddr = await this.smartweave.createContract.deploy({
             wallet,
             initState: JSON.stringify(state),
-            src: this.standardContractSrc,
+            src: src_1.standardContractSource
         });
         const contract = this.smartweave.contract(contractAddr).connect(wallet);
         const standard = new standard_1.default(wallet, contract, contractAddr);
@@ -117,7 +107,7 @@ class Unite {
         const contractAddr = await this.smartweave.createContract.deploy({
             wallet,
             initState: JSON.stringify(state),
-            src: this.standardContractSrc,
+            src: src_1.metadataContractSource,
         });
         const contract = this.smartweave.contract(contractAddr).connect(wallet);
         const metadata = new metadata_1.default(wallet, contract, contractAddr);

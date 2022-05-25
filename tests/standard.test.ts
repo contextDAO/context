@@ -1,9 +1,11 @@
-import { Unite, Standard, testWallet, mineBlock, initialState } from '../src/index';
+import ArLocal from 'arlocal';
+import { Unite, Standard, testWallet, mineBlock } from '../src/index';
 import { JWKInterface } from 'arweave/node/lib/wallet';
 import { UniteSchemaState, StandardFrom } from '../src/contracts/types/standardTypes';
 
 describe('Testing the Unite DAO Contract', () => {
-  let unite: Unite = {} as Unite;
+  let arlocal: ArLocal;
+  let unite: Unite;
   let wallet: JWKInterface;
   let walletAddress : string;
   let contributor: JWKInterface;
@@ -12,12 +14,15 @@ describe('Testing the Unite DAO Contract', () => {
   let userAddress: string;
   let standard: Standard;
 
+
   beforeAll(async () => {
-    unite = await Unite.init('devnet');
+    arlocal = new ArLocal(1984, false);
+    await arlocal.start();
+    unite = await Unite.init('localhost');
  });
 
   afterAll(async () => { 
-    unite.stop()
+    arlocal.stop()
   });
 
   it('Should create wallets', async () => {

@@ -3,7 +3,7 @@ import minimist from 'minimist';
 import { JWKInterface } from 'arweave/node/lib/wallet';
 import { Unite, Standard } from '../index';
 
-type Network = 'localhost' | 'testnet' | 'mainnet' | 'devnet';
+type Network = 'localhost' | 'testnet' | 'mainnet';
 const main = async (network: Network, walletFile: string) => {
   if (!network || !walletFile) {
     console.log('Usage: node deploy.js --network=localhost|testnet|arweave --wallet=<json_wallet_file>');

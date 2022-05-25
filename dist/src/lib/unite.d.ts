@@ -1,20 +1,17 @@
 import Arweave from 'arweave';
-import ArLocal from 'arlocal';
 import { SmartWeave } from 'redstone-smartweave';
 import { JWKInterface } from 'arweave/node/lib/wallet';
 import Standard from './standard';
 import { StandardFrom } from '../contracts/types/standardTypes';
 import Metadata from './metadata';
-declare type Network = 'localhost' | 'testnet' | 'mainnet' | 'devnet';
+declare type Network = 'localhost' | 'testnet' | 'mainnet';
 /**
  * @class Unite
  */
 export default class Unite {
     network: Network;
-    arlocal: ArLocal | null;
     arweave: Arweave;
     smartweave: SmartWeave;
-    standardContractSrc: string;
     /**
      * @Constructor
      * @param {Network} network
