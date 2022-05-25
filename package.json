@@ -1,12 +1,12 @@
 {
   "name": "@unitedao/unite",
   "version": "1.0.1",
-  "description": "Unite DAO base contracts & SDK",
+  "description": "Unite DAO base contracts AND SDK",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "author": {
     "name": "CryptoBenkei"
   },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "files": [
     "/dist"
   ],
@@ -23,6 +23,9 @@
     "cp": "copyfiles -u 1 ./src/**/*.json dist",
     "test": "jest test --detectOpenHandles"
   },
+  "browser": {
+    "fs": false
+  },
   "devDependencies": {
     "@babel/preset-typescript": "^7.16.7",
     "@tsconfig/node16": "^1.0.2",
@@ -31,7 +34,6 @@
     "@types/node": "^17.0.31",
     "@typescript-eslint/eslint-plugin": "^5.22.0",
     "@typescript-eslint/parser": "^5.22.0",
-    "arlocal": "^1.1.35",
     "copyfiles": "^2.4.1",
     "esbuild": "^0.14.38",
     "eslint": "^8.14.0",
@@ -46,6 +48,7 @@
   },
   "dependencies": {
     "arweave": "^1.10.23",
+    "arlocal": "^1.1.35",
     "redstone-smartweave": "^0.4.83"
   }
 }
