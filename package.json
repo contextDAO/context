@@ -19,7 +19,7 @@
     "lint": "eslint . --fix",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
     "build:contracts": "npm run clean && node build.js && npm run cp",
-    "build:lib": "npm run clean && tsc",
+    "build:lib": "tsc",
     "clean": "rimraf ./dist",
     "cp": "copyfiles -u 1 ./src/**/*.json dist",
     "test": "jest test --detectOpenHandles"
