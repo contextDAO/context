@@ -1,5 +1,5 @@
 import { JWKInterface } from 'arweave/node/lib/wallet';
-import { UniteSchemaState, Field, Proposal } from '../contracts/types/standardTypes';
+import { UniteSchemaState, Field } from '../contracts/types/standardTypes';
 import { Contract } from 'redstone-smartweave';
 
 type Role = 'user' | 'contributor' | 'editor';
