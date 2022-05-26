@@ -10,8 +10,8 @@ class Standard {
      * @param {JWKInterface} wallet - Connected wallet
      * @param {Contract} contract - Interface to the contract
      */
-    constructor(wallet, contract, contractAddr) {
-        this.wallet = wallet;
+    constructor(contract, contractAddr) {
+        this.wallet = null;
         this.contract = contract;
         this.contractAddr = contractAddr;
     }

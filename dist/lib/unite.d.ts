@@ -39,6 +39,13 @@ export default class Unite {
      */
     getBalance(wallet: string | JWKInterface): Promise<number>;
     /**
+     * getStandard
+     *
+     * @param {contractAddr} string
+     * @return {Metadata}
+     */
+    getStandard(contractAddr: string): Promise<Standard>;
+    /**
      * deployStandard
      *
      * @param {JWKInterface} wallet

@@ -6,7 +6,7 @@ declare type FieldType = 'text' | 'number' | 'boolean';
 declare type ProposalStatus = 'proposal' | 'open' | 'approved' | 'abandoned';
 declare type UpdateVersion = '' | 'major' | 'minor' | 'patch';
 export default class Standard {
-    wallet: JWKInterface;
+    wallet: JWKInterface | null;
     contract: Contract;
     contractAddr: string;
     /**
@@ -15,7 +15,7 @@ export default class Standard {
      * @param {JWKInterface} wallet - Connected wallet
      * @param {Contract} contract - Interface to the contract
      */
-    constructor(wallet: JWKInterface, contract: Contract, contractAddr: string);
+    constructor(contract: Contract, contractAddr: string);
     /**
      * readState
      *
