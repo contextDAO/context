@@ -80,6 +80,18 @@ export default class Unite {
   }
 
   /**
+   * getStandard
+   *
+   * @param {contractAddr} string
+   * @return {Metadata}
+   */
+  async getStandard(contractAddr: string): Promise<Standard> {
+    const contract: Contract = this.smartweave.contract(contractAddr);
+    const standard = new Standard(contract, contractAddr);
+    return standard;
+  }
+
+  /**
    * deployStandard
    *
    * @param {JWKInterface} wallet 
@@ -100,7 +112,7 @@ export default class Unite {
     });
 
     const contract: Contract = this.smartweave.contract(contractAddr).connect(wallet);
-    const standard = new Standard(wallet, contract, contractAddr);
+    const standard = new Standard(contract, contractAddr);
     return standard;
   }
 

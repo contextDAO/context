@@ -42,10 +42,18 @@ describe('Testing the Unite DAO Contract', () => {
 
   it('Should deploy a Standard', async () => {
     standard = await unite.deployStandard(wallet, 'Base NFT', 'Basic NFT Metadata')
+    await standard.connect(wallet);
     await mineBlock(unite.arweave);
     const state: UniteSchemaState = await standard.readState();
     expect(state.contributors[0].address).toEqual(walletAddress);
     expect(state.contributors[0].role).toEqual("editor");
+  });
+
+  it('Should get the standard', async () => {
+    const st = await unite.getStandard(standard.contractAddr);
+    let state1: UniteSchemaState = await standard.readState();
+    let state2: UniteSchemaState = await st.readState();
+    expect(state1).toEqual(state2);
   });
 
   it('should add a contributor', async () => {
@@ -166,6 +174,7 @@ describe('Testing the Unite DAO Contract', () => {
       version: state.versionId 
     }
     const avatar = await unite.deployStandard(wallet, 'avatar', 'NFT Avatars', standardFrom);
+    await avatar.connect(wallet);
     await mineBlock(unite.arweave);
     let avatarState : UniteSchemaState = await avatar.readState();
     expect(avatarState.from.standardId).toEqual(standard.contractAddr);

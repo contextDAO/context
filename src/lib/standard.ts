@@ -11,7 +11,7 @@ type UpdateVersion = '' | 'major' | 'minor' | 'patch';
  * Class Standard - interactions with the standard contract.
  */
 export default class Standard {
-  wallet: JWKInterface;
+  wallet: JWKInterface | null;
   contract: Contract;
   contractAddr: string;
 
@@ -21,8 +21,8 @@ export default class Standard {
    * @param {JWKInterface} wallet - Connected wallet
    * @param {Contract} contract - Interface to the contract
    */
-  constructor(wallet: JWKInterface, contract: Contract, contractAddr: string) {
-    this.wallet = wallet;
+  constructor(contract: Contract, contractAddr: string) {
+    this.wallet = null;
     this.contract = contract;
     this.contractAddr = contractAddr;
   }
@@ -43,7 +43,7 @@ export default class Standard {
    *
    * @param {JWKInterface} wallet - Connected wallet
    */
-  async connect(wallet: JWKInterface) {
+  async connect(wallet: JWKInterface ) {
     this.wallet = wallet;
     this.contract.connect(wallet);
   }
