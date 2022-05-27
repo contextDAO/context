@@ -66,5 +66,11 @@ At any time, any user can comment in any of the (add/edit/open) fields.
 
 ```bash
 npm run build:contracts
+npm run build:lib
 npm test
+```
+
+## Open dev environment
+```
+npm run dev
 ```

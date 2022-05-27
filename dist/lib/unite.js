@@ -42,7 +42,9 @@ class Unite {
         }
         redstone_smartweave_1.LoggerFactory.INST.logLevel('error');
         unite.arweave = arweave_1.default.init(connection);
-        unite.smartweave = redstone_smartweave_1.SmartWeaveNodeFactory.memCached(unite.arweave);
+        unite.smartweave = (network === 'localhost')
+            ? redstone_smartweave_1.SmartWeaveNodeFactory.forTesting(unite.arweave)
+            : redstone_smartweave_1.SmartWeaveNodeFactory.memCached(unite.arweave);
         return unite;
     }
     /*

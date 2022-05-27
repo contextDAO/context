@@ -22,7 +22,8 @@
     "build:lib": "tsc",
     "clean": "rimraf ./dist",
     "cp": "copyfiles -u 1 ./src/**/*.json dist",
-    "test": "jest test --detectOpenHandles"
+    "test": "jest tests/standard.test.ts --detectOpenHandles",
+    "dev": "ts-node ./src/tools/dev.ts"
   },
   "browser": {
     "fs": false
