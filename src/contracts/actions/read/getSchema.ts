@@ -12,19 +12,20 @@ export const getSchema = async (
     "properties" : {}
   }
 
-  // const version = state.versions[state.versionId];
-  let fields = state.versions[state.versionId].fields;
-  if (state.from.standardId !== '') {
-    const standardState = await SmartWeave.contracts.readContractState(state.from.standardId)
-    const version = standardState.versions[standardState.versionId];
-    fields = [ ...version.fields, ...fields];
-  }
-  fields.forEach((field: Field) => {
-    schema.properties[field.name] = {
-      description: field.description,
-      type: field.type
+  if (state.versionId > -1) {
+    let fields = state.versions[state.versionId].fields;
+    if (state.from.standardId !== '') {
+      const standardState = await SmartWeave.contracts.readContractState(state.from.standardId)
+      const version = standardState.versions[standardState.versionId];
+      fields = [ ...version.fields, ...fields];
     }
-  })
+    fields.forEach((field: Field) => {
+      schema.properties[field.name] = {
+        description: field.description,
+        type: field.type
+      }
+    })
+  }
   return { result: { schema } };
 };
 

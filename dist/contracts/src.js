@@ -160,18 +160,20 @@ const standardContractSource = `
       "type": "object",
       "properties": {}
     };
-    let fields = state.versions[state.versionId].fields;
-    if (state.from.standardId !== "") {
-      const standardState = await SmartWeave.contracts.readContractState(state.from.standardId);
-      const version = standardState.versions[standardState.versionId];
-      fields = [...version.fields, ...fields];
+    if (state.versionId > -1) {
+      let fields = state.versions[state.versionId].fields;
+      if (state.from.standardId !== "") {
+        const standardState = await SmartWeave.contracts.readContractState(state.from.standardId);
+        const version = standardState.versions[standardState.versionId];
+        fields = [...version.fields, ...fields];
+      }
+      fields.forEach((field) => {
+        schema.properties[field.name] = {
+          description: field.description,
+          type: field.type
+        };
+      });
     }
-    fields.forEach((field) => {
-      schema.properties[field.name] = {
-        description: field.description,
-        type: field.type
-      };
-    });
     return { result: { schema } };
   };
 
@@ -359,18 +361,20 @@ const metadataContractSource = `
       "type": "object",
       "properties": {}
     };
-    let fields = state.versions[state.versionId].fields;
-    if (state.from.standardId !== "") {
-      const standardState = await SmartWeave.contracts.readContractState(state.from.standardId);
-      const version = standardState.versions[standardState.versionId];
-      fields = [...version.fields, ...fields];
+    if (state.versionId > -1) {
+      let fields = state.versions[state.versionId].fields;
+      if (state.from.standardId !== "") {
+        const standardState = await SmartWeave.contracts.readContractState(state.from.standardId);
+        const version = standardState.versions[standardState.versionId];
+        fields = [...version.fields, ...fields];
+      }
+      fields.forEach((field) => {
+        schema.properties[field.name] = {
+          description: field.description,
+          type: field.type
+        };
+      });
     }
-    fields.forEach((field) => {
-      schema.properties[field.name] = {
-        description: field.description,
-        type: field.type
-      };
-    });
     return { result: { schema } };
   };
 

@@ -56,6 +56,13 @@ describe('Testing the Unite DAO Contract', () => {
     expect(state1).toEqual(state2);
   });
 
+  it('Should get an empty Schema', async () => {
+    const schema = await standard.getSchema();
+    expect(schema['$schema']).toEqual('https://json-schema.org/draft/2020-12/schema');
+    expect(schema.title).toEqual('Base NFT');
+    expect(schema.type).toEqual('object');
+  });
+
   it('should add a contributor', async () => {
     await standard.register(contributor);
     await mineBlock(unite.arweave);
