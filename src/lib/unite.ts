@@ -46,7 +46,9 @@ export default class Unite {
     }
     LoggerFactory.INST.logLevel('error');
     unite.arweave = Arweave.init(connection);
-    unite.smartweave = SmartWeaveNodeFactory.memCached(unite.arweave);
+    unite.smartweave = (network === 'localhost')
+      ? SmartWeaveNodeFactory.forTesting(unite.arweave)
+      : SmartWeaveNodeFactory.memCached(unite.arweave);
     return unite;
   }
 
