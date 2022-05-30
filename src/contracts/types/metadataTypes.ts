@@ -14,6 +14,6 @@ export interface PstInput {
   qty: number;
 }
 
-export type PstFunction = 'addToken' | 'updateToken' | 'getToken';
+export type PstFunction = "addToken" | "updateToken" | "getToken";
 
 export type ContractResult = { state: MetadataSchemaState };

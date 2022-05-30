@@ -6,14 +6,13 @@ export const balance = async (
 ): Promise<ContractResult> => {
   const fields = state.fields;
 
-  if (typeof target !== 'number') {
-    throw new ContractError('Must specify id to get the Field');
+  if (typeof target !== "number") {
+    throw new ContractError("Must specify id to get the Field");
   }
 
   if (typeof fields[target] !== Field) {
-    throw new ContractError('Cannot get FIeld, target does not exist');
+    throw new ContractError("Cannot get FIeld, target does not exist");
   }
 
   return { result: { target, field: fields[target] } };
 };
-

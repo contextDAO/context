@@ -1,8 +1,8 @@
-import { JWKInterface } from 'arweave/node/lib/wallet';
-import { MetadataSchemaState } from '../contracts/types/metadataTypes';
-import { Contract } from 'redstone-smartweave';
+import { JWKInterface } from "arweave/node/lib/wallet";
+import { MetadataSchemaState } from "../contracts/types/metadataTypes";
+import { Contract } from "redstone-smartweave";
 
-/*
+/**
  * Class Metadata - interactions with the metadata contract.
  */
 export default class Metadata {
@@ -15,6 +15,7 @@ export default class Metadata {
    *
    * @param {JWKInterface} wallet - Connected wallet
    * @param {Contract} contract - Interface to the contract
+   * @param {string} contractAddr - Contract Address
    */
   constructor(wallet: JWKInterface, contract: Contract, contractAddr: string) {
     this.wallet = wallet;
@@ -25,11 +26,12 @@ export default class Metadata {
   /**
    * readState
    *
-   * @returns {MetadataSchemaState}
+   * @return {MetadataSchemaState}
    */
   async readState(): Promise<MetadataSchemaState> {
     const initialState = await this.contract.readState();
-    const state: MetadataSchemaState = initialState.state as MetadataSchemaState;
+    const state: MetadataSchemaState =
+      initialState.state as MetadataSchemaState;
     return state;
   }
 
@@ -50,6 +52,6 @@ export default class Metadata {
    */
   async register(wallet: JWKInterface) {
     await this.connect(wallet);
-    await this.contract.writeInteraction({ function: 'addContributor' });
+    await this.contract.writeInteraction({ function: "addContributor" });
   }
 }

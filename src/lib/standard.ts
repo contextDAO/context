@@ -1,13 +1,13 @@
-import { JWKInterface } from 'arweave/node/lib/wallet';
-import { UniteSchemaState, Field } from '../contracts/types/standardTypes';
-import { Contract } from 'redstone-smartweave';
+import { JWKInterface } from "arweave/node/lib/wallet";
+import { UniteSchemaState, Field } from "../contracts/types/standardTypes";
+import { Contract } from "redstone-smartweave";
 
-type Role = 'user' | 'contributor' | 'editor';
-type FieldType = 'text' | 'number' | 'boolean';
-type ProposalStatus = 'proposal' | 'open' | 'approved' | 'abandoned';
-type UpdateVersion = '' | 'major' | 'minor' | 'patch';
+type Role = "user" | "contributor" | "editor";
+type FieldType = "text" | "number" | "boolean";
+type ProposalStatus = "proposal" | "open" | "approved" | "abandoned";
+type UpdateVersion = "" | "major" | "minor" | "patch";
 
-/*
+/**
  * Class Standard - interactions with the standard contract.
  */
 export default class Standard {
@@ -18,8 +18,8 @@ export default class Standard {
   /**
    * @constructor
    *
-   * @param {JWKInterface} wallet - Connected wallet
    * @param {Contract} contract - Interface to the contract
+   * @param {string} contractAddr - Contract Address
    */
   constructor(contract: Contract, contractAddr: string) {
     this.wallet = null;
@@ -30,7 +30,7 @@ export default class Standard {
   /**
    * readState
    *
-   * @returns {UniteSchemaState}
+   * @return {UniteSchemaState}
    */
   async readState(): Promise<UniteSchemaState> {
     const initialState = await this.contract.readState();
@@ -43,7 +43,7 @@ export default class Standard {
    *
    * @param {JWKInterface} wallet - Connected wallet
    */
-  async connect(wallet: JWKInterface ) {
+  async connect(wallet: JWKInterface) {
     this.wallet = wallet;
     this.contract.connect(wallet);
   }
@@ -55,17 +55,17 @@ export default class Standard {
    */
   async register(wallet: JWKInterface) {
     await this.connect(wallet);
-    await this.contract.writeInteraction({ function: 'addContributor' });
+    await this.contract.writeInteraction({ function: "addContributor" });
   }
 
   /**
    * setRole - Updates the role of an address (wallet must be 'editor')
-   * 
+   *
    * @param {Role} role - can be 'user', 'editor' or 'contributor'
-   * @param {string} userAddr - Address to change the role from 
+   * @param {string} userAddr - Address to change the role from
    */
-  async setRole(role: Role, userAddr: string ) {
-    const interaction = { function: 'setRole', userAddr, role }
+  async setRole(role: Role, userAddr: string) {
+    const interaction = { function: "setRole", userAddr, role };
     await this.contract.writeInteraction(interaction);
   }
 
@@ -76,11 +76,22 @@ export default class Standard {
    * @param {string} comment
    * @param {string} name - Field Name
    * @param {string} description - Field Description
-   * @param {FieldType} type - Field Type 
+   * @param {FieldType} type - Field Type
    */
-  async addProposal(proposalName: string, comment: string, name: string, description: string, type: FieldType) {
+  async addProposal(
+    proposalName: string,
+    comment: string,
+    name: string,
+    description: string,
+    type: FieldType
+  ) {
     const field: Field = { name, description, type };
-    const interaction = { function: 'addProposal', proposalName, comment, field };
+    const interaction = {
+      function: "addProposal",
+      proposalName,
+      comment,
+      field,
+    };
     await this.contract.writeInteraction(interaction);
   }
 
@@ -88,10 +99,10 @@ export default class Standard {
    * addComment
    *
    * @param {number} proposalId
-   * @param {string} text 
+   * @param {string} text
    */
   async addComment(proposalId: number, text: string) {
-    const interaction = { function: 'addComment', proposalId, text }
+    const interaction = { function: "addComment", proposalId, text };
     await this.contract.writeInteraction(interaction);
   }
 
@@ -100,14 +111,29 @@ export default class Standard {
    *
    * @param {number} proposalId
    * @param {ProposalStatus} status
+   * @param {UpdateVersion} update - Can be major, minor or patch.
    */
-  async updateProposal(proposalId: number, status: ProposalStatus, update: UpdateVersion = '') {
-    const interaction = { function: 'updateProposal', proposalId, status, update };
+  async updateProposal(
+    proposalId: number,
+    status: ProposalStatus,
+    update: UpdateVersion = ""
+  ) {
+    const interaction = {
+      function: "updateProposal",
+      proposalId,
+      status,
+      update,
+    };
     await this.contract.writeInteraction(interaction);
   }
 
-  async getSchema() : Promise<any>{
-    const interaction = { function: 'getSchema' };
+  /**
+   * getSchema
+   *
+   * @return {object}
+   */
+  async getSchema(): Promise<object> {
+    const interaction = { function: "getSchema" };
     const result: any = await this.contract.viewState(interaction);
     return result.result.schema;
   }

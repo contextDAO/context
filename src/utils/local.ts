@@ -1,26 +1,23 @@
-import Arweave from 'arweave';
-import { JWKInterface } from 'arweave/node/lib/wallet';
+import Arweave from "arweave";
+import { JWKInterface } from "arweave/node/lib/wallet";
 
-/*
- * testWallet
- *
- * @param arweave Arweave
- * @returns JWKInterface
+/**
+ * TestWallet
+ * @param {Arweave} arweave
+ * @return {JWKInterface}
  */
-export async function testWallet (arweave: Arweave) : Promise<JWKInterface> {
+export async function testWallet(arweave: Arweave): Promise<JWKInterface> {
   const wallet: JWKInterface = await arweave.wallets.generate();
   const walletAddress = await arweave.wallets.getAddress(wallet);
   await arweave.api.get(`/mint/${walletAddress}/1000000000000000`);
   return wallet;
 }
 
-/*
- * mineBlock 
+/**
+ * mineBlock
  *
- * @param arweave Arweave
+ * @param {Arweave} arweave 
  */
 export async function mineBlock(arweave: Arweave) {
-  await arweave.api.get('mine');
+  await arweave.api.get("mine");
 }
-
-

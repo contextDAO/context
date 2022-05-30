@@ -1,14 +1,24 @@
-import { addContributor } from './actions/write/addContributor';
-import { setRole } from './actions/write/setRole';
-import { addProposal } from './actions/write/addProposal';
-import { addComment } from './actions/write/addComment';
-import { updateProposal } from './actions/write/updateProposal';
-import { getContributors } from './actions/read/getContributors';
-import { getSchema } from './actions/read/getSchema';
-import { PstAction, ContractResult, UniteSchemaState } from './types/standardTypes';
+import { addContributor } from "./actions/write/addContributor";
+import { setRole } from "./actions/write/setRole";
+import { addProposal } from "./actions/write/addProposal";
+import { addComment } from "./actions/write/addComment";
+import { updateProposal } from "./actions/write/updateProposal";
+import { getSchema } from "./actions/read/getSchema";
+import {
+  PstAction,
+  ContractResult,
+  UniteSchemaState,
+} from "./types/standardTypes";
 
-declare const ContractError;
+declare const ContractError: any;
 
+/**
+ * Main Entry point : handle
+ *
+ * @param {UniteSchemaState} state
+ * @param {PstAction} action
+ * @return {ContractResult}
+ */
 export async function handle(
   state: UniteSchemaState,
   action: PstAction
@@ -16,19 +26,17 @@ export async function handle(
   const input = action.input;
 
   switch (input.function) {
-    case 'addContributor':
+    case "addContributor":
       return await addContributor(state, action);
-    case 'setRole':
+    case "setRole":
       return await setRole(state, action);
-    case 'addProposal':
+    case "addProposal":
       return await addProposal(state, action);
-    case 'addComment':
+    case "addComment":
       return await addComment(state, action);
-    case 'updateProposal':
+    case "updateProposal":
       return await updateProposal(state, action);
-    case 'getContributors':
-      return await getContributors(state, action);
-    case 'getSchema':
+    case "getSchema":
       return await getSchema(state, action);
     default:
       throw new ContractError(

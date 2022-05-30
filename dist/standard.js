@@ -8,8 +8,8 @@
       throw new ContractError("Caller is already a user.");
     }
     state.contributors[state.contributorId + 1] = {
-      "address": caller,
-      "role": "user"
+      address: caller,
+      role: "user"
     };
     state.contributorId++;
     return { state };
@@ -50,15 +50,17 @@
       throw new ContractError("Invalid Name");
     }
     state.proposals.push({
-      "name": proposalName,
-      "proposer": caller,
-      "versionId": -1,
-      "status": "proposal",
-      "field": field,
-      "comments": [{
-        "text": comment,
-        "by": caller
-      }]
+      name: proposalName,
+      proposer: caller,
+      versionId: -1,
+      status: "proposal",
+      field,
+      comments: [
+        {
+          text: comment,
+          by: caller
+        }
+      ]
     });
     return { state };
   };
@@ -77,8 +79,8 @@
       throw new ContractError("Invalid Proposal");
     }
     state.proposals[proposalId].comments.push({
-      "text": text,
-      "by": caller
+      text,
+      by: caller
     });
     return { state };
   };
@@ -139,22 +141,15 @@
     return { state };
   };
 
-  // src/contracts/actions/read/getContributors.ts
-  var getContributors = async (state, { input: {} }) => {
-    const owner = state.owner;
-    const contributors = state.contributors;
-    return { result: { contributors } };
-  };
-
   // src/contracts/actions/read/getSchema.ts
   var getSchema = async (state, { input: {} }) => {
     const schema = {
-      "$schema": "https://json-schema.org/draft/2020-12/schema",
-      "$id": "ar://" + SmartWeave.transaction.id + "/" + state.versionId,
-      "title": state.title,
-      "description": state.description,
-      "type": "object",
-      "properties": {}
+      $schema: "https://json-schema.org/draft/2020-12/schema",
+      $id: "ar://" + SmartWeave.transaction.id + "/" + state.versionId,
+      title: state.title,
+      description: state.description,
+      type: "object",
+      properties: {}
     };
     if (state.versionId > -1) {
       let fields = state.versions[state.versionId].fields;
@@ -187,8 +182,6 @@
         return await addComment(state, action);
       case "updateProposal":
         return await updateProposal(state, action);
-      case "getContributors":
-        return await getContributors(state, action);
       case "getSchema":
         return await getSchema(state, action);
       default:

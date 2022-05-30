@@ -1,25 +1,25 @@
 export interface StandardFrom {
-  standardId: string,
-  version: number
+  standardId: string;
+  version: number;
 }
 
 interface Contributor {
-  address: string,
-  role: 'user' | 'contributor' | 'editor'
+  address: string;
+  role: "user" | "contributor" | "editor";
 }
 
 export interface Comment {
-  text: string,
-  by: string
+  text: string;
+  by: string;
 }
 
 export interface Field {
-  name: string,
-  description: string,
-  type: 'text' | 'number' | 'boolean' | 'select', 
-  min?: number,
-  max?: number,
-  values?: [string]
+  name: string;
+  description: string;
+  type: "text" | "number" | "boolean" | "select";
+  min?: number;
+  max?: number;
+  values?: [string];
 }
 
 export interface Proposal {
@@ -28,7 +28,7 @@ export interface Proposal {
   versionId: number;
   field?: Field;
   comments: Comment[];
-  status: 'proposal' | 'open' | 'abandoned' | 'approved';
+  status: "proposal" | "open" | "abandoned" | "approved";
 }
 
 export interface Version {
@@ -40,7 +40,7 @@ export interface Version {
 export interface UniteSchemaState {
   title: string;
   description: string;
-  from: StandardFrom; 
+  from: StandardFrom;
   contributorId: number;
   proposalId: number;
   versionId: number;
@@ -63,6 +63,13 @@ export interface PstInput {
   qty: number;
 }
 
-export type PstFunction = 'addContributor' | 'getContributors' | 'addProposal' | 'addComment' | 'setRole' | 'updateProposal' | 'getSchema';
+export type PstFunction =
+  | "addContributor"
+  | "getContributors"
+  | "addProposal"
+  | "addComment"
+  | "setRole"
+  | "updateProposal"
+  | "getSchema";
 
-export type ContractResult = { state: UniteSchemaState } | { result: Field};
+export type ContractResult = { state: UniteSchemaState } | { result: Field };
