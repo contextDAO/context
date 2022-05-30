@@ -20,6 +20,8 @@ export interface Field {
   min?: number;
   max?: number;
   values?: [string];
+  isReadOnly: boolean;
+  isRequired: boolean;
 }
 
 export interface Proposal {

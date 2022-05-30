@@ -2,7 +2,7 @@ export const getSchema = async (
   state: UniteSchemaState,
   { input: {} }: PstAction
 ): Promise<ContractResult> => {
-  const schema = {
+  const schema: any = {
     $schema: "https://json-schema.org/draft/2020-12/schema",
     $id: "ar://" + SmartWeave.transaction.id + "/" + state.versionId,
     title: state.title,
@@ -12,6 +12,7 @@ export const getSchema = async (
   };
 
   if (state.versionId > -1) {
+    const requiredFields: string[] = [];
     let fields = state.versions[state.versionId].fields;
     if (state.from.standardId !== "") {
       const standardState = await SmartWeave.contracts.readContractState(
@@ -25,7 +26,17 @@ export const getSchema = async (
         description: field.description,
         type: field.type,
       };
+      if (field.isReadOnly) {
+        schema.properties[field.name].readOnly = true;
+      }
+      if (field.isRequired) {
+        requiredFields.push(field.name)
+      }
     });
+    if (requiredFields.length > 0) {
+      schema.required= requiredFields;
+    }
+
   }
   return { result: { schema } };
 };

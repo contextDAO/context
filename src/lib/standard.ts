@@ -77,15 +77,19 @@ export default class Standard {
    * @param {string} name - Field Name
    * @param {string} description - Field Description
    * @param {FieldType} type - Field Type
+   * @param {boolean} isReadOnly - The field is Read Only
+   * @param {boolean} isRequired - The Field is required
    */
   async addProposal(
     proposalName: string,
     comment: string,
     name: string,
     description: string,
-    type: FieldType
+    type: FieldType,
+    isReadOnly: boolean,
+    isRequired: boolean
   ) {
-    const field: Field = { name, description, type };
+    const field: Field = { name, description, type, isReadOnly, isRequired };
     const interaction = {
       function: "addProposal",
       proposalName,
@@ -130,9 +134,9 @@ export default class Standard {
   /**
    * getSchema
    *
-   * @return {object}
+   * @return {any}
    */
-  async getSchema(): Promise<object> {
+  async getSchema(): Promise<any> {
     const interaction = { function: "getSchema" };
     const result: any = await this.contract.viewState(interaction);
     return result.result.schema;

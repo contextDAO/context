@@ -152,6 +152,7 @@
       properties: {}
     };
     if (state.versionId > -1) {
+      const requiredFields = [];
       let fields = state.versions[state.versionId].fields;
       if (state.from.standardId !== "") {
         const standardState = await SmartWeave.contracts.readContractState(state.from.standardId);
@@ -163,7 +164,16 @@
           description: field.description,
           type: field.type
         };
+        if (field.isReadOnly) {
+          schema.properties[field.name].readOnly = true;
+        }
+        if (field.isRequired) {
+          requiredFields.push(field.name);
+        }
       });
+      if (requiredFields.length > 0) {
+        schema.required = requiredFields;
+      }
     }
     return { result: { schema } };
   };

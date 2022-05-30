@@ -57,8 +57,8 @@ describe("Testing the Unite DAO Contract", () => {
 
   it("Should get the standard", async () => {
     const st = await unite.getStandard(standard.contractAddr);
-    let state1: UniteSchemaState = await standard.readState();
-    let state2: UniteSchemaState = await st.readState();
+    const state1: UniteSchemaState = await standard.readState();
+    const state2: UniteSchemaState = await st.readState();
     expect(state1).toEqual(state2);
   });
 
@@ -102,7 +102,9 @@ describe("Testing the Unite DAO Contract", () => {
       "com#1",
       "field#1",
       "description",
-      "text"
+      "text",
+      true,
+      true
     );
     await mineBlock(unite.arweave);
     const state: UniteSchemaState = await standard.readState();
@@ -113,6 +115,8 @@ describe("Testing the Unite DAO Contract", () => {
     expect(state.proposals[0].field?.name).toEqual("field#1");
     expect(state.proposals[0].field?.description).toEqual("description");
     expect(state.proposals[0].field?.type).toEqual("text");
+    expect(state.proposals[0].field?.isReadOnly).toEqual(true);
+    expect(state.proposals[0].field?.isRequired).toEqual(true);
     expect(state.proposals[0].proposer).toEqual(userAddress);
     expect(state.proposals[0].comments[0].by).toEqual(userAddress);
     expect(state.proposals[0].comments[0].text).toEqual("com#1");
@@ -158,7 +162,9 @@ describe("Testing the Unite DAO Contract", () => {
       "com#1",
       "field#2",
       "description",
-      "text"
+      "text",
+      false,
+      false
     );
     await mineBlock(unite.arweave);
     await standard.updateProposal(1, "abandoned");
@@ -173,7 +179,9 @@ describe("Testing the Unite DAO Contract", () => {
       "com#1",
       "field#1",
       "New description",
-      "number"
+      "number",
+      true,
+      false,
     );
     await mineBlock(unite.arweave);
     await standard.updateProposal(2, "open");
@@ -202,8 +210,10 @@ describe("Testing the Unite DAO Contract", () => {
     expect(schema.properties["field#1"]).toEqual({
       description: "New description",
       type: "number",
+      readOnly: true
     });
   });
+
 
   it("should add a contract with inheritance", async () => {
     const state: UniteSchemaState = await standard.readState();
@@ -222,7 +232,7 @@ describe("Testing the Unite DAO Contract", () => {
     let avatarState: UniteSchemaState = await avatar.readState();
     expect(avatarState.from.standardId).toEqual(standard.contractAddr);
     expect(avatarState.from.version).toEqual(1);
-    await avatar.addProposal("prop#1", "com#1", "level", "Level", "number");
+    await avatar.addProposal("prop#1", "com#1", "level", "Level", "number", false, true);
     await mineBlock(unite.arweave);
     await avatar.updateProposal(0, "open");
     await mineBlock(unite.arweave);
@@ -236,10 +246,13 @@ describe("Testing the Unite DAO Contract", () => {
     expect(schema.properties["field#1"]).toEqual({
       description: "New description",
       type: "number",
+      readOnly: true
     });
     expect(schema.properties["level"]).toEqual({
       description: "Level",
       type: "number",
     });
+    expect(schema.required).toEqual(['level']);
+    console.log(schema);
   });
 });
