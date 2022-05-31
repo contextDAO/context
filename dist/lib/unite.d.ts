@@ -67,5 +67,9 @@ export default class Unite {
      * @return {Metadata}
      */
     deployMetadata(wallet: JWKInterface, title: string, description: string): Promise<Metadata>;
+    /**
+     * Mine a new block - only localhost
+     */
+    mine(): Promise<void>;
 }
 export {};

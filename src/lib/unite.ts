@@ -174,4 +174,13 @@ export default class Unite {
     const metadata = new Metadata(wallet, contract, contractAddr);
     return metadata;
   }
+
+  /**
+   * Mine a new block - only localhost
+   */
+  async mine() {
+    if (this.network === 'localhost') {
+      await this.arweave.api.get("mine"); 
+    }
+  }
 }
