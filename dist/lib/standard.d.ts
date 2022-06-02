@@ -1,8 +1,7 @@
 import { JWKInterface } from "arweave/node/lib/wallet";
-import { UniteSchemaState } from "../contracts/types/standardTypes";
+import { UniteSchemaState, Field } from "../contracts/types/standardTypes";
 import { Contract } from "redstone-smartweave";
 declare type Role = "user" | "contributor" | "editor";
-declare type FieldType = "text" | "number" | "boolean";
 declare type ProposalStatus = "proposal" | "open" | "approved" | "abandoned";
 declare type UpdateVersion = "" | "major" | "minor" | "patch";
 /**
@@ -49,13 +48,9 @@ export default class Standard {
      *
      * @param {string} proposalName
      * @param {string} comment
-     * @param {string} name - Field Name
-     * @param {string} description - Field Description
-     * @param {FieldType} type - Field Type
-     * @param {boolean} isReadOnly - The field is Read Only
-     * @param {boolean} isRequired - The Field is required
+     * @param {Field} field - Field for the proposal
      */
-    addProposal(proposalName: string, comment: string, name: string, description: string, type: FieldType, isReadOnly: boolean, isRequired: boolean): Promise<void>;
+    addProposal(proposalName: string, comment: string, field: Field): Promise<void>;
     /**
      * addComment
      *

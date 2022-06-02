@@ -6,7 +6,9 @@ import { initialState } from "./utils/state";
 import {
   UniteSchemaState,
   Field,
+  FieldType,
   Proposal,
+  ProposalStatus,
   Version,
 } from "./contracts/types/standardTypes";
 
@@ -19,6 +21,8 @@ export {
   JWKInterface,
   UniteSchemaState,
   Field,
+  FieldType,
   Proposal,
+  ProposalStatus,
   Version,
 };

@@ -4,6 +4,7 @@ import { JWKInterface } from "arweave/node/lib/wallet";
 import {
   UniteSchemaState,
   StandardFrom,
+  Field,
 } from "../src/contracts/types/standardTypes";
 
 describe("Testing the Unite DAO Contract", () => {
@@ -97,14 +98,17 @@ describe("Testing the Unite DAO Contract", () => {
   });
 
   it("should add a new proposal", async () => {
-    await standard.addProposal(
+   await standard.addProposal(
       "prop#1",
       "com#1",
-      "field#1",
-      "description",
-      "text",
-      true,
-      true
+      {
+        name: "field#1",
+        description: "description",
+        type: "string",
+        readOnly: true,
+        required: true,
+        maximum: 20,
+      } as Field
     );
     await mineBlock(unite.arweave);
     const state: UniteSchemaState = await standard.readState();
@@ -114,9 +118,10 @@ describe("Testing the Unite DAO Contract", () => {
     expect(state.proposals[0].status).toEqual("proposal");
     expect(state.proposals[0].field?.name).toEqual("field#1");
     expect(state.proposals[0].field?.description).toEqual("description");
-    expect(state.proposals[0].field?.type).toEqual("text");
-    expect(state.proposals[0].field?.isReadOnly).toEqual(true);
-    expect(state.proposals[0].field?.isRequired).toEqual(true);
+    expect(state.proposals[0].field?.type).toEqual("string");
+    expect(state.proposals[0].field?.readOnly).toEqual(true);
+    expect(state.proposals[0].field?.required).toEqual(true);
+    expect(state.proposals[0].field?.maximum).toEqual(20);
     expect(state.proposals[0].proposer).toEqual(userAddress);
     expect(state.proposals[0].comments[0].by).toEqual(userAddress);
     expect(state.proposals[0].comments[0].text).toEqual("com#1");
@@ -151,7 +156,7 @@ describe("Testing the Unite DAO Contract", () => {
     expect(state.patch).toEqual(0);
     expect(state.versions[0].fields[0]?.name).toEqual("field#1");
     expect(state.versions[0].fields[0]?.description).toEqual("description");
-    expect(state.versions[0].fields[0]?.type).toEqual("text");
+    expect(state.versions[0].fields[0]?.type).toEqual("string");
     expect(state.proposalId).toEqual(-1);
     expect(state.versionId).toEqual(0);
   });
@@ -160,11 +165,13 @@ describe("Testing the Unite DAO Contract", () => {
     await standard.addProposal(
       "prop#2",
       "com#1",
-      "field#2",
-      "description",
-      "text",
-      false,
-      false
+      {
+        name: "field#2",
+        description: "description",
+        type: "string",
+        readOnly: false,
+        required: false,
+      } as Field
     );
     await mineBlock(unite.arweave);
     await standard.updateProposal(1, "abandoned");
@@ -177,11 +184,15 @@ describe("Testing the Unite DAO Contract", () => {
     await standard.addProposal(
       "prop#3",
       "com#1",
-      "field#1",
-      "New description",
-      "number",
-      true,
-      false,
+      {
+        name: "field#1",
+        description: "New description",
+        type: "number",
+        minimum: 0,
+        maximum: 20,
+        readOnly: true,
+        required: false,
+      } as Field
     );
     await mineBlock(unite.arweave);
     await standard.updateProposal(2, "open");
@@ -196,6 +207,8 @@ describe("Testing the Unite DAO Contract", () => {
     expect(state.versions[1].fields[0]?.name).toEqual("field#1");
     expect(state.versions[1].fields[0]?.description).toEqual("New description");
     expect(state.versions[1].fields[0]?.type).toEqual("number");
+    expect(state.versions[1].fields[0]?.minimum).toEqual(0);
+    expect(state.versions[1].fields[0]?.maximum).toEqual(20);
     expect(state.proposalId).toEqual(-1);
     expect(state.versionId).toEqual(1);
   });
@@ -214,6 +227,28 @@ describe("Testing the Unite DAO Contract", () => {
     });
   });
 
+  it("should Add an enum", async () => {
+    await standard.addProposal(
+      "prop#4",
+      "com#1",
+      {
+        name: "enum#1",
+        description: "Enum",
+        type: "string",
+        enum: ["value1", "value2"],
+      } as Field
+    );
+    await mineBlock(unite.arweave);
+    await standard.updateProposal(3, "open");
+    await mineBlock(unite.arweave);
+    await standard.updateProposal(3, "approved", "patch");
+    await mineBlock(unite.arweave);
+ 
+    const schema = await standard.getSchema();
+    expect(schema.properties['enum#1'].enum).toEqual(["value1", "value2"])
+  });
+
+
 
   it("should add a contract with inheritance", async () => {
     const state: UniteSchemaState = await standard.readState();
@@ -231,13 +266,45 @@ describe("Testing the Unite DAO Contract", () => {
     await mineBlock(unite.arweave);
     let avatarState: UniteSchemaState = await avatar.readState();
     expect(avatarState.from.standardId).toEqual(standard.contractAddr);
-    expect(avatarState.from.version).toEqual(1);
-    await avatar.addProposal("prop#1", "com#1", "level", "Level", "number", false, true);
+    expect(avatarState.from.version).toEqual(2);
+    await avatar.addProposal(
+      "prop#1",
+      "com#1",
+      {
+        name: "level",
+        description: "level",
+        type: "number",
+        minimum: 0,
+        maximum: 20,
+        readOnly: false,
+        required: true,
+      } as Field
+    );
+ 
     await mineBlock(unite.arweave);
     await avatar.updateProposal(0, "open");
     await mineBlock(unite.arweave);
     await avatar.updateProposal(0, "approved", "major");
     await mineBlock(unite.arweave);
+
+    await avatar.addProposal(
+      "prop#2",
+      "com#1",
+      {
+        name: "status",
+        description: "Status of the player",
+        type: "string",
+        minimum: 0,
+        maximum: 20,
+      } as Field
+    );
+ 
+    await mineBlock(unite.arweave);
+    await avatar.updateProposal(1, "open");
+    await mineBlock(unite.arweave);
+    await avatar.updateProposal(1, "approved", "major");
+    await mineBlock(unite.arweave);
+
 
     avatarState = await avatar.readState();
     const schema = await avatar.getSchema();
@@ -249,10 +316,9 @@ describe("Testing the Unite DAO Contract", () => {
       readOnly: true
     });
     expect(schema.properties["level"]).toEqual({
-      description: "Level",
+      description: "level",
       type: "number",
     });
     expect(schema.required).toEqual(['level']);
-    console.log(schema);
   });
 });

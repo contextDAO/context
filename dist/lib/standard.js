@@ -58,14 +58,9 @@ class Standard {
      *
      * @param {string} proposalName
      * @param {string} comment
-     * @param {string} name - Field Name
-     * @param {string} description - Field Description
-     * @param {FieldType} type - Field Type
-     * @param {boolean} isReadOnly - The field is Read Only
-     * @param {boolean} isRequired - The Field is required
+     * @param {Field} field - Field for the proposal
      */
-    async addProposal(proposalName, comment, name, description, type, isReadOnly, isRequired) {
-        const field = { name, description, type, isReadOnly, isRequired };
+    async addProposal(proposalName, comment, field) {
         const interaction = {
             function: "addProposal",
             proposalName,

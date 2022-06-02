@@ -26,10 +26,39 @@ export const getSchema = async (
         description: field.description,
         type: field.type,
       };
-      if (field.isReadOnly) {
+
+      // Minimum and maximum values for numbers.
+      if (['integer', 'number'].includes(field.type)) {
+       if (field.min) {
+          schema.properties[field.name].minimum = field.min;
+        }
+        if (field.max) {
+          schema.properties[field.name].maximum = field.max;
+        }
+      }
+
+      // Minimum and maximum lengths for strings.
+      if (field.type === 'string') {
+        if (field.min) {
+          schema.properties[field.name].minLength = field.min;
+        }
+        if (field.max) {
+          schema.properties[field.name].maxLength = field.max;
+        }
+      }
+
+      // Enum
+      if (field.enum) {
+        schema.properties[field.name].enum = field.enum;
+      }
+
+      // Read Only.
+      if (field.readOnly) {
         schema.properties[field.name].readOnly = true;
       }
-      if (field.isRequired) {
+
+      // Required
+      if (field.required) {
         requiredFields.push(field.name)
       }
     });

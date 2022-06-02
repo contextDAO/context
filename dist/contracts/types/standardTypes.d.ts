@@ -10,23 +10,25 @@ export interface Comment {
     text: string;
     by: string;
 }
+export declare type FieldType = "string" | "integer" | "number" | "boolean";
 export interface Field {
     name: string;
     description: string;
-    type: "text" | "number" | "boolean" | "select";
-    min?: number;
-    max?: number;
-    values?: [string];
-    isReadOnly: boolean;
-    isRequired: boolean;
+    type: FieldType;
+    minimum?: number;
+    maximum?: number;
+    enum?: Array<string>;
+    readOnly?: boolean;
+    required?: boolean;
 }
+export declare type ProposalStatus = "proposal" | "open" | "abandoned" | "approved";
 export interface Proposal {
     name: string;
     proposer: string;
     versionId: number;
     field?: Field;
     comments: Comment[];
-    status: "proposal" | "open" | "abandoned" | "approved";
+    status: ProposalStatus;
 }
 export interface Version {
     proposalId: number;

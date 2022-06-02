@@ -164,10 +164,29 @@
           description: field.description,
           type: field.type
         };
-        if (field.isReadOnly) {
+        if (["integer", "number"].includes(field.type)) {
+          if (field.min) {
+            schema.properties[field.name].minimum = field.min;
+          }
+          if (field.max) {
+            schema.properties[field.name].maximum = field.max;
+          }
+        }
+        if (field.type === "string") {
+          if (field.min) {
+            schema.properties[field.name].minLength = field.min;
+          }
+          if (field.max) {
+            schema.properties[field.name].maxLength = field.max;
+          }
+        }
+        if (field.enum) {
+          schema.properties[field.name].enum = field.enum;
+        }
+        if (field.readOnly) {
           schema.properties[field.name].readOnly = true;
         }
-        if (field.isRequired) {
+        if (field.required) {
           requiredFields.push(field.name);
         }
       });

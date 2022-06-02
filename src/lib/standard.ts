@@ -3,7 +3,6 @@ import { UniteSchemaState, Field } from "../contracts/types/standardTypes";
 import { Contract } from "redstone-smartweave";
 
 type Role = "user" | "contributor" | "editor";
-type FieldType = "text" | "number" | "boolean";
 type ProposalStatus = "proposal" | "open" | "approved" | "abandoned";
 type UpdateVersion = "" | "major" | "minor" | "patch";
 
@@ -74,22 +73,13 @@ export default class Standard {
    *
    * @param {string} proposalName
    * @param {string} comment
-   * @param {string} name - Field Name
-   * @param {string} description - Field Description
-   * @param {FieldType} type - Field Type
-   * @param {boolean} isReadOnly - The field is Read Only
-   * @param {boolean} isRequired - The Field is required
+   * @param {Field} field - Field for the proposal
    */
   async addProposal(
     proposalName: string,
     comment: string,
-    name: string,
-    description: string,
-    type: FieldType,
-    isReadOnly: boolean,
-    isRequired: boolean
+    field: Field
   ) {
-    const field: Field = { name, description, type, isReadOnly, isRequired };
     const interaction = {
       function: "addProposal",
       proposalName,
