@@ -35,7 +35,11 @@ export const updateProposal = async (
     state.proposalId = status === "open" ? -1 : state.proposalId;
     state.proposals[proposalId].status = "abandoned";
     state.proposalId = -1;
-  } else if (status === "approved" && proposal.status === "open") {
+  } else if (
+    status === "approved" &&
+    proposal.status === "open" &&
+    ["major", "minor", "patch"].includes(update)
+  ) {
     // Add a new version.
     state.proposals[proposalId].status = "approved";
     switch (update) {
