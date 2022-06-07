@@ -45,6 +45,10 @@ export interface UniteSchemaState {
     major: number;
     minor: number;
     patch: number;
+    createdDate: number;
+    openDate: number;
+    abandonedDate: number;
+    approvedDate: number;
     contributors: Contributor[];
     proposals: Proposal[];
     versions: Version[];

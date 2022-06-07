@@ -20,6 +20,10 @@ exports.initialState = {
             role: "editor",
         },
     ],
+    createdDate: 0,
+    openDate: 0,
+    abandonedDate: 0,
+    approvedDate: 0,
     proposals: [],
     versions: [],
 };
