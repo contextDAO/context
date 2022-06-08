@@ -14,8 +14,10 @@ const main = async (network, walletFile) => {
     let unite = {};
     unite = await index_1.Unite.init(network);
     const wallet = JSON.parse(fs_1.default.readFileSync(walletFile).toString());
-    const standard = await unite.deployStandard(wallet, "human", "Personal information for most humans");
-    console.log("Contract deployed to: " + standard.contractAddr);
+    const human = await unite.deployStandard(wallet, "human", "Personal information for most humans");
+    console.log("@human standard: " + human.contractAddr);
+    const organization = await unite.deployStandard(wallet, "organization", "Information about organizations");
+    console.log("@organization standard: " + organization.contractAddr);
 };
 const argv = (0, minimist_1.default)(process.argv.slice(1));
 main(argv.network, argv.wallet);
