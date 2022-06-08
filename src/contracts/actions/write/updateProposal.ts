@@ -1,5 +1,3 @@
-// import {SmartWeave} from "redstone-smartweave";
-
 declare const ContractError;
 
 export const updateProposal = async (
@@ -28,8 +26,8 @@ export const updateProposal = async (
   ) {
     // Update status to open.
     state.proposals[proposalId].status = "open";
+    state.proposals[proposalId].openDate = SmartWeave.block.timestamp;
     state.proposalId = proposalId;
-    // state.openDate = SmartWeave.block.timestamp;
   } else if (
     status === "abandoned" &&
     !["approved", "abandoned"].includes(state.proposals[proposalId].status)
@@ -37,6 +35,7 @@ export const updateProposal = async (
     // Update status to abandoned. It it was open, set openProposal to -1.
     state.proposalId = status === "open" ? -1 : state.proposalId;
     state.proposals[proposalId].status = "abandoned";
+    state.proposals[proposalId].abandonedDate = SmartWeave.block.timestamp;
     state.proposalId = -1;
   } else if (
     status === "approved" &&
@@ -45,6 +44,7 @@ export const updateProposal = async (
   ) {
     // Add a new version.
     state.proposals[proposalId].status = "approved";
+    state.proposals[proposalId].approvedDate = SmartWeave.block.timestamp;
     switch (update) {
       case "major":
         state.major = state.major + 1;

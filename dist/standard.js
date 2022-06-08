@@ -98,13 +98,16 @@
     }
     if (status === "open" && proposal.status === "proposal" && state.proposalId === -1) {
       state.proposals[proposalId].status = "open";
+      state.proposals[proposalId].openDate = SmartWeave.block.timestamp;
       state.proposalId = proposalId;
     } else if (status === "abandoned" && !["approved", "abandoned"].includes(state.proposals[proposalId].status)) {
       state.proposalId = status === "open" ? -1 : state.proposalId;
       state.proposals[proposalId].status = "abandoned";
+      state.proposals[proposalId].abandonedDate = SmartWeave.block.timestamp;
       state.proposalId = -1;
     } else if (status === "approved" && proposal.status === "open" && ["major", "minor", "patch"].includes(update)) {
       state.proposals[proposalId].status = "approved";
+      state.proposals[proposalId].approvedDate = SmartWeave.block.timestamp;
       switch (update) {
         case "major":
           state.major = state.major + 1;

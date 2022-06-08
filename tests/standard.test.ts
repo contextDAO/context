@@ -305,7 +305,6 @@ describe("Testing the Unite DAO Contract", () => {
     await avatar.updateProposal(1, "approved", "major");
     await mineBlock(unite.arweave);
 
-
     avatarState = await avatar.readState();
     const schema = await avatar.getSchema();
     expect(schema.title).toEqual("avatar");
