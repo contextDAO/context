@@ -19,8 +19,8 @@ const main = async (network: Network, walletFile: string) => {
   );
   const standard: Standard = await unite.deployStandard(
     wallet,
-    "Base NFT",
-    "Basic NFT Metadata"
+    "human",
+    "Personal information for most humans"
   );
   console.log("Contract deployed to: " + standard.contractAddr);
 };

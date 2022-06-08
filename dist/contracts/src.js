@@ -64,7 +64,8 @@ const standardContractSource = `
           text: comment,
           by: caller
         }
-      ]
+      ],
+      createdDate: SmartWeave.block.timestamp
     });
     return { state };
   };

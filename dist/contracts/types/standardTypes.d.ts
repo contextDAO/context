@@ -29,9 +29,9 @@ export interface Proposal {
     field?: Field;
     comments: Comment[];
     createdDate: number;
-    openDate: number;
-    abandonedDate: number;
-    approvedDate: number;
+    openDate?: number;
+    abandonedDate?: number;
+    approvedDate?: number;
     status: ProposalStatus;
 }
 export interface Version {

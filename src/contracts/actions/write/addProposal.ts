@@ -28,6 +28,7 @@ export const addProposal = async (
         by: caller,
       },
     ],
+    createdDate: SmartWeave.block.timestamp,
   });
   return { state };
 };
