@@ -25,12 +25,29 @@ const main = async () => {
   const wallet = await prepareWallet("wallet_test_1.json");
   await prepareWallet("wallet_test_2.json");
   await prepareWallet("wallet_test_3.json");
-  const standard: Standard = await unite.deployStandard(
+  const human: Standard = await unite.deployStandard(
     wallet,
-    "Base NFT",
-    "Basic NFT Metadata"
+    "human",
+    "Personal information for most humans"
   );
-  console.log("Contract deployed to: " + standard.contractAddr);
+  console.log("@human standard: " + human.contractAddr);
+
+  const organization: Standard = await unite.deployStandard(
+    wallet,
+    "organization",
+    "Information about organizations"
+  );
+  console.log("@organization standard: " + organization.contractAddr);
+
+  const collection: Standard = await unite.deployStandard(
+    wallet,
+    "collection",
+    "Information about collections"
+  );
+  console.log("@collectionstandard: " + collection.contractAddr);
+
+
+
 };
 
 main();

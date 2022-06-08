@@ -17,12 +17,19 @@ const main = async (network: Network, walletFile: string) => {
   const wallet: JWKInterface = JSON.parse(
     fs.readFileSync(walletFile).toString()
   );
-  const standard: Standard = await unite.deployStandard(
+  const human: Standard = await unite.deployStandard(
     wallet,
     "human",
     "Personal information for most humans"
   );
-  console.log("Contract deployed to: " + standard.contractAddr);
+  console.log("@human standard: " + human.contractAddr);
+  const organization: Standard = await unite.deployStandard(
+    wallet,
+    "organization",
+    "Information about organizations"
+  );
+  console.log("@organization standard: " + organization.contractAddr);
+
 };
 
 const argv = minimist(process.argv.slice(1));
