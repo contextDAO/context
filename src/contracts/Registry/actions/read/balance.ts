@@ -1,9 +1,9 @@
 declare const ContractError;
 
 export const balance = async (
-  state: PstState,
-  { input: { target } }: PstAction
-): Promise<ContractResult> => {
+  state: RegistryState,
+  { input: { target } }: RegistryAction
+): Promise<PstResult> => {
   const ticker = state.ticker;
   const balances = state.balances;
 

@@ -27,22 +27,19 @@ const main = async () => {
   await prepareWallet("wallet_test_3.json");
   const human: Schema = await unite.deploySchema(
     wallet,
-    "human",
-    "Personal information for most humans"
+    "Human",
   );
   console.log("@human schema: " + human.contractAddr);
 
   const organization: Schema = await unite.deploySchema(
     wallet,
-    "organization",
-    "Information about organizations"
+    "Organization",
   );
   console.log("@organization schema: " + organization.contractAddr);
 
   const collection: Schema = await unite.deploySchema(
     wallet,
-    "collection",
-    "Information about collections"
+    "Collection",
   );
   console.log("@collectionschema: " + collection.contractAddr);
 

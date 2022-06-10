@@ -1,7 +1,7 @@
 import {
   SchemaState,
   Proposal,
-  Version,
+  Release,
 } from "../contracts/Schema/types/types";
 import { MetadataState } from "../contracts/Metadata/types/types";
 import { RegistryState } from "../contracts/Registry/types/types";
@@ -15,13 +15,7 @@ export const registryState: RegistryState = {
 
 export const schemaState: SchemaState = {
   title: "",
-  description: "",
-  contributorId: 0,
-  proposalId: -1,
-  versionId: -1,
-  major: 0,
-  minor: 0,
-  patch: 0,
+  releaseId: -1,
   contributors: [
     {
       address: "",
@@ -29,7 +23,7 @@ export const schemaState: SchemaState = {
     },
   ],
   proposals: <Proposal[]>[],
-  versions: <Version[]>[],
+  releases: <Release[]>[],
 };
 
 export const metadataState: MetadataState = {

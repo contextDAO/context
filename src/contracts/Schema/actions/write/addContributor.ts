@@ -14,10 +14,9 @@ export const addContributor = async (
     throw new ContractError("Caller is already a user.");
   }
 
-  state.contributors[state.contributorId + 1] = {
+  state.contributors.push({
     address: caller,
     role: "user",
-  };
-  state.contributorId++;
+  });
   return { state };
 };

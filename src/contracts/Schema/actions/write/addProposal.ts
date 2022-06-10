@@ -22,13 +22,8 @@ export const addProposal = async (
     versionId: -1,
     status: "proposal",
     field: field,
-    comments: [
-      {
-        text: comment,
-        by: caller,
-      },
-    ],
     createdDate: SmartWeave.block.timestamp,
   });
+
   return { state };
 };

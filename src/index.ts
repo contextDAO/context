@@ -8,7 +8,7 @@ import {
   Field,
   Proposal,
   ProposalStatus,
-  Version,
+  Release,
 } from "./contracts/Schema/types/types";
 
 export {
@@ -22,5 +22,5 @@ export {
   Field,
   Proposal,
   ProposalStatus,
-  Version,
+  Release,
 };

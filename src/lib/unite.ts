@@ -6,7 +6,7 @@ import {
   LoggerFactory,
 } from "redstone-smartweave";
 import { JWKInterface } from "arweave/node/lib/wallet";
-import { schemaState, metadataState } from "../utils/state";
+import { schemaState, metadataState, registryState } from "../utils/state";
 import Schema from "./schema";
 import {SchemaState } from "../contracts/Schema/types/types";
 import Metadata from "./metadata";
@@ -15,6 +15,7 @@ import {
   schemaContractSource,
   metadataContractSource,
 } from "../contracts/src";
+import {RegistryState} from "../contracts/Registry/types/types";
 
 type Network = "localhost" | "testnet" | "mainnet";
 
@@ -25,15 +26,18 @@ export default class Unite {
   network: Network;
   arweave: Arweave;
   smartweave: SmartWeave;
+  registry: string;
 
   /**
    * @Constructor
    * @param {Network} network
+   * @param {string} registryAddr
    */
-  constructor(network: Network) {
+  constructor(network: Network, registryAddr: string = ``) {
     this.network = network;
     this.arweave = {} as Arweave;
     this.smartweave = {} as SmartWeave;
+    this.registry = registryAddr;
   }
 
   /**
@@ -42,8 +46,8 @@ export default class Unite {
    * @param {Network} network
    * @return {Unite}
    */
-  static async init(network: Network): Promise<Unite> {
-    const unite = new Unite(network);
+  static async init(network: Network ): Promise<Unite> {
+    const unite = new Unite(network );
     let connection = {};
     if (network === "localhost") {
       connection = { host: "localhost", port: 1984, protocol: "http" };
@@ -112,18 +116,39 @@ export default class Unite {
    * deploySchema
    *
    * @param {JWKInterface} wallet
+   * @return {Schema}
+   */
+  async deployRegistry(
+    wallet: JWKInterface,
+  ): Promise<Schema> {
+    const state: RegistryState = registryState;
+    state.owner = await this.getAddress(wallet);
+    const contractAddr = await this.smartweave.createContract.deploy({
+      wallet,
+      initState: JSON.stringify(state),
+      src: schemaContractSource,
+    });
+
+    const contract: Contract = this.smartweave
+      .contract(contractAddr)
+      .connect(wallet);
+    const schema = new Schema(contract, contractAddr);
+    return schema;
+  }
+
+  /**
+   * deploySchema
+   *
+   * @param {JWKInterface} wallet
    * @param {string} title - Title of the schema
-   * @param {string} description - Full description
    * @return {Schema}
    */
   async deploySchema(
     wallet: JWKInterface,
     title: string,
-    description: string,
   ): Promise<Schema> {
     const state: SchemaState = schemaState;
     state.title = title;
-    state.description = description;
     state.contributors[0].address = await this.getAddress(wallet);
     const contractAddr = await this.smartweave.createContract.deploy({
       wallet,

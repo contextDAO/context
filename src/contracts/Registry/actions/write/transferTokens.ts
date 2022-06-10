@@ -1,9 +1,9 @@
 declare const ContractError;
 
 export const transferTokens = async (
-  state: PstState,
-  { caller, input: { target, qty } }: PstAction
-): Promise<ContractResult> => {
+  state: RegistryState,
+  { caller, input: { target, qty } }: RegistryAction
+): Promise<RegistryResult> => {
   const balances = state.balances;
   if (!Number.isInteger(qty)) {
     throw new ContractError("Invalid value for qty. Must be an integer");

@@ -9,7 +9,7 @@ export interface RegistryInput {
   qty: number;
 }
 
-export interface RegistryResult {
+export interface PstResult {
   target: string;
   ticker: string;
   balance: number;
@@ -24,6 +24,6 @@ export interface RegistryState {
   };
 }
 
-export type RegistryFunction = 'transfer' | 'mint' | 'balance';
+export type RegistryFunction = 'transfer' | 'mint' | 'balance' | 'register';
 
-export type ContractResult = { state: RegistryState } | { result: RegistryResult };
+export type RegistryResult = { state: RegistryState } | { result: PstResult };

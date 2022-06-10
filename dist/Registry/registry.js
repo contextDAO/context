@@ -52,6 +52,14 @@
     return { state };
   };
 
+  // src/contracts/Registry/actions/write/register.ts
+  var register = async (state, { caller, input: { qty } }) => {
+    if (qty <= 0) {
+      throw new ContractError("Invalid token mint");
+    }
+    return { state };
+  };
+
   // src/contracts/Registry/registry.ts
   async function handle(state, action) {
     const input = action.input;
@@ -62,6 +70,8 @@
         return await transferTokens(state, action);
       case "balance":
         return await balance(state, action);
+      case "register":
+        return await register(state, action);
       default:
         throw new ContractError("No function supplied or function not recognised: " + input.function);
     }

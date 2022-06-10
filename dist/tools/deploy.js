@@ -14,9 +14,9 @@ const main = async (network, walletFile) => {
     let unite = {};
     unite = await index_1.Unite.init(network);
     const wallet = JSON.parse(fs_1.default.readFileSync(walletFile).toString());
-    const human = await unite.deploySchema(wallet, "human", "Personal information for most humans");
+    const human = await unite.deploySchema(wallet, "human");
     console.log("@human schema: " + human.contractAddr);
-    const organization = await unite.deploySchema(wallet, "organization", "Information about organizations");
+    const organization = await unite.deploySchema(wallet, "organization");
     console.log("@organization schema: " + organization.contractAddr);
 };
 const argv = (0, minimist_1.default)(process.argv.slice(1));

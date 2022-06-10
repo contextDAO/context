@@ -1,10 +1,6 @@
 import { JWKInterface } from "arweave/node/lib/wallet";
-import { SchemaState, Field } from "../contracts/Schema/types/types";
+import { SchemaState, Field, UserRole, ProposalStatus } from "../contracts/Schema/types/types";
 import { Contract } from "redstone-smartweave";
-
-type Role = "user" | "contributor" | "editor";
-type ProposalStatus = "proposal" | "open" | "approved" | "abandoned";
-type UpdateVersion = "" | "major" | "minor" | "patch";
 
 /**
  * Class Schema - interactions with the standard contract.
@@ -63,7 +59,7 @@ export default class Schema {
    * @param {Role} role - can be 'user', 'editor' or 'contributor'
    * @param {string} userAddr - Address to change the role from
    */
-  async setRole(role: Role, userAddr: string) {
+  async setRole(role: UserRole, userAddr: string) {
     const interaction = { function: "setRole", userAddr, role };
     await this.contract.writeInteraction(interaction);
   }
@@ -72,31 +68,17 @@ export default class Schema {
    * addProposal - new proposal in the standard
    *
    * @param {string} proposalName
-   * @param {string} comment
    * @param {Field} field - Field for the proposal
    */
   async addProposal(
     proposalName: string,
-    comment: string,
     field: Field
   ) {
     const interaction = {
       function: "addProposal",
       proposalName,
-      comment,
       field,
     };
-    await this.contract.writeInteraction(interaction);
-  }
-
-  /**
-   * addComment
-   *
-   * @param {number} proposalId
-   * @param {string} text
-   */
-  async addComment(proposalId: number, text: string) {
-    const interaction = { function: "addComment", proposalId, text };
     await this.contract.writeInteraction(interaction);
   }
 
@@ -109,26 +91,13 @@ export default class Schema {
    */
   async updateProposal(
     proposalId: number,
-    status: ProposalStatus,
-    update: UpdateVersion = ""
+    status: ProposalStatus
   ) {
     const interaction = {
       function: "updateProposal",
       proposalId,
       status,
-      update,
     };
     await this.contract.writeInteraction(interaction);
-  }
-
-  /**
-   * getSchema
-   *
-   * @return {any}
-   */
-  async getSchema(): Promise<any> {
-    const interaction = { function: "getSchema" };
-    const result: any = await this.contract.viewState(interaction);
-    return result.result.schema;
   }
 }

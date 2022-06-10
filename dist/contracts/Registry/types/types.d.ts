@@ -7,7 +7,7 @@ export interface RegistryInput {
     target: string;
     qty: number;
 }
-export interface RegistryResult {
+export interface PstResult {
     target: string;
     ticker: string;
     balance: number;
@@ -20,9 +20,9 @@ export interface RegistryState {
         [address: string]: number;
     };
 }
-export declare type RegistryFunction = 'transfer' | 'mint' | 'balance';
-export declare type ContractResult = {
+export declare type RegistryFunction = 'transfer' | 'mint' | 'balance' | 'register';
+export declare type RegistryResult = {
     state: RegistryState;
 } | {
-    result: RegistryResult;
+    result: PstResult;
 };

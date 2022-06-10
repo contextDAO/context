@@ -7,11 +7,10 @@
     })) {
       throw new ContractError("Caller is already a user.");
     }
-    state.contributors[state.contributorId + 1] = {
+    state.contributors.push({
       address: caller,
       role: "user"
-    };
-    state.contributorId++;
+    });
     return { state };
   };
 
@@ -55,108 +54,44 @@
       versionId: -1,
       status: "proposal",
       field,
-      comments: [
-        {
-          text: comment,
-          by: caller
-        }
-      ],
       createdDate: SmartWeave.block.timestamp
     });
     return { state };
   };
 
-  // src/contracts/Schema/actions/write/addComment.ts
-  var addComment = async (state, { caller, input: { proposalId, text } }) => {
-    const contributors = state.contributors;
-    const proposer = contributors.find((element) => element.address === caller);
-    if (!proposer) {
-      throw new ContractError("Caller is not a user.");
-    }
-    if (typeof text !== "string" && text.length < 5) {
-      throw new ContractError("Invalid Comment");
-    }
-    if (!state.proposals[proposalId] || !["proposal", "open"].includes(state.proposals[proposalId].status)) {
-      throw new ContractError("Invalid Proposal");
-    }
-    state.proposals[proposalId].comments.push({
-      text,
-      by: caller
-    });
-    return { state };
-  };
-
   // src/contracts/Schema/actions/write/updateProposal.ts
-  var updateProposal = async (state, { caller, input: { proposalId, status, update } }) => {
+  var updateProposal = async (state, { caller, input: { proposalId, status } }) => {
+    const proposal = state.proposals[proposalId];
+    if (!proposal) {
+    }
+    if (!["approved", "abandoned"].includes(status) || state.proposals[proposalId] !== "proposal") {
+    }
     const editor = state.contributors.find((element) => element.address === caller);
     if (editor.role !== "editor") {
-      throw new ContractError("Caller is not the editor.");
     }
-    const proposals = state.proposals;
-    const proposal = proposals[proposalId];
-    if (!proposal) {
-      throw new ContractError("Proposal does not exist.");
-    }
-    if (status === "open" && proposal.status === "proposal" && state.proposalId === -1) {
-      state.proposals[proposalId].status = "open";
-      state.proposals[proposalId].openDate = SmartWeave.block.timestamp;
-      state.proposalId = proposalId;
-    } else if (status === "abandoned" && !["approved", "abandoned"].includes(state.proposals[proposalId].status)) {
-      state.proposalId = status === "open" ? -1 : state.proposalId;
+    if (status === "abandoned") {
       state.proposals[proposalId].status = "abandoned";
-      state.proposals[proposalId].abandonedDate = SmartWeave.block.timestamp;
-      state.proposalId = -1;
-    } else if (status === "approved" && proposal.status === "open" && ["major", "minor", "patch"].includes(update)) {
+      state.proposals[proposalId].updatedDate = SmartWeave.block.timestamp;
+    } else if (status === "approved") {
       state.proposals[proposalId].status = "approved";
-      state.proposals[proposalId].approvedDate = SmartWeave.block.timestamp;
-      switch (update) {
-        case "major":
-          state.major = state.major + 1;
-          state.minor = 0;
-          state.patch = 0;
-          break;
-        case "minor":
-          state.minor = state.minor + 1;
-          state.patch = 0;
-          break;
-        case "patch":
-          state.patch = state.patch + 1;
-          break;
-      }
-      const version = {
-        proposalId,
-        version: state.major + "." + state.minor + "." + state.patch,
-        fields: state.versionId === -1 ? [] : state.versions[state.versionId].fields
+      state.proposals[proposalId].updatedDate = SmartWeave.block.timestamp;
+      const release = {
+        fields: state.releaseId === -1 ? [] : state.releases[state.releaseId].fields
       };
-      const fieldId = version.fields.findIndex((field) => {
+      const fieldId = release.fields.findIndex((field) => {
         return field.name === proposal.field.name;
       });
       if (fieldId >= 0) {
-        version.fields[fieldId] = proposal.field;
+        release.fields[fieldId] = proposal.field;
       } else {
-        version.fields.push(proposal.field);
+        release.fields.push(proposal.field);
       }
-      state.versions.push(version);
-      state.proposalId = -1;
-      state.versionId = state.versions.length - 1;
+      state.releases.push(release);
+      state.releaseId = state.releases.length - 1;
     } else {
       throw new ContractError("Invalid option");
     }
     return { state };
-  };
-
-  // src/contracts/Schema/actions/read/getSchema.ts
-  var getSchema = async (state, { input: {} }) => {
-    let items = "";
-    if (state.versionId > -1) {
-      const fields = state.versions[state.versionId].fields;
-      fields.forEach((field) => {
-        const required = field.required === true ? "!" : "";
-        items = items + "  " + field.name + ": " + field.type + required + "\\n";
-      });
-    }
-    const schema = "type " + state.title + " {\\n" + items + "}";
-    return { result: { schema } };
   };
 
   // src/contracts/Schema/schema.ts
@@ -169,12 +104,8 @@
         return await setRole(state, action);
       case "addProposal":
         return await addProposal(state, action);
-      case "addComment":
-        return await addComment(state, action);
       case "updateProposal":
         return await updateProposal(state, action);
-      case "getSchema":
-        return await getSchema(state, action);
       default:
         throw new ContractError("No function supplied or function not recognised: " + input.function);
     }

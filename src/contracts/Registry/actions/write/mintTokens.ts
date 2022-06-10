@@ -1,9 +1,9 @@
 declare const ContractError;
 
 export const mintTokens = async (
-  state: PstState,
-  { caller, input: { qty } }: PstAction
-): Promise<ContractResult> => {
+  state: RegistryState,
+  { caller, input: { qty } }: RegistryAction
+): Promise<RegistryResult> => {
   const balances = state.balances;
 
   if (qty <= 0) {

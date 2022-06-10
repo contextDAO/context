@@ -23,11 +23,11 @@ const main = async () => {
     const wallet = await prepareWallet("wallet_test_1.json");
     await prepareWallet("wallet_test_2.json");
     await prepareWallet("wallet_test_3.json");
-    const human = await unite.deploySchema(wallet, "human", "Personal information for most humans");
+    const human = await unite.deploySchema(wallet, "Human");
     console.log("@human schema: " + human.contractAddr);
-    const organization = await unite.deploySchema(wallet, "organization", "Information about organizations");
+    const organization = await unite.deploySchema(wallet, "Organization");
     console.log("@organization schema: " + organization.contractAddr);
-    const collection = await unite.deploySchema(wallet, "collection", "Information about collections");
+    const collection = await unite.deploySchema(wallet, "Collection");
     console.log("@collectionschema: " + collection.contractAddr);
 };
 main();

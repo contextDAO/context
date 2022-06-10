@@ -57,26 +57,14 @@ class Schema {
      * addProposal - new proposal in the standard
      *
      * @param {string} proposalName
-     * @param {string} comment
      * @param {Field} field - Field for the proposal
      */
-    async addProposal(proposalName, comment, field) {
+    async addProposal(proposalName, field) {
         const interaction = {
             function: "addProposal",
             proposalName,
-            comment,
             field,
         };
-        await this.contract.writeInteraction(interaction);
-    }
-    /**
-     * addComment
-     *
-     * @param {number} proposalId
-     * @param {string} text
-     */
-    async addComment(proposalId, text) {
-        const interaction = { function: "addComment", proposalId, text };
         await this.contract.writeInteraction(interaction);
     }
     /**
@@ -86,24 +74,13 @@ class Schema {
      * @param {ProposalStatus} status
      * @param {UpdateVersion} update - Can be major, minor or patch.
      */
-    async updateProposal(proposalId, status, update = "") {
+    async updateProposal(proposalId, status) {
         const interaction = {
             function: "updateProposal",
             proposalId,
             status,
-            update,
         };
         await this.contract.writeInteraction(interaction);
-    }
-    /**
-     * getSchema
-     *
-     * @return {any}
-     */
-    async getSchema() {
-        const interaction = { function: "getSchema" };
-        const result = await this.contract.viewState(interaction);
-        return result.result.schema;
     }
 }
 exports.default = Schema;

@@ -16,11 +16,13 @@ class Unite {
     /**
      * @Constructor
      * @param {Network} network
+     * @param {string} registryAddr
      */
-    constructor(network) {
+    constructor(network, registryAddr = ``) {
         this.network = network;
         this.arweave = {};
         this.smartweave = {};
+        this.registry = registryAddr;
     }
     /**
      * Init Unite Instance
@@ -94,14 +96,32 @@ class Unite {
      * deploySchema
      *
      * @param {JWKInterface} wallet
-     * @param {string} title - Title of the schema
-     * @param {string} description - Full description
      * @return {Schema}
      */
-    async deploySchema(wallet, title, description) {
+    async deployRegistry(wallet) {
+        const state = state_1.registryState;
+        state.owner = await this.getAddress(wallet);
+        const contractAddr = await this.smartweave.createContract.deploy({
+            wallet,
+            initState: JSON.stringify(state),
+            src: src_1.schemaContractSource,
+        });
+        const contract = this.smartweave
+            .contract(contractAddr)
+            .connect(wallet);
+        const schema = new schema_1.default(contract, contractAddr);
+        return schema;
+    }
+    /**
+     * deploySchema
+     *
+     * @param {JWKInterface} wallet
+     * @param {string} title - Title of the schema
+     * @return {Schema}
+     */
+    async deploySchema(wallet, title) {
         const state = state_1.schemaState;
         state.title = title;
-        state.description = description;
         state.contributors[0].address = await this.getAddress(wallet);
         const contractAddr = await this.smartweave.createContract.deploy({
             wallet,

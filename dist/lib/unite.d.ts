@@ -11,11 +11,13 @@ export default class Unite {
     network: Network;
     arweave: Arweave;
     smartweave: SmartWeave;
+    registry: string;
     /**
      * @Constructor
      * @param {Network} network
+     * @param {string} registryAddr
      */
-    constructor(network: Network);
+    constructor(network: Network, registryAddr?: string);
     /**
      * Init Unite Instance
      *
@@ -51,11 +53,17 @@ export default class Unite {
      * deploySchema
      *
      * @param {JWKInterface} wallet
-     * @param {string} title - Title of the schema
-     * @param {string} description - Full description
      * @return {Schema}
      */
-    deploySchema(wallet: JWKInterface, title: string, description: string): Promise<Schema>;
+    deployRegistry(wallet: JWKInterface): Promise<Schema>;
+    /**
+     * deploySchema
+     *
+     * @param {JWKInterface} wallet
+     * @param {string} title - Title of the schema
+     * @return {Schema}
+     */
+    deploySchema(wallet: JWKInterface, title: string): Promise<Schema>;
     /**
      * deployMetadata
      *

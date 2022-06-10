@@ -1,9 +1,6 @@
 import { JWKInterface } from "arweave/node/lib/wallet";
-import { SchemaState, Field } from "../contracts/Schema/types/types";
+import { SchemaState, Field, UserRole, ProposalStatus } from "../contracts/Schema/types/types";
 import { Contract } from "redstone-smartweave";
-declare type Role = "user" | "contributor" | "editor";
-declare type ProposalStatus = "proposal" | "open" | "approved" | "abandoned";
-declare type UpdateVersion = "" | "major" | "minor" | "patch";
 /**
  * Class Schema - interactions with the standard contract.
  */
@@ -42,22 +39,14 @@ export default class Schema {
      * @param {Role} role - can be 'user', 'editor' or 'contributor'
      * @param {string} userAddr - Address to change the role from
      */
-    setRole(role: Role, userAddr: string): Promise<void>;
+    setRole(role: UserRole, userAddr: string): Promise<void>;
     /**
      * addProposal - new proposal in the standard
      *
      * @param {string} proposalName
-     * @param {string} comment
      * @param {Field} field - Field for the proposal
      */
-    addProposal(proposalName: string, comment: string, field: Field): Promise<void>;
-    /**
-     * addComment
-     *
-     * @param {number} proposalId
-     * @param {string} text
-     */
-    addComment(proposalId: number, text: string): Promise<void>;
+    addProposal(proposalName: string, field: Field): Promise<void>;
     /**
      * updateProposal
      *
@@ -65,12 +54,5 @@ export default class Schema {
      * @param {ProposalStatus} status
      * @param {UpdateVersion} update - Can be major, minor or patch.
      */
-    updateProposal(proposalId: number, status: ProposalStatus, update?: UpdateVersion): Promise<void>;
-    /**
-     * getSchema
-     *
-     * @return {any}
-     */
-    getSchema(): Promise<any>;
+    updateProposal(proposalId: number, status: ProposalStatus): Promise<void>;
 }
-export {};

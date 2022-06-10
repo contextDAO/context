@@ -20,13 +20,11 @@ const main = async (network: Network, walletFile: string) => {
   const human: Schema = await unite.deploySchema(
     wallet,
     "human",
-    "Personal information for most humans"
   );
   console.log("@human schema: " + human.contractAddr);
   const organization: Schema = await unite.deploySchema(
     wallet,
     "organization",
-    "Information about organizations"
   );
   console.log("@organization schema: " + organization.contractAddr);
 
