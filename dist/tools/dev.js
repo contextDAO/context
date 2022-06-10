@@ -23,11 +23,11 @@ const main = async () => {
     const wallet = await prepareWallet("wallet_test_1.json");
     await prepareWallet("wallet_test_2.json");
     await prepareWallet("wallet_test_3.json");
-    const human = await unite.deployStandard(wallet, "human", "Personal information for most humans");
-    console.log("@human standard: " + human.contractAddr);
-    const organization = await unite.deployStandard(wallet, "organization", "Information about organizations");
-    console.log("@organization standard: " + organization.contractAddr);
-    const collection = await unite.deployStandard(wallet, "collection", "Information about collections");
-    console.log("@collectionstandard: " + collection.contractAddr);
+    const human = await unite.deploySchema(wallet, "human", "Personal information for most humans");
+    console.log("@human schema: " + human.contractAddr);
+    const organization = await unite.deploySchema(wallet, "organization", "Information about organizations");
+    console.log("@organization schema: " + organization.contractAddr);
+    const collection = await unite.deploySchema(wallet, "collection", "Information about collections");
+    console.log("@collectionschema: " + collection.contractAddr);
 };
 main();

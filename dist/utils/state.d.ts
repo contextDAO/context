@@ -1,4 +1,6 @@
-import { UniteSchemaState } from "../contracts/types/standardTypes";
-import { MetadataSchemaState } from "../contracts/types/metadataTypes";
-export declare const initialState: UniteSchemaState;
-export declare const initialMetadata: MetadataSchemaState;
+import { SchemaState } from "../contracts/Schema/types/types";
+import { MetadataState } from "../contracts/Metadata/types/types";
+import { RegistryState } from "../contracts/Registry/types/types";
+export declare const registryState: RegistryState;
+export declare const schemaState: SchemaState;
+export declare const metadataState: MetadataState;

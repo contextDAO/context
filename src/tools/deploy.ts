@@ -1,7 +1,7 @@
 import fs from "fs";
 import minimist from "minimist";
 import { JWKInterface } from "arweave/node/lib/wallet";
-import { Unite, Standard } from "../index";
+import { Unite, Schema } from "../index";
 
 type Network = "localhost" | "testnet" | "mainnet";
 const main = async (network: Network, walletFile: string) => {
@@ -17,18 +17,18 @@ const main = async (network: Network, walletFile: string) => {
   const wallet: JWKInterface = JSON.parse(
     fs.readFileSync(walletFile).toString()
   );
-  const human: Standard = await unite.deployStandard(
+  const human: Schema = await unite.deploySchema(
     wallet,
     "human",
     "Personal information for most humans"
   );
-  console.log("@human standard: " + human.contractAddr);
-  const organization: Standard = await unite.deployStandard(
+  console.log("@human schema: " + human.contractAddr);
+  const organization: Schema = await unite.deploySchema(
     wallet,
     "organization",
     "Information about organizations"
   );
-  console.log("@organization standard: " + organization.contractAddr);
+  console.log("@organization schema: " + organization.contractAddr);
 
 };
 

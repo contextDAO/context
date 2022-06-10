@@ -1,17 +1,21 @@
 import {
-  UniteSchemaState,
+  SchemaState,
   Proposal,
   Version,
-} from "../contracts/types/standardTypes";
-import { MetadataSchemaState } from "../contracts/types/metadataTypes";
+} from "../contracts/Schema/types/types";
+import { MetadataState } from "../contracts/Metadata/types/types";
+import { RegistryState } from "../contracts/Registry/types/types";
 
-export const initialState: UniteSchemaState = {
+export const registryState: RegistryState = {
+  ticker: "UDAO",
+  name: "Unite DAO Credits",
+  owner: "",
+  balances: {},
+}
+
+export const schemaState: SchemaState = {
   title: "",
   description: "",
-  from: {
-    standardId: "",
-    version: 0,
-  },
   contributorId: 0,
   proposalId: -1,
   versionId: -1,
@@ -28,7 +32,7 @@ export const initialState: UniteSchemaState = {
   versions: <Version[]>[],
 };
 
-export const initialMetadata: MetadataSchemaState = {
+export const metadataState: MetadataState = {
   title: "",
   description: "",
 };

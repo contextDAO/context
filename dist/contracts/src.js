@@ -1,9 +1,81 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.metadataContractSource = exports.standardContractSource = void 0;
-const standardContractSource = `
+exports.metadataContractSource = exports.schemaContractSource = exports.registryContractSource = void 0;
+const registryContractSource = `
 (() => {
-  // src/contracts/actions/write/addContributor.ts
+  // src/contracts/Registry/actions/read/balance.ts
+  var balance = async (state, { input: { target } }) => {
+    const ticker = state.ticker;
+    const balances = state.balances;
+    if (typeof target !== "string") {
+      throw new ContractError("Must specify target to get balance for");
+    }
+    if (typeof balances[target] !== "number") {
+      throw new ContractError("Cannot get balance, target does not exist");
+    }
+    return { result: { target, ticker, balance: balances[target] } };
+  };
+
+  // src/contracts/Registry/actions/write/mintTokens.ts
+  var mintTokens = async (state, { caller, input: { qty } }) => {
+    const balances = state.balances;
+    if (qty <= 0) {
+      throw new ContractError("Invalid token mint");
+    }
+    if (!Number.isInteger(qty)) {
+      throw new ContractError("Invalid value for qty. Must be an integer");
+    }
+    balances[caller] ? balances[caller] += qty : balances[caller] = qty;
+    return { state };
+  };
+
+  // src/contracts/Registry/actions/write/transferTokens.ts
+  var transferTokens = async (state, { caller, input: { target, qty } }) => {
+    const balances = state.balances;
+    if (!Number.isInteger(qty)) {
+      throw new ContractError("Invalid value for qty. Must be an integer");
+    }
+    if (!target) {
+      throw new ContractError("No target specified");
+    }
+    if (qty <= 0 || caller === target) {
+      throw new ContractError("Invalid token transfer");
+    }
+    if (!balances[caller]) {
+      throw new ContractError("Caller balance is not defined!");
+    }
+    if (balances[caller] < qty) {
+      throw new ContractError("Caller balance not high enough to send token(s)!");
+    }
+    balances[caller] -= qty;
+    if (target in balances) {
+      balances[target] += qty;
+    } else {
+      balances[target] = qty;
+    }
+    return { state };
+  };
+
+  // src/contracts/Registry/registry.ts
+  async function handle(state, action) {
+    const input = action.input;
+    switch (input.function) {
+      case "mint":
+        return await mintTokens(state, action);
+      case "transfer":
+        return await transferTokens(state, action);
+      case "balance":
+        return await balance(state, action);
+      default:
+        throw new ContractError("No function supplied or function not recognised: " + input.function);
+    }
+  }
+})();
+`;
+exports.registryContractSource = registryContractSource;
+const schemaContractSource = `
+(() => {
+  // src/contracts/Schema/actions/write/addContributor.ts
   var addContributor = async (state, { caller }) => {
     const contributors = state.contributors;
     if (contributors.find((element) => {
@@ -19,7 +91,7 @@ const standardContractSource = `
     return { state };
   };
 
-  // src/contracts/actions/write/setRole.ts
+  // src/contracts/Schema/actions/write/setRole.ts
   var setRole = async (state, { caller, input: { userAddr, role } }) => {
     const contributors = state.contributors;
     const editor = contributors.find((element) => element.address === caller);
@@ -43,7 +115,7 @@ const standardContractSource = `
     return { state };
   };
 
-  // src/contracts/actions/write/addProposal.ts
+  // src/contracts/Schema/actions/write/addProposal.ts
   var addProposal = async (state, { caller, input: { proposalName, comment, field } }) => {
     const contributors = state.contributors;
     const proposer = contributors.find((element) => element.address === caller);
@@ -70,7 +142,7 @@ const standardContractSource = `
     return { state };
   };
 
-  // src/contracts/actions/write/addComment.ts
+  // src/contracts/Schema/actions/write/addComment.ts
   var addComment = async (state, { caller, input: { proposalId, text } }) => {
     const contributors = state.contributors;
     const proposer = contributors.find((element) => element.address === caller);
@@ -90,7 +162,7 @@ const standardContractSource = `
     return { state };
   };
 
-  // src/contracts/actions/write/updateProposal.ts
+  // src/contracts/Schema/actions/write/updateProposal.ts
   var updateProposal = async (state, { caller, input: { proposalId, status, update } }) => {
     const editor = state.contributors.find((element) => element.address === caller);
     if (editor.role !== "editor") {
@@ -149,63 +221,21 @@ const standardContractSource = `
     return { state };
   };
 
-  // src/contracts/actions/read/getSchema.ts
+  // src/contracts/Schema/actions/read/getSchema.ts
   var getSchema = async (state, { input: {} }) => {
-    const schema = {
-      $schema: "https://json-schema.org/draft/2020-12/schema",
-      $id: "ar://" + SmartWeave.transaction.id + "/" + state.versionId,
-      title: state.title,
-      description: state.description,
-      type: "object",
-      properties: {}
-    };
+    let items = "";
     if (state.versionId > -1) {
-      const requiredFields = [];
-      let fields = state.versions[state.versionId].fields;
-      if (state.from.standardId !== "") {
-        const standardState = await SmartWeave.contracts.readContractState(state.from.standardId);
-        const version = standardState.versions[standardState.versionId];
-        fields = [...version.fields, ...fields];
-      }
+      const fields = state.versions[state.versionId].fields;
       fields.forEach((field) => {
-        schema.properties[field.name] = {
-          description: field.description,
-          type: field.type
-        };
-        if (["integer", "number"].includes(field.type)) {
-          if (field.min) {
-            schema.properties[field.name].minimum = field.min;
-          }
-          if (field.max) {
-            schema.properties[field.name].maximum = field.max;
-          }
-        }
-        if (field.type === "string") {
-          if (field.min) {
-            schema.properties[field.name].minLength = field.min;
-          }
-          if (field.max) {
-            schema.properties[field.name].maxLength = field.max;
-          }
-        }
-        if (field.enum) {
-          schema.properties[field.name].enum = field.enum;
-        }
-        if (field.readOnly) {
-          schema.properties[field.name].readOnly = true;
-        }
-        if (field.required) {
-          requiredFields.push(field.name);
-        }
+        const required = field.required === true ? "!" : "";
+        items = items + "  " + field.name + ": " + field.type + required + "\\n";
       });
-      if (requiredFields.length > 0) {
-        schema.required = requiredFields;
-      }
     }
+    const schema = "type " + state.title + " {\\n" + items + "}";
     return { result: { schema } };
   };
 
-  // src/contracts/standard.ts
+  // src/contracts/Schema/schema.ts
   async function handle(state, action) {
     const input = action.input;
     switch (input.function) {
@@ -227,10 +257,10 @@ const standardContractSource = `
   }
 })();
 `;
-exports.standardContractSource = standardContractSource;
+exports.schemaContractSource = schemaContractSource;
 const metadataContractSource = `
 (() => {
-  // src/contracts/metadata.ts
+  // src/contracts/Metadata/metadata.ts
   async function handle(state, action) {
     const input = action.input;
     switch (input.function) {

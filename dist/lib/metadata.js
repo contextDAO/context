@@ -19,7 +19,7 @@ class Metadata {
     /**
      * readState
      *
-     * @return {MetadataSchemaState}
+     * @return {MetadataState}
      */
     async readState() {
         const initialState = await this.contract.readState();

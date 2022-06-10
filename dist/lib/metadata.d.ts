@@ -1,5 +1,5 @@
 import { JWKInterface } from "arweave/node/lib/wallet";
-import { MetadataSchemaState } from "../contracts/types/metadataTypes";
+import { MetadataState } from "../contracts/Metadata/types/types";
 import { Contract } from "redstone-smartweave";
 /**
  * Class Metadata - interactions with the metadata contract.
@@ -19,9 +19,9 @@ export default class Metadata {
     /**
      * readState
      *
-     * @return {MetadataSchemaState}
+     * @return {MetadataState}
      */
-    readState(): Promise<MetadataSchemaState>;
+    readState(): Promise<MetadataState>;
     /**
      * connect
      *

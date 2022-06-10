@@ -1,13 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.initialMetadata = exports.initialState = void 0;
-exports.initialState = {
+exports.metadataState = exports.schemaState = exports.registryState = void 0;
+exports.registryState = {
+    ticker: "UDAO",
+    name: "Unite DAO Credits",
+    owner: "",
+    balances: {},
+};
+exports.schemaState = {
     title: "",
     description: "",
-    from: {
-        standardId: "",
-        version: 0,
-    },
     contributorId: 0,
     proposalId: -1,
     versionId: -1,
@@ -23,7 +25,7 @@ exports.initialState = {
     proposals: [],
     versions: [],
 };
-exports.initialMetadata = {
+exports.metadataState = {
     title: "",
     description: "",
 };

@@ -1,27 +1,25 @@
 import Unite from "./lib/unite";
 import { JWKInterface } from "arweave/node/lib/wallet";
-import Standard from "./lib/standard";
+import Schema from "./lib/schema";
 import { testWallet, mineBlock } from "./utils/local";
-import { initialState } from "./utils/state";
+import { schemaState } from "./utils/state";
 import {
-  UniteSchemaState,
+  SchemaState,
   Field,
-  FieldType,
   Proposal,
   ProposalStatus,
   Version,
-} from "./contracts/types/standardTypes";
+} from "./contracts/Schema/types/types";
 
 export {
   Unite,
-  Standard,
+  Schema,
   testWallet,
   mineBlock,
-  initialState,
   JWKInterface,
-  UniteSchemaState,
+  SchemaState,
+  schemaState,
   Field,
-  FieldType,
   Proposal,
   ProposalStatus,
   Version,

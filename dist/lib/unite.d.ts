@@ -1,8 +1,7 @@
 import Arweave from "arweave";
 import { SmartWeave } from "redstone-smartweave";
 import { JWKInterface } from "arweave/node/lib/wallet";
-import Standard from "./standard";
-import { StandardFrom } from "../contracts/types/standardTypes";
+import Schema from "./schema";
 import Metadata from "./metadata";
 declare type Network = "localhost" | "testnet" | "mainnet";
 /**
@@ -42,27 +41,26 @@ export default class Unite {
      */
     getBalance(wallet: string | JWKInterface): Promise<number>;
     /**
-     * getStandard
+     * getSchema
      *
      * @param {string} contractAddr
-     * @return {Standard}
+     * @return {Schema}
      */
-    getStandard(contractAddr: string): Promise<Standard>;
+    getSchema(contractAddr: string): Promise<Schema>;
     /**
-     * deployStandard
+     * deploySchema
      *
      * @param {JWKInterface} wallet
-     * @param {string} title - Title of the standard
+     * @param {string} title - Title of the schema
      * @param {string} description - Full description
-     * @param {StandardFrom} standardFrom - Inherits from
-     * @return {Standard}
+     * @return {Schema}
      */
-    deployStandard(wallet: JWKInterface, title: string, description: string, standardFrom?: StandardFrom): Promise<Standard>;
+    deploySchema(wallet: JWKInterface, title: string, description: string): Promise<Schema>;
     /**
      * deployMetadata
      *
      * @param {JWKInterface} wallet
-     * @param {string} title - Title of the standard
+     * @param {string} title - Title of the schema
      * @param {string} description - Full description
      * @return {Metadata}
      */

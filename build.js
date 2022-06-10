@@ -2,7 +2,11 @@ const fs = require("fs");
 const { build } = require("esbuild");
 const replace = require("replace-in-file");
 
-const contracts = ["/contracts/standard.ts", "/contracts/metadata.ts"];
+const contracts = [
+  "/contracts/Registry/registry.ts",
+  "/contracts/Schema/schema.ts",
+  "/contracts/Metadata/metadata.ts",
+];
 
 build({
   entryPoints: contracts.map((source) => {
@@ -24,12 +28,14 @@ build({
       to: "",
       countMatches: true,
     });
-    const standard = fs.readFileSync("./dist/standard.js").toString();
-    const metadata = fs.readFileSync("./dist/metadata.js").toString();
+    const registry = fs.readFileSync("./dist/Registry/registry.js").toString();
+    const schema = fs.readFileSync("./dist/Schema/schema.js").toString();
+    const metadata = fs.readFileSync("./dist/Metadata/metadata.js").toString();
     const fileContents = `
-      const standardContractSource : string = \`\n${standard}\`;
+      const registryContractSource : string = \`\n${registry}\`;
+      const schemaContractSource : string = \`\n${schema}\`;
       const metadataContractSource : string = \`\n${metadata}\`;
-      export {standardContractSource, metadataContractSource };
+      export {registryContractSource, schemaContractSource, metadataContractSource };
     `;
     fs.writeFileSync("./src/contracts/src.ts", fileContents);
   });

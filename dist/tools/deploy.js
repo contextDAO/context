@@ -14,10 +14,10 @@ const main = async (network, walletFile) => {
     let unite = {};
     unite = await index_1.Unite.init(network);
     const wallet = JSON.parse(fs_1.default.readFileSync(walletFile).toString());
-    const human = await unite.deployStandard(wallet, "human", "Personal information for most humans");
-    console.log("@human standard: " + human.contractAddr);
-    const organization = await unite.deployStandard(wallet, "organization", "Information about organizations");
-    console.log("@organization standard: " + organization.contractAddr);
+    const human = await unite.deploySchema(wallet, "human", "Personal information for most humans");
+    console.log("@human schema: " + human.contractAddr);
+    const organization = await unite.deploySchema(wallet, "organization", "Information about organizations");
+    console.log("@organization schema: " + organization.contractAddr);
 };
 const argv = (0, minimist_1.default)(process.argv.slice(1));
 main(argv.network, argv.wallet);

@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const arweave_1 = __importDefault(require("arweave"));
 const redstone_smartweave_1 = require("redstone-smartweave");
 const state_1 = require("../utils/state");
-const standard_1 = __importDefault(require("./standard"));
+const schema_1 = __importDefault(require("./schema"));
 const metadata_1 = __importDefault(require("./metadata"));
 const src_1 = require("../contracts/src");
 /**
@@ -80,54 +80,50 @@ class Unite {
         return parseFloat(ar);
     }
     /**
-     * getStandard
+     * getSchema
      *
      * @param {string} contractAddr
-     * @return {Standard}
+     * @return {Schema}
      */
-    async getStandard(contractAddr) {
+    async getSchema(contractAddr) {
         const contract = this.smartweave.contract(contractAddr);
-        const standard = new standard_1.default(contract, contractAddr);
-        return standard;
+        const schema = new schema_1.default(contract, contractAddr);
+        return schema;
     }
     /**
-     * deployStandard
+     * deploySchema
      *
      * @param {JWKInterface} wallet
-     * @param {string} title - Title of the standard
+     * @param {string} title - Title of the schema
      * @param {string} description - Full description
-     * @param {StandardFrom} standardFrom - Inherits from
-     * @return {Standard}
+     * @return {Schema}
      */
-    async deployStandard(wallet, title, description, standardFrom = {}) {
-        const state = state_1.initialState;
+    async deploySchema(wallet, title, description) {
+        const state = state_1.schemaState;
         state.title = title;
         state.description = description;
         state.contributors[0].address = await this.getAddress(wallet);
-        if (standardFrom.standardId) {
-            state.from = standardFrom;
-        }
         const contractAddr = await this.smartweave.createContract.deploy({
             wallet,
             initState: JSON.stringify(state),
-            src: src_1.standardContractSource,
+            src: src_1.schemaContractSource,
         });
         const contract = this.smartweave
             .contract(contractAddr)
             .connect(wallet);
-        const standard = new standard_1.default(contract, contractAddr);
-        return standard;
+        const schema = new schema_1.default(contract, contractAddr);
+        return schema;
     }
     /**
      * deployMetadata
      *
      * @param {JWKInterface} wallet
-     * @param {string} title - Title of the standard
+     * @param {string} title - Title of the schema
      * @param {string} description - Full description
      * @return {Metadata}
      */
     async deployMetadata(wallet, title, description) {
-        const state = state_1.initialMetadata;
+        const state = state_1.metadataState;
         state.title = title;
         state.description = description;
         const contractAddr = await this.smartweave.createContract.deploy({

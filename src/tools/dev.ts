@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import Arlocal from "arlocal";
 import { JWKInterface } from "arweave/node/lib/wallet";
-import { Unite, Standard } from "../index";
+import { Unite, Schema } from "../index";
 
 let arlocal: Arlocal;
 let unite: Unite;
@@ -25,26 +25,26 @@ const main = async () => {
   const wallet = await prepareWallet("wallet_test_1.json");
   await prepareWallet("wallet_test_2.json");
   await prepareWallet("wallet_test_3.json");
-  const human: Standard = await unite.deployStandard(
+  const human: Schema = await unite.deploySchema(
     wallet,
     "human",
     "Personal information for most humans"
   );
-  console.log("@human standard: " + human.contractAddr);
+  console.log("@human schema: " + human.contractAddr);
 
-  const organization: Standard = await unite.deployStandard(
+  const organization: Schema = await unite.deploySchema(
     wallet,
     "organization",
     "Information about organizations"
   );
-  console.log("@organization standard: " + organization.contractAddr);
+  console.log("@organization schema: " + organization.contractAddr);
 
-  const collection: Standard = await unite.deployStandard(
+  const collection: Schema = await unite.deploySchema(
     wallet,
     "collection",
     "Information about collections"
   );
-  console.log("@collectionstandard: " + collection.contractAddr);
+  console.log("@collectionschema: " + collection.contractAddr);
 
 
 

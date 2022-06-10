@@ -6,16 +6,13 @@ import {
   LoggerFactory,
 } from "redstone-smartweave";
 import { JWKInterface } from "arweave/node/lib/wallet";
-import { initialState, initialMetadata } from "../utils/state";
-import Standard from "./standard";
-import {
-  UniteSchemaState,
-  StandardFrom,
-} from "../contracts/types/standardTypes";
+import { schemaState, metadataState } from "../utils/state";
+import Schema from "./schema";
+import {SchemaState } from "../contracts/Schema/types/types";
 import Metadata from "./metadata";
-import { MetadataSchemaState } from "../contracts/types/metadataTypes";
+import { MetadataState } from "../contracts/Metadata/types/types";
 import {
-  standardContractSource,
+  schemaContractSource,
   metadataContractSource,
 } from "../contracts/src";
 
@@ -100,57 +97,52 @@ export default class Unite {
   }
 
   /**
-   * getStandard
+   * getSchema
    *
    * @param {string} contractAddr
-   * @return {Standard}
+   * @return {Schema}
    */
-  async getStandard(contractAddr: string): Promise<Standard> {
+  async getSchema(contractAddr: string): Promise<Schema> {
     const contract: Contract = this.smartweave.contract(contractAddr);
-    const standard = new Standard(contract, contractAddr);
-    return standard;
+    const schema = new Schema(contract, contractAddr);
+    return schema;
   }
 
   /**
-   * deployStandard
+   * deploySchema
    *
    * @param {JWKInterface} wallet
-   * @param {string} title - Title of the standard
+   * @param {string} title - Title of the schema
    * @param {string} description - Full description
-   * @param {StandardFrom} standardFrom - Inherits from
-   * @return {Standard}
+   * @return {Schema}
    */
-  async deployStandard(
+  async deploySchema(
     wallet: JWKInterface,
     title: string,
     description: string,
-    standardFrom: StandardFrom = {} as StandardFrom
-  ): Promise<Standard> {
-    const state: UniteSchemaState = initialState;
+  ): Promise<Schema> {
+    const state: SchemaState = schemaState;
     state.title = title;
     state.description = description;
     state.contributors[0].address = await this.getAddress(wallet);
-    if (standardFrom.standardId) {
-      state.from = standardFrom;
-    }
     const contractAddr = await this.smartweave.createContract.deploy({
       wallet,
       initState: JSON.stringify(state),
-      src: standardContractSource,
+      src: schemaContractSource,
     });
 
     const contract: Contract = this.smartweave
       .contract(contractAddr)
       .connect(wallet);
-    const standard = new Standard(contract, contractAddr);
-    return standard;
+    const schema = new Schema(contract, contractAddr);
+    return schema;
   }
 
   /**
    * deployMetadata
    *
    * @param {JWKInterface} wallet
-   * @param {string} title - Title of the standard
+   * @param {string} title - Title of the schema
    * @param {string} description - Full description
    * @return {Metadata}
    */
@@ -159,7 +151,7 @@ export default class Unite {
     title: string,
     description: string
   ): Promise<Metadata> {
-    const state: MetadataSchemaState = initialMetadata;
+    const state: MetadataState = metadataState;
     state.title = title;
     state.description = description;
     const contractAddr = await this.smartweave.createContract.deploy({
