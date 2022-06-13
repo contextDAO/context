@@ -6,6 +6,7 @@ import {
   LoggerFactory,
 } from "redstone-smartweave";
 import { JWKInterface } from "arweave/node/lib/wallet";
+import { RegistryState } from "../contracts/Registry/types/types";
 import { schemaState, metadataState, registryState } from "../utils/state";
 import Schema from "./schema";
 import {SchemaState } from "../contracts/Schema/types/types";
@@ -15,7 +16,6 @@ import {
   schemaContractSource,
   metadataContractSource,
 } from "../contracts/src";
-import {RegistryState} from "../contracts/Registry/types/types";
 
 type Network = "localhost" | "testnet" | "mainnet";
 
@@ -47,7 +47,7 @@ export default class Unite {
    * @return {Unite}
    */
   static async init(network: Network ): Promise<Unite> {
-    const unite = new Unite(network );
+    const unite = new Unite( network );
     let connection = {};
     if (network === "localhost") {
       connection = { host: "localhost", port: 1984, protocol: "http" };
@@ -110,6 +110,25 @@ export default class Unite {
     const contract: Contract = this.smartweave.contract(contractAddr);
     const schema = new Schema(contract, contractAddr);
     return schema;
+  }
+
+  /**
+   * geDefinitiont
+   *
+   * @param {SchemaState} state - State of the schema
+   * @return {string}
+   */
+  async getDefinition(state: SchemaState): Promise<string> {
+    let definition: string = ``;
+    definition += `type ${state.title} {\n`;
+    state.releases[state.releaseId].fields.map((field) => {
+      const req = field.required === true ? `!` : ``;
+      const op = field.array === true ? `[` : ``;
+      const cl  = field.array === true ? `]` : ``;
+      definition += `  ${field.name}: ${op}${field.type}${cl}${req}\n`;
+    })
+    definition += `}`;
+    return definition;
   }
 
   /**

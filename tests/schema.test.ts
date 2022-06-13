@@ -24,16 +24,11 @@ describe("Testing the Unite DAO Schemas Contract", () => {
     expect(state.contributors[0].role).toEqual("editor");
   });
 
-  it("Should get the schema", async () => {
+  it("Should get the state", async () => {
     const st = await global.unite.getSchema(schema.contractAddr);
     const state1: SchemaState = await schema.readState();
     const state2: SchemaState = await st.readState();
     expect(state1).toEqual(state2);
-  });
-
-  it("Should get an empty Schema", async () => {
-    // const graphQLschema= await schema.getSchema();
-    // expect(graphQLschema).toEqual(`type Human {\n}`);
   });
 
   it("should add a contributor", async () => {
@@ -68,7 +63,6 @@ describe("Testing the Unite DAO Schemas Contract", () => {
         description: "Name of the human",
         type: "String",
         required: true,
-        maximum: 20,
       } as Field
     );
     await mineBlock(global.unite.arweave);
@@ -132,79 +126,33 @@ describe("Testing the Unite DAO Schemas Contract", () => {
     expect(state.releaseId).toEqual(1);
   });
 
+  it("should add an array of objects", async () => {
+    await schema.addProposal(
+      "prop#4",
+      {
+        name: "proofs",
+        description: "New description",
+        type: "Proof",
+        array: true,
+        required: false,
+      } as Field
+    );
+    await mineBlock(global.unite.arweave);
+    await schema.updateProposal(3, "approved");
+    await mineBlock(global.unite.arweave);
+    const state: SchemaState = await schema.readState();
+    expect(state.proposals[3].status).toEqual("approved");
+    expect(state.releases[2].fields[1]?.name).toEqual("proofs");
+    expect(state.releases[2].fields[1]?.description).toEqual("New description");
+    expect(state.releases[2].fields[1]?.type).toEqual("Proof");
+    expect(state.releases[2].fields[1]?.array).toEqual(true);
+    expect(state.releaseId).toEqual(2);
+  });
 
   it("should get the last proposal", async () => {
-    // const graphQLschema = await schema.getSchema();
-    // expect(graphQLschema).toEqual(`type Human {\n  name: Int!\n}`);
-  });
-
-/*
-  it("should add a contract with inheritance", async () => {
     const state: SchemaState = await schema.readState();
-    const schemaFrom: SchemaFrom = {
-      schemaId: schema.contractAddr,
-      version: state.releaseId,
-    };
-    const avatar = await global.unite.deploySchema(
-      global.wallet,
-      "avatar",
-      "NFT Avatars",
-      schemaFrom
-    );
-    await avatar.connect(global.wallet);
-    await mineBlock(global.unite.arweave);
-    let avatarState: SchemaState = await avatar.readState();
-    expect(avatarState.from.schemaId).toEqual(schema.contractAddr);
-    expect(avatarState.from.version).toEqual(2);
-    await avatar.addProposal(
-      "prop#1",
-      "com#1",
-      {
-        name: "level",
-        description: "level",
-        type: "Int",
-        required: true,
-      } as Field
-    );
- 
-    await mineBlock(global.unite.arweave);
-    await avatar.updateProposal(0, "open");
-    await mineBlock(global.unite.arweave);
-    await avatar.updateProposal(0, "approved", "major");
-    await mineBlock(global.unite.arweave);
-
-    await avatar.addProposal(
-      "prop#2",
-      "com#1",
-      {
-        name: "status",
-        description: "Status of the player",
-        type: "String",
-      } as Field
-    );
- 
-    await mineBlock(global.unite.arweave);
-    await avatar.updateProposal(1, "open");
-    await mineBlock(global.unite.arweave);
-    await avatar.updateProposal(1, "approved", "major");
-    await mineBlock(global.unite.arweave);
-
-    avatarState = await avatar.readState();
-    const schema = await avatar.getSchema();
-    expect(schema.title).toEqual("avatar");
-    expect(schema.description).toEqual("NFT Avatars");
-    expect(schema.properties["field#1"]).toEqual({
-      description: "New description",
-      type: "Int",
-    });
-    expect(schema.properties["level"]).toEqual({
-      description: "level",
-      type: "Int",
-    });
-    expect(schema.required).toEqual(['level']);
+    const graphQLschema = await global.unite.getDefinition(state);
+    expect(graphQLschema).toEqual(`type Human {\n  name: Int!\n  proofs: [Proof]\n}`);
   });
 
-  it("should add a collection of NFTs", async () => {
-  });
-  */
 });

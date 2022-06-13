@@ -6,8 +6,8 @@ const setup = async (): Promise<void> => {
   global.arweave = new ArLocal(1984, false);
   await global.arweave.start();
 
-  const registryAddr = await Unite.depployRegistry();
-  global.unite = await Unite.init("localhost", registryAddr);
+  // const registryAddr = await Unite.depployRegistry();
+  global.unite = await Unite.init("localhost" );
 
   global.wallet = await testWallet(global.unite.arweave);
   global.walletAddress = await global.unite.getAddress(global.wallet);
