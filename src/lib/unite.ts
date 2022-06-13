@@ -121,12 +121,14 @@ export default class Unite {
   async getDefinition(state: SchemaState): Promise<string> {
     let definition: string = ``;
     definition += `type ${state.title} {\n`;
-    state.releases[state.releaseId].fields.map((field) => {
-      const req = field.required === true ? `!` : ``;
-      const op = field.array === true ? `[` : ``;
-      const cl  = field.array === true ? `]` : ``;
-      definition += `  ${field.name}: ${op}${field.type}${cl}${req}\n`;
-    })
+    if (state.releaseId > -1) {
+      state.releases[state.releaseId].fields.map((field) => {
+        const req = field.required === true ? `!` : ``;
+        const op = field.array === true ? `[` : ``;
+        const cl  = field.array === true ? `]` : ``;
+        definition += `  ${field.name}: ${op}${field.type}${cl}${req}\n`;
+      })
+    }
     definition += `}`;
     return definition;
   }

@@ -1,6 +1,6 @@
 {
   "name": "@unitedao/unite",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "Unite DAO base contracts AND SDK",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
