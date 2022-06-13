@@ -93,6 +93,24 @@ class Unite {
         return schema;
     }
     /**
+     * geDefinitiont
+     *
+     * @param {SchemaState} state - State of the schema
+     * @return {string}
+     */
+    async getDefinition(state) {
+        let definition = ``;
+        definition += `type ${state.title} {\n`;
+        state.releases[state.releaseId].fields.map((field) => {
+            const req = field.required === true ? `!` : ``;
+            const op = field.array === true ? `[` : ``;
+            const cl = field.array === true ? `]` : ``;
+            definition += `  ${field.name}: ${op}${field.type}${cl}${req}\n`;
+        });
+        definition += `}`;
+        return definition;
+    }
+    /**
      * deploySchema
      *
      * @param {JWKInterface} wallet

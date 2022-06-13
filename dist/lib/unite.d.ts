@@ -2,6 +2,7 @@ import Arweave from "arweave";
 import { SmartWeave } from "redstone-smartweave";
 import { JWKInterface } from "arweave/node/lib/wallet";
 import Schema from "./schema";
+import { SchemaState } from "../contracts/Schema/types/types";
 import Metadata from "./metadata";
 declare type Network = "localhost" | "testnet" | "mainnet";
 /**
@@ -49,6 +50,13 @@ export default class Unite {
      * @return {Schema}
      */
     getSchema(contractAddr: string): Promise<Schema>;
+    /**
+     * geDefinitiont
+     *
+     * @param {SchemaState} state - State of the schema
+     * @return {string}
+     */
+    getDefinition(state: SchemaState): Promise<string>;
     /**
      * deploySchema
      *
