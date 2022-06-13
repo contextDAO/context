@@ -14,14 +14,13 @@ export interface Field {
   array?: boolean; 
 }
 
-
 export interface Proposal {
   name: string;
   proposer: string;
   versionId: number;
   field?: Field;
   createdDate: number;
-  udadatedDate?: number;
+  updatedDate?: number;
   status: ProposalStatus;
 }
 

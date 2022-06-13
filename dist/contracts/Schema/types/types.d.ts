@@ -17,7 +17,7 @@ export interface Proposal {
     versionId: number;
     field?: Field;
     createdDate: number;
-    udadatedDate?: number;
+    updatedDate?: number;
     status: ProposalStatus;
 }
 export interface Release {

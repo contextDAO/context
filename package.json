@@ -1,6 +1,6 @@
 {
   "name": "@unitedao/unite",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "Unite DAO base contracts AND SDK",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -22,7 +22,7 @@
     "build:lib": "tsc",
     "clean": "rimraf ./dist",
     "cp": "copyfiles -u 1 ./src/**/*.json dist",
-    "test": "jest tests/standard.test.ts --detectOpenHandles",
+    "test": "jest tests/schema.test.ts --detectOpenHandles",
     "dev": "ts-node ./src/tools/dev.ts",
     "prepare": "husky install"
   },
