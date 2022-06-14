@@ -72,7 +72,6 @@ class Schema {
      *
      * @param {number} proposalId
      * @param {ProposalStatus} status
-     * @param {UpdateVersion} update - Can be major, minor or patch.
      */
     async updateProposal(proposalId, status) {
         const interaction = {

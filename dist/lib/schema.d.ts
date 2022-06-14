@@ -52,7 +52,6 @@ export default class Schema {
      *
      * @param {number} proposalId
      * @param {ProposalStatus} status
-     * @param {UpdateVersion} update - Can be major, minor or patch.
      */
     updateProposal(proposalId: number, status: ProposalStatus): Promise<void>;
 }
