@@ -20,6 +20,9 @@ exports.schemaState = {
     releases: [],
 };
 exports.metadataState = {
+    owner: "",
     title: "",
-    description: "",
+    schema: "",
+    release: -1,
+    metadata: {}
 };

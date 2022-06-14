@@ -2,7 +2,7 @@ declare const ContractError;
 
 export const addProposal = async (
   state: SchemaState,
-  { caller, input: { proposalName, comment, field } }: SchemaAction
+  { caller, input: { proposalName, field } }: SchemaAction
 ): Promise<SchemaResult> => {
   const contributors = state.contributors;
   const proposer = contributors.find(

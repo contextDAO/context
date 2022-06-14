@@ -27,6 +27,9 @@ export const schemaState: SchemaState = {
 };
 
 export const metadataState: MetadataState = {
+  owner: "",
   title: "",
-  description: "",
+  schema: "",
+  release: -1,
+  metadata: {}
 };

@@ -189,17 +189,21 @@ export default class Unite {
    *
    * @param {JWKInterface} wallet
    * @param {string} title - Title of the schema
-   * @param {string} description - Full description
+   * @param {string} schema - Schema
+   * @param {number} release - Schema release
    * @return {Metadata}
    */
   async deployMetadata(
     wallet: JWKInterface,
     title: string,
-    description: string
+    schema: string,
+    release: number
   ): Promise<Metadata> {
     const state: MetadataState = metadataState;
+    state.owner = await this.getAddress(wallet);
     state.title = title;
-    state.description = description;
+    state.schema = schema;
+    state.release = release;
     const contractAddr = await this.smartweave.createContract.deploy({
       wallet,
       initState: JSON.stringify(state),

@@ -39,7 +39,7 @@
   };
 
   // src/contracts/Schema/actions/write/addProposal.ts
-  var addProposal = async (state, { caller, input: { proposalName, comment, field } }) => {
+  var addProposal = async (state, { caller, input: { proposalName, field } }) => {
     const contributors = state.contributors;
     const proposer = contributors.find((element) => element.address === caller);
     if (!proposer) {

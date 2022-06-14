@@ -1,6 +1,9 @@
 export interface MetadataState {
+  owner: string;
   title: string;
-  description: string;
+  schema: string;
+  release: number;
+  metadata: any;
 }
 
 export interface MetadataAction {
@@ -9,9 +12,9 @@ export interface MetadataAction {
 }
 
 export interface MetadataInput {
-  function: PstFunction;
+  function: MetadataFunction;
 }
 
-export type PstFunction = "addToken" | "updateToken" | "getToken";
+export type MetadataFunction = "addItem" | "set" | "get";
 
 export type MetadataResult = { state: MetadataState };

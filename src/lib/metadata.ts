@@ -46,12 +46,47 @@ export default class Metadata {
   }
 
   /**
-   * register
+   * set - Sets the Value for a Field
    *
-   * @param {JWKInterface} wallet - Connected wallet
+   * @param {string} field 
+   * @param {any} value
    */
-  async register(wallet: JWKInterface) {
-    await this.connect(wallet);
-    await this.contract.writeInteraction({ function: "addContributor" });
+  async set(field:string,value: any) {
+    const interaction = {
+      function: "set",
+      field,
+      value
+    };
+    await this.contract.writeInteraction(interaction);
+  }
+
+  /**
+   * set - Sets the Value for a Field
+   *
+   * @param {string} field 
+   * @param {any} item
+   * @param {number} id 
+   */
+  async addItem(field:string,item: any, id: number) {
+    const interaction = {
+      function: "addItem",
+      field,
+      item,
+      id
+    };
+    await this.contract.writeInteraction(interaction);
+  }
+
+  /**
+   * get - Get the Value of a Field
+   *
+   * @param {string} field 
+   * @param {number | null} id 
+   * @return {any}
+   */
+  async get(field:string, id: number | null = null): Promise<any> {
+    const interaction = { function: "get", field, id };
+    const result: any = await this.contract.viewState(interaction);
+    return result.result.value;
   }
 }

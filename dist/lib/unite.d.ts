@@ -77,10 +77,11 @@ export default class Unite {
      *
      * @param {JWKInterface} wallet
      * @param {string} title - Title of the schema
-     * @param {string} description - Full description
+     * @param {string} schema - Schema
+     * @param {number} release - Schema release
      * @return {Metadata}
      */
-    deployMetadata(wallet: JWKInterface, title: string, description: string): Promise<Metadata>;
+    deployMetadata(wallet: JWKInterface, title: string, schema: string, release: number): Promise<Metadata>;
     /**
      * Mine a new block - only localhost
      */

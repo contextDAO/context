@@ -29,9 +29,26 @@ export default class Metadata {
      */
     connect(wallet: JWKInterface): Promise<void>;
     /**
-     * register
+     * set - Sets the Value for a Field
      *
-     * @param {JWKInterface} wallet - Connected wallet
+     * @param {string} field
+     * @param {any} value
      */
-    register(wallet: JWKInterface): Promise<void>;
+    set(field: string, value: any): Promise<void>;
+    /**
+     * set - Sets the Value for a Field
+     *
+     * @param {string} field
+     * @param {any} item
+     * @param {number} id
+     */
+    addItem(field: string, item: any, id: number): Promise<void>;
+    /**
+     * get - Get the Value of a Field
+     *
+     * @param {string} field
+     * @param {number | null} id
+     * @return {any}
+     */
+    get(field: string, id?: number | null): Promise<any>;
 }
