@@ -22,7 +22,7 @@ class Unite {
         this.network = network;
         this.arweave = {};
         this.smartweave = {};
-        this.registry = registryAddr;
+        this.registryAddr = registryAddr;
     }
     /**
      * Init Unite Instance
@@ -84,13 +84,13 @@ class Unite {
     /**
      * getSchema
      *
-     * @param {string} contractAddr
-     * @return {Schema}
+     * @return {RegistryState}
      */
-    async getSchema(contractAddr) {
-        const contract = this.smartweave.contract(contractAddr);
-        const schema = new schema_1.default(contract, contractAddr);
-        return schema;
+    async get() {
+        const registry = this.smartweave.contract(this.registryAddr);
+        const initialState = await registry.readState();
+        const state = initialState.state;
+        return state;
     }
     /**
      * geDefinitiont
@@ -113,14 +113,67 @@ class Unite {
         return definition;
     }
     /**
-     * deploySchema
+     * deployRegistry
      *
      * @param {JWKInterface} wallet
-     * @return {Schema}
+     * @return {string}
      */
     async deployRegistry(wallet) {
         const state = state_1.registryState;
         state.owner = await this.getAddress(wallet);
+        this.registryAddr = await this.smartweave.createContract.deploy({
+            wallet,
+            initState: JSON.stringify(state),
+            src: src_1.schemaContractSource,
+        });
+        return this.registryAddr;
+    }
+    /**
+     * mint
+     *
+     * @param {JWKInterface} wallet
+     * @param {number} qty - Quantity of tokens
+     */
+    async mint(wallet, qty) {
+        const registry = this.smartweave
+            .contract(this.registryAddr)
+            .connect(wallet);
+        const interaction = {
+            function: "mint",
+            qty,
+        };
+        console.log(interaction);
+        await registry.writeInteraction(interaction);
+    }
+    /**
+     * registerSchema
+     *
+     * @param {JWKInterface} wallet
+     * @param {string} id - Name (ID) of the schema
+     * @param {string} address - Adress where the Schema has been deployed.
+     */
+    async registerSchema(wallet, id, address) {
+        const registry = this.smartweave
+            .contract(this.registryAddr)
+            .connect(wallet);
+        const interaction = {
+            function: "registerSchema",
+            id,
+            address,
+        };
+        const res = await registry.writeInteraction(interaction);
+    }
+    /**
+     * deploySchema
+     *
+     * @param {JWKInterface} wallet
+     * @param {string} title - Title of the schema
+     * @param {schemaState} state - Initial state
+     * @return {Schema}
+     */
+    async deploySchema(wallet, title, state = state_1.schemaState) {
+        state.title = title;
+        state.contributors[0].address = await this.getAddress(wallet);
         const contractAddr = await this.smartweave.createContract.deploy({
             wallet,
             initState: JSON.stringify(state),
@@ -133,24 +186,13 @@ class Unite {
         return schema;
     }
     /**
-     * deploySchema
+     * getSchema
      *
-     * @param {JWKInterface} wallet
-     * @param {string} title - Title of the schema
+     * @param {string} contractAddr
      * @return {Schema}
      */
-    async deploySchema(wallet, title) {
-        const state = state_1.schemaState;
-        state.title = title;
-        state.contributors[0].address = await this.getAddress(wallet);
-        const contractAddr = await this.smartweave.createContract.deploy({
-            wallet,
-            initState: JSON.stringify(state),
-            src: src_1.schemaContractSource,
-        });
-        const contract = this.smartweave
-            .contract(contractAddr)
-            .connect(wallet);
+    async getSchema(contractAddr) {
+        const contract = this.smartweave.contract(contractAddr);
         const schema = new schema_1.default(contract, contractAddr);
         return schema;
     }

@@ -1,6 +1,7 @@
 import Arweave from "arweave";
 import { SmartWeave } from "redstone-smartweave";
 import { JWKInterface } from "arweave/node/lib/wallet";
+import { RegistryState } from "../contracts/Registry/types/types";
 import Schema from "./schema";
 import { SchemaState } from "../contracts/Schema/types/types";
 import Metadata from "./metadata";
@@ -12,7 +13,7 @@ export default class Unite {
     network: Network;
     arweave: Arweave;
     smartweave: SmartWeave;
-    registry: string;
+    registryAddr: string;
     /**
      * @Constructor
      * @param {Network} network
@@ -46,10 +47,9 @@ export default class Unite {
     /**
      * getSchema
      *
-     * @param {string} contractAddr
-     * @return {Schema}
+     * @return {RegistryState}
      */
-    getSchema(contractAddr: string): Promise<Schema>;
+    get(): Promise<RegistryState>;
     /**
      * geDefinitiont
      *
@@ -58,20 +58,43 @@ export default class Unite {
      */
     getDefinition(state: SchemaState): Promise<string>;
     /**
-     * deploySchema
+     * deployRegistry
      *
      * @param {JWKInterface} wallet
-     * @return {Schema}
+     * @return {string}
      */
-    deployRegistry(wallet: JWKInterface): Promise<Schema>;
+    deployRegistry(wallet: JWKInterface): Promise<string>;
+    /**
+     * mint
+     *
+     * @param {JWKInterface} wallet
+     * @param {number} qty - Quantity of tokens
+     */
+    mint(wallet: JWKInterface, qty: number): Promise<void>;
+    /**
+     * registerSchema
+     *
+     * @param {JWKInterface} wallet
+     * @param {string} id - Name (ID) of the schema
+     * @param {string} address - Adress where the Schema has been deployed.
+     */
+    registerSchema(wallet: JWKInterface, id: string, address: string): Promise<void>;
     /**
      * deploySchema
      *
      * @param {JWKInterface} wallet
      * @param {string} title - Title of the schema
+     * @param {schemaState} state - Initial state
      * @return {Schema}
      */
-    deploySchema(wallet: JWKInterface, title: string): Promise<Schema>;
+    deploySchema(wallet: JWKInterface, title: string, state?: SchemaState): Promise<Schema>;
+    /**
+     * getSchema
+     *
+     * @param {string} contractAddr
+     * @return {Schema}
+     */
+    getSchema(contractAddr: string): Promise<Schema>;
     /**
      * deployMetadata
      *

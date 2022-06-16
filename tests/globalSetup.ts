@@ -1,12 +1,11 @@
 import ArLocal from "arlocal";
-import { Unite, testWallet } from "../src/index";
+import { Unite, testWallet, mineBlock } from "../src/index";
 
 const setup = async (): Promise<void> => {
   console.log('setup');
   global.arweave = new ArLocal(1984, false);
   await global.arweave.start();
 
-  // const registryAddr = await Unite.depployRegistry();
   global.unite = await Unite.init("localhost" );
 
   global.wallet = await testWallet(global.unite.arweave);
@@ -16,6 +15,9 @@ const setup = async (): Promise<void> => {
   global.user = await testWallet(global.unite.arweave);
   global.userAddress = await global.unite.getAddress(global.user);
 
+  await global.unite.deployRegistry(global.wallet);
+  await mineBlock(global.unite.arweave);
+  console.log("Registry deployed to :" + global.unite.registryAddr);
 };
 
 export default setup;

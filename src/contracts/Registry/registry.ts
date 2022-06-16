@@ -2,7 +2,8 @@ import { balance } from "./actions/read/balance";
 import { mintTokens } from "./actions/write/mintTokens";
 import { transferTokens } from "./actions/write/transferTokens";
 import { register } from "./actions/write/register";
-import { RegistryAction, RegistryResult, RegistryState } from "./types/types";
+// import { registerSchema } from "./actions/write/registerSchema";
+import { RegistryAction, RegistryResult, RegistryState, PstResult } from "./types/types";
 
 declare const ContractError;
 
@@ -28,6 +29,8 @@ export async function handle(
       return await balance(state, action);
     case "register":
       return await register(state, action);
+//    case "registerSchema":
+//      return await registerSchema(state, action);
     default:
       throw new ContractError(
         "No function supplied or function not recognised: " + input.function

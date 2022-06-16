@@ -6,6 +6,8 @@ exports.registryState = {
     name: "Unite DAO Credits",
     owner: "",
     balances: {},
+    schemas: [],
+    names: [],
 };
 exports.schemaState = {
     title: "",

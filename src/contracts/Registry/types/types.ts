@@ -5,14 +5,26 @@ export interface RegistryAction {
 
 export interface RegistryInput {
   function: RegistryFunction;
-  target: string;
-  qty: number;
+  target?: string;
+  qty?: number;
 }
 
 export interface PstResult {
   target: string;
   ticker: string;
   balance: number;
+}
+
+export interface RegistrySchema {
+  id: string;
+  address: string;
+}
+
+export interface RegistryName {
+  id: string;
+  schema: string;
+  address: string;
+  names: RegistryName[];
 }
 
 export interface RegistryState {
@@ -22,8 +34,10 @@ export interface RegistryState {
   balances: {
     [address: string]: number,
   };
+  schemas: RegistrySchema[];
+  names: RegistryName[];
 }
 
-export type RegistryFunction = 'transfer' | 'mint' | 'balance' | 'register';
+export type RegistryFunction = 'transfer' | 'mint' | 'balance' | 'register' | 'registerSchema';
 
 export type RegistryResult = { state: RegistryState } | { result: PstResult };
