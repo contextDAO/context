@@ -1,9 +1,9 @@
 declare const ContractError;
 
 export const transferTokens = async (
-  state: RegistryState,
-  { caller, input: { target, qty } }: RegistryAction
-): Promise<RegistryResult> => {
+  state: UniteState,
+  { caller, input: { target, qty } }: UniteAction
+): Promise<UniteResult> => {
   const balances = state.balances;
   if (!Number.isInteger(qty)) {
     throw new ContractError("Invalid value for qty. Must be an integer");

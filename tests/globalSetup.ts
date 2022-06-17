@@ -15,9 +15,9 @@ const setup = async (): Promise<void> => {
   global.user = await testWallet(global.unite.arweave);
   global.userAddress = await global.unite.getAddress(global.user);
 
-  await global.unite.deployRegistry(global.wallet);
+  await global.unite.deployUnite(global.wallet);
   await mineBlock(global.unite.arweave);
-  console.log("Registry deployed to :" + global.unite.registryAddr);
+  console.log("Unite deployed to :" + global.unite.uniteAddr);
 };
 
 export default setup;

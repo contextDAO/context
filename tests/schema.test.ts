@@ -9,7 +9,8 @@ describe("Testing the Unite DAO Schemas Contract", () => {
 
   it("Should testglobal.wallets", async () => {
     const balance1 = await global.unite.getBalance(global.wallet);
-    expect(balance1).toEqual(1000);
+    expect(balance1).toBeLessThan(1000);
+    expect(balance1).toBeGreaterThan(900);
  });
 
   it("Should deploy a Schema", async () => {
@@ -25,7 +26,7 @@ describe("Testing the Unite DAO Schemas Contract", () => {
   });
 
   it("Should get the state", async () => {
-    const st = await global.unite.getSchema(schema.contractAddr);
+    const st = await global.unite.getSchemaByAddr(schema.contractAddr);
     const state1: SchemaState = await schema.readState();
     const state2: SchemaState = await st.readState();
     expect(state1).toEqual(state2);

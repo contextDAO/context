@@ -1,6 +1,6 @@
 export interface MetadataState {
   owner: string;
-  title: string;
+  id: string;
   schema: string;
   release: number;
   metadata: any;

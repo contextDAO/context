@@ -1,14 +1,14 @@
 import { SchemaState, Proposal, Release } from "../contracts/Schema/types/types";
 import { MetadataState } from "../contracts/Metadata/types/types";
-import { RegistrySchema, RegistryState, RegistryName } from "../contracts/Registry/types/types";
+import { UniteSchema, UniteState, UniteName } from "../contracts/Unite/types/types";
 
-export const registryState: RegistryState = {
+export const uniteState: UniteState = {
   ticker: "UDAO",
   name: "Unite DAO Credits",
   owner: "",
   balances: {},
-  schemas: <RegistrySchema[]>[],
-  names: <RegistryName[]>[],
+  schemas: <UniteSchema[]>[],
+  names: <UniteName[]>[],
 }
 
 export const schemaState: SchemaState = {
@@ -26,7 +26,7 @@ export const schemaState: SchemaState = {
 
 export const metadataState: MetadataState = {
   owner: "",
-  title: "",
+  id: "",
   schema: "",
   release: -1,
   metadata: {}

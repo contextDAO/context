@@ -1,8 +1,8 @@
 declare const ContractError;
 
 export const balance = async (
-  state: RegistryState,
-  { input: { target } }: RegistryAction
+  state: UniteState,
+  { input: { target } }: UniteAction
 ): Promise<PstResult> => {
   const ticker = state.ticker;
   const balances = state.balances;

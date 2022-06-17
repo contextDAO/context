@@ -1,7 +1,7 @@
 
-      const registryContractSource : string = `
+      const uniteContractSource : string = `
 (() => {
-  // src/contracts/Registry/actions/read/balance.ts
+  // src/contracts/Unite/actions/read/balance.ts
   var balance = async (state, { input: { target } }) => {
     const ticker = state.ticker;
     const balances = state.balances;
@@ -14,7 +14,7 @@
     return { result: { target, ticker, balance: balances[target] } };
   };
 
-  // src/contracts/Registry/actions/write/mintTokens.ts
+  // src/contracts/Unite/actions/write/mintTokens.ts
   var mintTokens = async (state, { caller, input: { qty } }) => {
     const balances = state.balances;
     if (qty <= 0) {
@@ -27,7 +27,7 @@
     return { state };
   };
 
-  // src/contracts/Registry/actions/write/transferTokens.ts
+  // src/contracts/Unite/actions/write/transferTokens.ts
   var transferTokens = async (state, { caller, input: { target, qty } }) => {
     const balances = state.balances;
     if (!Number.isInteger(qty)) {
@@ -54,7 +54,7 @@
     return { state };
   };
 
-  // src/contracts/Registry/actions/write/register.ts
+  // src/contracts/Unite/actions/write/register.ts
   var register = async (state, { caller, input: { qty } }) => {
     if (qty <= 0) {
       throw new ContractError("Invalid token mint");
@@ -62,7 +62,29 @@
     return { state };
   };
 
-  // src/contracts/Registry/registry.ts
+  // src/contracts/Unite/actions/write/registerSchema.ts
+  var registerSchema = async (state, { caller, input: { id, address } }) => {
+    if (id.length === 0 || address.length === 0) {
+      throw new ContractError("Invalid id or address. Both should be valid strings");
+    }
+    const schema = state.schemas.find((s) => s.id === id);
+    if (schema) {
+      throw new ContractError("Schema already exists");
+    }
+    state.schemas.push({ id, address });
+    return { state };
+  };
+
+  // src/contracts/Unite/actions/read/getSchema.ts
+  var getSchema = async (state, { input: { id } }) => {
+    if (typeof id !== "string") {
+      throw new ContractError("Must specify an id");
+    }
+    const schema = state.schemas.find((s) => s.id === id);
+    return { result: { schema } };
+  };
+
+  // src/contracts/Unite/unite.ts
   async function handle(state, action) {
     const input = action.input;
     switch (input.function) {
@@ -74,6 +96,10 @@
         return await balance(state, action);
       case "register":
         return await register(state, action);
+      case "registerSchema":
+        return await registerSchema(state, action);
+      case "getSchema":
+        return await getSchema(state, action);
       default:
         throw new ContractError("No function supplied or function not recognised: " + input.function);
     }
@@ -245,5 +271,5 @@
   }
 })();
 `;
-      export {registryContractSource, schemaContractSource, metadataContractSource };
+      export {uniteContractSource, schemaContractSource, metadataContractSource };
     
