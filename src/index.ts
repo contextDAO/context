@@ -1,7 +1,7 @@
 import Unite from "./lib/unite";
 import { JWKInterface } from "arweave/node/lib/wallet";
 import Schema from "./lib/schema";
-import { testWallet, mineBlock } from "./utils/local";
+import { testWallet, mineBlock, getAddress } from "./utils/local";
 import { schemaState } from "./utils/state";
 import {
   SchemaState,
@@ -23,4 +23,5 @@ export {
   Proposal,
   ProposalStatus,
   Release,
+  getAddress,
 };

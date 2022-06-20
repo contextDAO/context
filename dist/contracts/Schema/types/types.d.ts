@@ -24,7 +24,7 @@ export interface Release {
     fields: Field[];
 }
 export interface SchemaState {
-    title: string;
+    id: string;
     releaseId: number;
     contributors: Contributor[];
     proposals: Proposal[];

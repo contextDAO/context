@@ -8,8 +8,7 @@ import {
 import { JWKInterface } from "arweave/node/lib/wallet";
 import { UniteState } from "../contracts/Unite/types/types";
 import { schemaState, metadataState, uniteState } from "../utils/state";
-import Schema from "./schema";
-import {SchemaState } from "../contracts/Schema/types/types";
+import { SchemaState, Field, ProposalStatus } from "../contracts/Schema/types/types";
 import Metadata from "./metadata";
 import { MetadataState } from "../contracts/Metadata/types/types";
 import {
@@ -17,6 +16,7 @@ import {
   metadataContractSource,
   uniteContractSource,
 } from "../contracts/src";
+import { getAddress } from "../utils/local";
 
 type Network = "localhost" | "testnet" | "mainnet";
 
@@ -70,38 +70,7 @@ export default class Unite {
     return unite;
   }
 
-  /**
-   * Stop arlocal
-   */
-  stop() {}
-
-  /**
-   * getAddress
-   *
-   * @param {JWKInterface} wallet
-   * @return {string}
-   */
-  async getAddress(wallet: JWKInterface): Promise<string> {
-    const address = await this.arweave.wallets.jwkToAddress(wallet);
-    return address;
-  }
-
-  /**
-   * getBalance for a wallet
-   *
-   * @param {string | JWKInterface} wallet
-   */
-  async getBalance(wallet: string | JWKInterface): Promise<number> {
-    const address: string =
-      typeof wallet === "string"
-        ? wallet
-        : await this.getAddress(wallet as JWKInterface);
-    const balance = await this.arweave.wallets.getBalance(address);
-    const ar = this.arweave.ar.winstonToAr(balance);
-    return parseFloat(ar);
-  }
-
-  /**
+    /**
    * get
    *
    * @return {UniteState}
@@ -114,27 +83,6 @@ export default class Unite {
   }
 
   /**
-   * geDefinitiont
-   *
-   * @param {SchemaState} state - State of the schema
-   * @return {string}
-   */
-  async getDefinition(state: SchemaState): Promise<string> {
-    let definition: string = ``;
-    definition += `type ${state.title} {\n`;
-    if (state.releaseId > -1) {
-      state.releases[state.releaseId].fields.map((field) => {
-        const req = field.required === true ? `!` : ``;
-        const op = field.array === true ? `[` : ``;
-        const cl  = field.array === true ? `]` : ``;
-        definition += `  ${field.name}: ${op}${field.type}${cl}${req}\n`;
-      })
-    }
-    definition += `}`;
-    return definition;
-  }
-
-  /**
    * deployUnite
    *
    * @param {JWKInterface} wallet
@@ -144,7 +92,7 @@ export default class Unite {
     wallet: JWKInterface,
   ): Promise<string> {
     const state: UniteState = uniteState;
-    state.owner = await this.getAddress(wallet);
+    state.owner = await getAddress(this.arweave, wallet);
     this.uniteAddr = await this.smartweave.createContract.deploy({
       wallet,
       initState: JSON.stringify(state),
@@ -174,84 +122,170 @@ export default class Unite {
   }
 
   /**
-   * registerSchema
+   * createSchema
    *
    * @param {JWKInterface} wallet
-   * @param {string} id - Name (ID) of the schema
-   * @param {string} address - Adress where the Schema has been deployed.
+   * @param {string} id - Title of the schema
+   * @param {schemaState} state - Initial state
    */
-  async registerSchema(
+  async createSchema(
     wallet: JWKInterface,
     id: string,
-    address: string,
+    state: SchemaState = schemaState,
   ) {
+    state.id = id;
+    state.contributors[0].address = await getAddress(this.arweave, wallet);
+    const contractAddr = await this.smartweave.createContract.deploy({
+      wallet,
+      initState: JSON.stringify(state),
+      src: schemaContractSource,
+    });
     const unite: Contract = this.smartweave
       .contract(this.uniteAddr)
       .connect(wallet);
     const interaction = {
       function: "registerSchema",
       id,
-      address,
+      address: contractAddr,
     };
-    const res = await unite.writeInteraction(interaction);
+    await unite.writeInteraction(interaction);
   }
 
   /**
-   * deploySchema
+   * getAddress
+   *
+   * @param {string} id - Schema ID
+   * @return {string}
+   */
+  async getAddress(id: string): Promise<string> {
+    const unite: Contract = this.smartweave.contract(this.uniteAddr);
+    const interaction: any = await unite.viewState({ function: 'getSchema', id});
+    const contractAddr = interaction.result.schema.address;
+    return contractAddr;
+  }
+
+  /**
+   * getContract
    *
    * @param {JWKInterface} wallet
-   * @param {string} title - Title of the schema
-   * @param {schemaState} state - Initial state
-   * @return {Schema}
+   * @param {string} id - Title of the schema
+   * @return {Contract}
    */
-  async deploySchema(
-    wallet: JWKInterface,
-    title: string,
-    state: SchemaState = schemaState,
-  ): Promise<Schema> {
-    state.title = title;
-    state.contributors[0].address = await this.getAddress(wallet);
-    const contractAddr = await this.smartweave.createContract.deploy({
-      wallet,
-      initState: JSON.stringify(state),
-      src: schemaContractSource,
-    });
-
-    const contract: Contract = this.smartweave
-      .contract(contractAddr)
-      .connect(wallet);
-    const schema = new Schema(contract, contractAddr);
-    return schema;
+  async getContract(wallet: JWKInterface, id: string): Promise<Contract> {
+    const contractAddr = await this.getAddress(id);
+    const contract: Contract = this.smartweave.contract(contractAddr);
+    contract.connect(wallet);
+    return contract;
   }
 
   /**
    * getSchema
    *
    * @param {string} id 
-   * @return {Schema}
+   * @return {SchemaState}
    */
-  async getSchema(id: string): Promise<Schema> {
+  async getSchema(id: string): Promise<SchemaState> {
     const unite: Contract = this.smartweave.contract(this.uniteAddr);
     const interaction: any = await unite.viewState({ function: 'getSchema', id});
     const contractAddr = interaction.result.schema.address;
     const contract: Contract = this.smartweave.contract(contractAddr);
-    const schema = new Schema(contract, contractAddr);
-    return schema;
+    const initialState = await contract.readState();
+    const state: SchemaState = initialState.state as SchemaState;
+    return state;
   }
 
 
   /**
-   * getSchema
+   * addContributor
    *
-   * @param {string} contractAddr
-   * @return {Schema}
+   * @param {JWKInterface} wallet
+   * @param {string} id - Title of the schema
    */
-  async getSchemaByAddr(contractAddr: string): Promise<Schema> {
-    const contract: Contract = this.smartweave.contract(contractAddr);
-    const schema = new Schema(contract, contractAddr);
-    return schema;
+  async addContributor(wallet: JWKInterface, id: string) {
+    const contract = await this.getContract(wallet, id);
+    await contract.writeInteraction({ function: "addContributor" });
   }
 
+  /**
+   * editContributor
+   *
+   * @param {JWKInterface} wallet
+   * @param {string} id - Title of the schema
+   * @param {string} userAddr - Contributor's address
+   * @param {string} role
+   */
+  async editContributor(wallet: JWKInterface, id: string, userAddr: string, role: string) {
+    const contract = await this.getContract(wallet, id);
+    const interaction = { function: "setRole", userAddr, role };
+    await contract.writeInteraction(interaction);
+  }
+
+  /**
+   * geDefinition
+   *
+   * @param {SchemaState} state - State of the schema
+   * @return {string}
+   */
+  async getDefinition(state: SchemaState): Promise<string> {
+    let definition: string = ``;
+    definition += `type ${state.id} {\n`;
+    if (state.releaseId > -1) {
+      state.releases[state.releaseId].fields.map((field) => {
+        const req = field.required === true ? `!` : ``;
+        const op = field.array === true ? `[` : ``;
+        const cl  = field.array === true ? `]` : ``;
+        definition += `  ${field.name}: ${op}${field.type}${cl}${req}\n`;
+      })
+    }
+    definition += `}`;
+    return definition;
+  }
+
+  /**
+   * addProposal - new proposal in the standard
+   *
+   * @param {JWKInterface} wallet
+   * @param {string} id - Title of the schema
+   * @param {string} proposalName
+   * @param {Field} field - Field for the proposal
+   */
+  async addProposal(
+    wallet: JWKInterface,
+    id: string,
+    proposalName: string,
+    field: Field
+  ) {
+    const contract = await this.getContract(wallet, id);
+    const interaction = {
+      function: "addProposal",
+      proposalName,
+      field,
+    };
+    await contract.writeInteraction(interaction);
+  }
+
+  /**
+   * editProposal
+   *
+   * @param {JWKInterface} wallet
+   * @param {string} id - Title of the schema
+   * @param {number} proposalId
+   * @param {ProposalStatus} status
+   */
+  async editProposal(
+    wallet: JWKInterface,
+    id: string,
+    proposalId: number,
+    status: ProposalStatus
+  ) {
+    const contract = await this.getContract(wallet, id);
+    const interaction = {
+      function: "updateProposal",
+      proposalId,
+      status,
+    };
+    await contract.writeInteraction(interaction);
+  }
 
   /**
    *addItem 
@@ -304,10 +338,9 @@ export default class Unite {
   ): Promise<Metadata> {
 
     const schema = await this.getSchema(schemaId);
-    const schemaState = await schema.readState();
     const state: MetadataState = data as MetadataState;
 
-    state.owner = await this.getAddress(wallet);
+    state.owner = await getAddress(this.arweave, wallet);
     state.id = id;
     state.schema = schemaId;
     state.release = schemaState.releaseId;
@@ -322,14 +355,5 @@ export default class Unite {
       .connect(wallet);
     const metadata = new Metadata(wallet, contract, contractAddr);
     return metadata;
-  }
-
-  /**
-   * Mine a new block - only localhost
-   */
-  async mine() {
-    if (this.network === 'localhost') {
-      await this.arweave.api.get("mine"); 
-    }
   }
 }

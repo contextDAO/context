@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.humanState = void 0;
 exports.humanState = {
-    title: "Human",
+    id: "Human",
     releaseId: 0,
     contributors: [
         {

@@ -1,5 +1,5 @@
 import ArLocal from "arlocal";
-import { Unite, testWallet, mineBlock } from "../src/index";
+import { Unite, testWallet, mineBlock, getAddress } from "../src/index";
 
 const setup = async (): Promise<void> => {
   console.log('setup');
@@ -9,11 +9,11 @@ const setup = async (): Promise<void> => {
   global.unite = await Unite.init("localhost" );
 
   global.wallet = await testWallet(global.unite.arweave);
-  global.walletAddress = await global.unite.getAddress(global.wallet);
+  global.walletAddress = await getAddress(global.unite.arweave, global.wallet);
   global.contributor = await testWallet(global.unite.arweave);
-  global.contributorAddress = await global.unite.getAddress(global.contributor);
+  global.contributorAddress = await getAddress(global.unite.arweave, global.contributor);
   global.user = await testWallet(global.unite.arweave);
-  global.userAddress = await global.unite.getAddress(global.user);
+  global.userAddress = await getAddress(global.unite.arweave, global.user);
 
   await global.unite.deployUnite(global.wallet);
   await mineBlock(global.unite.arweave);

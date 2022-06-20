@@ -10,7 +10,7 @@ exports.uniteState = {
     names: [],
 };
 exports.schemaState = {
-    title: "",
+    id: "",
     releaseId: -1,
     contributors: [
         {

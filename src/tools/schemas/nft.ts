@@ -5,7 +5,7 @@ import {
 } from "../../contracts/Schema/types/types";
 
 export const nftState: SchemaState = {
-  title: "NFT",
+  id: "NFT",
   releaseId: 0,
   contributors: [
     {

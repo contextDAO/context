@@ -8,7 +8,7 @@ import * as states from "./schemas"
 
 let arlocal: Arlocal;
 let unite: Unite;
-
+/*
 const prepareWallet = async (walletName: string): Promise<JWKInterface> => {
   const walletFile = path.join(__dirname, "wallets", walletName);
   const wallet: JWKInterface = JSON.parse(
@@ -31,8 +31,9 @@ const deploySchema = async (
   );
   console.log(`${name} schema: ${schema.contractAddr}`);
 }
-
+*/
 const main = async () => {
+  /*
   arlocal = new Arlocal(1984, false);
   await arlocal.start();
   unite = await Unite.init("localhost");
@@ -44,6 +45,7 @@ const main = async () => {
   await deploySchema(wallet, "Organization", states.organizationState);
   await deploySchema(wallet, "NFT", states.nftState);
   await deploySchema(wallet, "Collection", states.collectionState);
+  */
 };
 
 main();

@@ -29,7 +29,7 @@ export interface Release {
 }
 
 export interface SchemaState {
-  title: string;
+  id: string;
   releaseId: number;
   contributors: Contributor[];
   proposals: Proposal[];

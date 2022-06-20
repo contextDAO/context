@@ -5,6 +5,7 @@ import { Unite, Schema } from "../index";
 
 type Network = "localhost" | "testnet" | "mainnet";
 const main = async (network: Network, walletFile: string) => {
+  /*
   if (!network || !walletFile) {
     console.log(
       "Usage: node deploy.js --network=localhost|testnet|arweave --wallet=<json_wallet_file>"
@@ -27,7 +28,7 @@ const main = async (network: Network, walletFile: string) => {
     "organization",
   );
   console.log("@organization schema: " + organization.contractAddr);
-
+*/
 };
 
 const argv = minimist(process.argv.slice(1));

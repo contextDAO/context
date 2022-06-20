@@ -5,7 +5,7 @@ import {
 } from "../../contracts/Schema/types/types";
 
 export const collectionState: SchemaState = {
-  title: "Collection",
+  id: "Collection",
   releaseId: 0,
   contributors: [
     {

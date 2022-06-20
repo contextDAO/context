@@ -1,9 +1,8 @@
 import Arweave from "arweave";
-import { SmartWeave } from "redstone-smartweave";
+import { Contract, SmartWeave } from "redstone-smartweave";
 import { JWKInterface } from "arweave/node/lib/wallet";
 import { UniteState } from "../contracts/Unite/types/types";
-import Schema from "./schema";
-import { SchemaState } from "../contracts/Schema/types/types";
+import { SchemaState, Field, ProposalStatus } from "../contracts/Schema/types/types";
 import Metadata from "./metadata";
 declare type Network = "localhost" | "testnet" | "mainnet";
 /**
@@ -28,35 +27,11 @@ export default class Unite {
      */
     static init(network: Network): Promise<Unite>;
     /**
-     * Stop arlocal
-     */
-    stop(): void;
-    /**
-     * getAddress
-     *
-     * @param {JWKInterface} wallet
-     * @return {string}
-     */
-    getAddress(wallet: JWKInterface): Promise<string>;
-    /**
-     * getBalance for a wallet
-     *
-     * @param {string | JWKInterface} wallet
-     */
-    getBalance(wallet: string | JWKInterface): Promise<number>;
-    /**
-     * get
-     *
-     * @return {UniteState}
-     */
+   * get
+   *
+   * @return {UniteState}
+   */
     get(): Promise<UniteState>;
-    /**
-     * geDefinitiont
-     *
-     * @param {SchemaState} state - State of the schema
-     * @return {string}
-     */
-    getDefinition(state: SchemaState): Promise<string>;
     /**
      * deployUnite
      *
@@ -72,36 +47,76 @@ export default class Unite {
      */
     mint(wallet: JWKInterface, qty: number): Promise<void>;
     /**
-     * registerSchema
+     * createSchema
      *
      * @param {JWKInterface} wallet
-     * @param {string} id - Name (ID) of the schema
-     * @param {string} address - Adress where the Schema has been deployed.
-     */
-    registerSchema(wallet: JWKInterface, id: string, address: string): Promise<void>;
-    /**
-     * deploySchema
-     *
-     * @param {JWKInterface} wallet
-     * @param {string} title - Title of the schema
+     * @param {string} id - Title of the schema
      * @param {schemaState} state - Initial state
-     * @return {Schema}
      */
-    deploySchema(wallet: JWKInterface, title: string, state?: SchemaState): Promise<Schema>;
+    createSchema(wallet: JWKInterface, id: string, state?: SchemaState): Promise<void>;
+    /**
+     * getAddress
+     *
+     * @param {string} id - Schema ID
+     * @return {string}
+     */
+    getAddress(id: string): Promise<string>;
+    /**
+     * getContract
+     *
+     * @param {JWKInterface} wallet
+     * @param {string} id - Title of the schema
+     * @return {Contract}
+     */
+    getContract(wallet: JWKInterface, id: string): Promise<Contract>;
     /**
      * getSchema
      *
      * @param {string} id
-     * @return {Schema}
+     * @return {SchemaState}
      */
-    getSchema(id: string): Promise<Schema>;
+    getSchema(id: string): Promise<SchemaState>;
     /**
-     * getSchema
+     * addContributor
      *
-     * @param {string} contractAddr
-     * @return {Schema}
+     * @param {JWKInterface} wallet
+     * @param {string} id - Title of the schema
      */
-    getSchemaByAddr(contractAddr: string): Promise<Schema>;
+    addContributor(wallet: JWKInterface, id: string): Promise<void>;
+    /**
+     * editContributor
+     *
+     * @param {JWKInterface} wallet
+     * @param {string} id - Title of the schema
+     * @param {string} userAddr - Contributor's address
+     * @param {string} role
+     */
+    editContributor(wallet: JWKInterface, id: string, userAddr: string, role: string): Promise<void>;
+    /**
+     * geDefinition
+     *
+     * @param {SchemaState} state - State of the schema
+     * @return {string}
+     */
+    getDefinition(state: SchemaState): Promise<string>;
+    /**
+     * addProposal - new proposal in the standard
+     *
+     * @param {JWKInterface} wallet
+     * @param {string} id - Title of the schema
+     * @param {string} proposalName
+     * @param {Field} field - Field for the proposal
+     */
+    addProposal(wallet: JWKInterface, id: string, proposalName: string, field: Field): Promise<void>;
+    /**
+     * editProposal
+     *
+     * @param {JWKInterface} wallet
+     * @param {string} id - Title of the schema
+     * @param {number} proposalId
+     * @param {ProposalStatus} status
+     */
+    editProposal(wallet: JWKInterface, id: string, proposalId: number, status: ProposalStatus): Promise<void>;
     /**
      *addItem
      *
@@ -140,9 +155,5 @@ export default class Unite {
      * @return {Metadata}
      */
     write(wallet: JWKInterface, id: string, schemaId: string, data: any): Promise<Metadata>;
-    /**
-     * Mine a new block - only localhost
-     */
-    mine(): Promise<void>;
 }
 export {};

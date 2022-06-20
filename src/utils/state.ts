@@ -12,7 +12,7 @@ export const uniteState: UniteState = {
 }
 
 export const schemaState: SchemaState = {
-  title: "",
+  id: "",
   releaseId: -1,
   contributors: [
     {
