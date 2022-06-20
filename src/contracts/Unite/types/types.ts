@@ -22,13 +22,14 @@ export interface SchemaResult {
 export interface UniteSchema {
   id: string;
   address: string;
+  schemas?: UniteSchema[];
 }
 
 export interface UniteName {
   id: string;
   schema: string;
   address: string;
-  names: UniteName[];
+  names?: UniteName[];
 }
 
 export interface UniteState {
