@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.metadataState = exports.schemaState = exports.uniteState = void 0;
-exports.uniteState = {
+exports.data = exports.schema = exports.unite = void 0;
+exports.unite = {
     ticker: "UDAO",
     name: "Unite DAO Credits",
     owner: "",
@@ -9,7 +9,7 @@ exports.uniteState = {
     schemas: [],
     data: [],
 };
-exports.schemaState = {
+exports.schema = {
     id: "",
     releaseId: -1,
     contributors: [
@@ -21,7 +21,7 @@ exports.schemaState = {
     proposals: [],
     releases: [],
 };
-exports.metadataState = {
+exports.data = {
     owner: "",
     id: "",
     schema: "",

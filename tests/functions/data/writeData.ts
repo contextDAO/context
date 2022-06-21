@@ -16,13 +16,9 @@ export default async function writeData() {
     await mineBlock(global.unite.arweave);
 
     const metadata = await global.unite.read(`myNFT`);
-  console.log(metadata);
-  /*
-    const state: MetadataState = await metadata.readState();
-    expect(state.owner).toEqual(global.walletAddress);
-    expect(state.id).toEqual(`myNFT`);
-    expect(state.schema).toEqual(`NFT`);
-    expect(state.release).toEqual(0);
-    expect(state.metadata).toEqual({});
-*/
+    expect(metadata.owner).toEqual(global.walletAddress);
+    expect(metadata.id).toEqual(`myNFT`);
+    expect(metadata.schema).toEqual(`NFT`);
+    expect(metadata.name).toEqual(`My first NFT`);
+    expect(metadata.release).toEqual(0);
 }

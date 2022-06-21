@@ -9,7 +9,6 @@ import { JWKInterface } from "arweave/node/lib/wallet";
 import { UniteState } from "../contracts/Unite/types/types";
 import { schemaState, metadataState, uniteState } from "../utils/state";
 import { SchemaState, Field, ProposalStatus } from "../contracts/Schema/types/types";
-import Metadata from "./metadata";
 import { MetadataState } from "../contracts/Metadata/types/types";
 import {
   schemaContractSource,
@@ -173,7 +172,6 @@ export default class Unite {
   async getDataAddress(id: string): Promise<string> {
     const unite: Contract = this.smartweave.contract(this.uniteAddr);
     const interaction: any = await unite.viewState({ function: 'getData', id});
-    console.log(interaction);
     const contractAddr = interaction.result.data.address;
     return contractAddr;
   }
@@ -358,25 +356,44 @@ export default class Unite {
     id: string,
     schemaId: string,
     data: any 
-  ): Promise<Metadata> {
+  ): Promise<string> {
 
-    const schema = await this.getSchema(schemaId);
+    // Check Name does not already esist.
+    const unite: Contract = this.smartweave
+      .contract(this.uniteAddr)
+      .connect(wallet);
+    const initialState = await unite.readState();
+    const uniteState: UniteState = initialState.state as UniteState;
+
+    // id should not exist
+    const uniteData = uniteState.data.find(s => s.id === id);
+    if (uniteData) throw(new Error(`${id} is already registered`));
+
+    // schema should exist
+    const uniteSchema = uniteState.schemas.find(s => s.id === schemaId);
+    if (!uniteSchema) throw(new Error(`Schema "${schemaId}" does not exist`));
+    const uniteSchemaState = await this.getSchema(schemaId);
+
+    // Create Data Contract.
     const state: MetadataState = data as MetadataState;
-
     state.owner = await getAddress(this.arweave, wallet);
     state.id = id;
     state.schema = schemaId;
-    state.release = schemaState.releaseId;
+    state.release = uniteSchemaState.releaseId;
     const contractAddr = await this.smartweave.createContract.deploy({
       wallet,
       initState: JSON.stringify(state),
       src: metadataContractSource,
     });
 
-    const contract: Contract = this.smartweave
-      .contract(contractAddr)
-      .connect(wallet);
-    const metadata = new Metadata(wallet, contract, contractAddr);
-    return metadata;
+    // Register Name.
+    const interaction = {
+      function: "registerData",
+      id,
+      schema: schemaId,
+      address: contractAddr,
+    };
+    await unite.writeInteraction(interaction);
+    return contractAddr;
   }
 }

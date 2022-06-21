@@ -1,6 +1,8 @@
 // Schemas.
-import createSchema from "./schemas/createSchema";
-export { createSchema /*, addContributors, approveProposal, abandonProposal, createSubSchema */ };
+import testCreateSchema from "./testCreateSchema";
+import testGetSchema from "./testCreateSchema";
+export { testCreateSchema, testGetSchema  };
+
 /*
 import addContributors from "./schemas/addContributors";
 import approveProposal from "./schemas/approveProposal";

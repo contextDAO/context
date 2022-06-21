@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const arweave_1 = __importDefault(require("arweave"));
 const redstone_smartweave_1 = require("redstone-smartweave");
 const state_1 = require("../utils/state");
-const metadata_1 = __importDefault(require("./metadata"));
 const src_1 = require("../contracts/src");
 const local_1 = require("../utils/local");
 /**
@@ -143,7 +142,6 @@ class Unite {
     async getDataAddress(id) {
         const unite = this.smartweave.contract(this.uniteAddr);
         const interaction = await unite.viewState({ function: 'getData', id });
-        console.log(interaction);
         const contractAddr = interaction.result.data.address;
         return contractAddr;
     }
@@ -301,22 +299,41 @@ class Unite {
      * @return {Metadata}
      */
     async write(wallet, id, schemaId, data) {
-        const schema = await this.getSchema(schemaId);
+        // Check Name does not already esist.
+        const unite = this.smartweave
+            .contract(this.uniteAddr)
+            .connect(wallet);
+        const initialState = await unite.readState();
+        const uniteState = initialState.state;
+        // id should not exist
+        const uniteData = uniteState.data.find(s => s.id === id);
+        if (uniteData)
+            throw (new Error(`${id} is already registered`));
+        // schema should exist
+        const uniteSchema = uniteState.schemas.find(s => s.id === schemaId);
+        if (!uniteSchema)
+            throw (new Error(`Schema "${schemaId}" does not exist`));
+        const uniteSchemaState = await this.getSchema(schemaId);
+        // Create Data Contract.
         const state = data;
         state.owner = await (0, local_1.getAddress)(this.arweave, wallet);
         state.id = id;
         state.schema = schemaId;
-        state.release = state_1.schemaState.releaseId;
+        state.release = uniteSchemaState.releaseId;
         const contractAddr = await this.smartweave.createContract.deploy({
             wallet,
             initState: JSON.stringify(state),
             src: src_1.metadataContractSource,
         });
-        const contract = this.smartweave
-            .contract(contractAddr)
-            .connect(wallet);
-        const metadata = new metadata_1.default(wallet, contract, contractAddr);
-        return metadata;
+        // Register Name.
+        const interaction = {
+            function: "registerData",
+            id,
+            schema: schemaId,
+            address: contractAddr,
+        };
+        await unite.writeInteraction(interaction);
+        return contractAddr;
     }
 }
 exports.default = Unite;

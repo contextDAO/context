@@ -4,8 +4,8 @@ import { MetadataState } from "../../../src/index";
  * readData 
  */
 export default async function readData() {
-  const metadata: MetadataState = await global.unite.read(`myNFT`);
-  console.log(metadata);
+//   const metadata: MetadataState = await global.unite.read(`myNFT`);
+//  console.log(metadata);
   /*
     const state: MetadataState = await metadata.readState();
     expect(state.owner).toEqual(global.walletAddress);

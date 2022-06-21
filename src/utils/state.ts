@@ -2,7 +2,7 @@ import { SchemaState, Proposal, Release } from "../contracts/Schema/types/types"
 import { MetadataState } from "../contracts/Metadata/types/types";
 import { UniteSchema, UniteState, UniteData } from "../contracts/Unite/types/types";
 
-export const uniteState: UniteState = {
+export const unite: UniteState = {
   ticker: "UDAO",
   name: "Unite DAO Credits",
   owner: "",
@@ -11,7 +11,7 @@ export const uniteState: UniteState = {
   data: <UniteData[]>[],
 }
 
-export const schemaState: SchemaState = {
+export const schema: SchemaState = {
   id: "",
   releaseId: -1,
   contributors: [
@@ -24,7 +24,7 @@ export const schemaState: SchemaState = {
   releases: <Release[]>[],
 };
 
-export const metadataState: MetadataState = {
+export const data: MetadataState = {
   owner: "",
   id: "",
   schema: "",

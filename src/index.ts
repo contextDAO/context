@@ -1,30 +1,20 @@
-import Unite from "./lib/unite";
-import { JWKInterface } from "arweave/node/lib/wallet";
-import Schema from "./lib/schema";
-import { testWallet, mineBlock, getAddress } from "./utils/local";
-import { schemaState } from "./utils/state";
-import {
-  SchemaState,
-  Field,
-  Proposal,
-  ProposalStatus,
-  Release,
-} from "./contracts/Schema/types/types";
+// Context.
+import initContext from "./context/initContext";
+import deployUnite from "./context/deployUnite";
+import connectWallet from "./context/connectWallet";
+export { initContext, deployUnite, connectWallet };
 
-import { MetadataState } from "./contracts/Metadata/types/types";
+// Schemas
+import createSchema from "./schemas/createSchema";
+import getSchema from "./schemas/getSchema";
+export { createSchema, getSchema };
 
-export {
-  Unite,
-  Schema,
-  testWallet,
-  mineBlock,
-  JWKInterface,
-  SchemaState,
-  schemaState,
-  Field,
-  Proposal,
-  ProposalStatus,
-  Release,
-  getAddress,
-  MetadataState,
-};
+// Utils.
+import mineBlock from "./utils/mineBlock"
+import testWallet from "./utils/testWallet"
+export { mineBlock, testWallet };
+
+// States.
+import * as defaultState from "./utils/state"
+export { defaultState };
+

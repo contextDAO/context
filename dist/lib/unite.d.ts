@@ -3,7 +3,6 @@ import { Contract, SmartWeave } from "redstone-smartweave";
 import { JWKInterface } from "arweave/node/lib/wallet";
 import { UniteState } from "../contracts/Unite/types/types";
 import { SchemaState, Field, ProposalStatus } from "../contracts/Schema/types/types";
-import Metadata from "./metadata";
 import { MetadataState } from "../contracts/Metadata/types/types";
 declare type Network = "localhost" | "testnet" | "mainnet";
 /**
@@ -162,6 +161,6 @@ export default class Unite {
      * @param {any} data - Schema release
      * @return {Metadata}
      */
-    write(wallet: JWKInterface, id: string, schemaId: string, data: any): Promise<Metadata>;
+    write(wallet: JWKInterface, id: string, schemaId: string, data: any): Promise<string>;
 }
 export {};
