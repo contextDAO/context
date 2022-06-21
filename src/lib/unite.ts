@@ -152,17 +152,32 @@ export default class Unite {
   }
 
   /**
-   * getAddress
+   * getSchemaAddress
    *
    * @param {string} id - Schema ID
    * @return {string}
    */
-  async getAddress(id: string): Promise<string> {
+  async getSchemaAddress(id: string): Promise<string> {
     const unite: Contract = this.smartweave.contract(this.uniteAddr);
     const interaction: any = await unite.viewState({ function: 'getSchema', id});
     const contractAddr = interaction.result.schema.address;
     return contractAddr;
   }
+
+  /**
+   * getDataAddress
+   *
+   * @param {string} id - Schema ID
+   * @return {string}
+   */
+  async getDataAddress(id: string): Promise<string> {
+    const unite: Contract = this.smartweave.contract(this.uniteAddr);
+    const interaction: any = await unite.viewState({ function: 'getData', id});
+    console.log(interaction);
+    const contractAddr = interaction.result.data.address;
+    return contractAddr;
+  }
+
 
   /**
    * getContract
@@ -172,7 +187,7 @@ export default class Unite {
    * @return {Contract}
    */
   async getContract(wallet: JWKInterface, id: string): Promise<Contract> {
-    const contractAddr = await this.getAddress(id);
+    const contractAddr = await this.getSchemaAddress(id);
     const contract: Contract = this.smartweave.contract(contractAddr);
     contract.connect(wallet);
     return contract;
@@ -316,9 +331,17 @@ export default class Unite {
    * read
    *
    * @param {string} id - Title of the schema
-   * @return {Metadata}
+   * @return {MetadataState}
    */
-  async read(id: string) {
+  async read(id: string): Promise<MetadataState> {
+    const contractAddr = await this.getDataAddress(id);
+    const contract: Contract = this.smartweave.contract(contractAddr);
+    const initialState = await contract.readState();
+    const state: MetadataState = initialState.state as MetadataState;
+    // Get Field
+    // const interaction = { function: "get", field, id };
+    // const result: any = await this.contract.viewState(interaction);
+    return state;
   }
  
   /**

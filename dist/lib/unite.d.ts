@@ -4,6 +4,7 @@ import { JWKInterface } from "arweave/node/lib/wallet";
 import { UniteState } from "../contracts/Unite/types/types";
 import { SchemaState, Field, ProposalStatus } from "../contracts/Schema/types/types";
 import Metadata from "./metadata";
+import { MetadataState } from "../contracts/Metadata/types/types";
 declare type Network = "localhost" | "testnet" | "mainnet";
 /**
  * @class Unite
@@ -55,12 +56,19 @@ export default class Unite {
      */
     createSchema(wallet: JWKInterface, id: string, state?: SchemaState): Promise<void>;
     /**
-     * getAddress
+     * getSchemaAddress
      *
      * @param {string} id - Schema ID
      * @return {string}
      */
-    getAddress(id: string): Promise<string>;
+    getSchemaAddress(id: string): Promise<string>;
+    /**
+     * getDataAddress
+     *
+     * @param {string} id - Schema ID
+     * @return {string}
+     */
+    getDataAddress(id: string): Promise<string>;
     /**
      * getContract
      *
@@ -142,9 +150,9 @@ export default class Unite {
      * read
      *
      * @param {string} id - Title of the schema
-     * @return {Metadata}
+     * @return {MetadataState}
      */
-    read(id: string): Promise<void>;
+    read(id: string): Promise<MetadataState>;
     /**
      * write
      *

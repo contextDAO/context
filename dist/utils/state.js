@@ -7,7 +7,7 @@ exports.uniteState = {
     owner: "",
     balances: {},
     schemas: [],
-    names: [],
+    data: [],
 };
 exports.schemaState = {
     id: "",

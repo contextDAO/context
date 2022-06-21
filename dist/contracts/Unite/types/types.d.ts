@@ -15,16 +15,19 @@ export interface PstResult {
 export interface SchemaResult {
     schema: UniteSchema;
 }
+export interface DataResult {
+    data: UniteData;
+}
 export interface UniteSchema {
     id: string;
     address: string;
     schemas?: UniteSchema[];
 }
-export interface UniteName {
+export interface UniteData {
     id: string;
     schema: string;
     address: string;
-    names?: UniteName[];
+    data?: UniteData[];
 }
 export interface UniteState {
     ticker: string;
@@ -34,13 +37,15 @@ export interface UniteState {
         [address: string]: number;
     };
     schemas: UniteSchema[];
-    names: UniteName[];
+    data: UniteData[];
 }
-export declare type UniteFunction = 'transfer' | 'mint' | 'balance' | 'register' | 'registerSchema' | 'getSchema';
+export declare type UniteFunction = 'transfer' | 'mint' | 'balance' | 'register' | 'registerSchema' | 'getSchema' | 'registerData' | 'getData';
 export declare type UniteResult = {
     state: UniteState;
 } | {
     result: PstResult;
 } | {
     result: SchemaResult;
+} | {
+    result: DataResult;
 };

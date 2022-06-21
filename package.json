@@ -22,7 +22,7 @@
     "build:lib": "tsc",
     "clean": "rimraf ./dist",
     "cp": "copyfiles -u 1 ./src/**/*.json dist",
-    "test": "jest tests/schema.test.ts --detectOpenHandles",
+    "test": "jest tests/index.test.ts --detectOpenHandles",
     "dev": "ts-node ./src/tools/dev.ts",
     "prepare": "husky install"
   },

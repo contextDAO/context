@@ -11,6 +11,8 @@ import {
   Release,
 } from "./contracts/Schema/types/types";
 
+import { MetadataState } from "./contracts/Metadata/types/types";
+
 export {
   Unite,
   Schema,
@@ -24,4 +26,5 @@ export {
   ProposalStatus,
   Release,
   getAddress,
+  MetadataState,
 };

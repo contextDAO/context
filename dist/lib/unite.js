@@ -123,15 +123,28 @@ class Unite {
         await unite.writeInteraction(interaction);
     }
     /**
-     * getAddress
+     * getSchemaAddress
      *
      * @param {string} id - Schema ID
      * @return {string}
      */
-    async getAddress(id) {
+    async getSchemaAddress(id) {
         const unite = this.smartweave.contract(this.uniteAddr);
         const interaction = await unite.viewState({ function: 'getSchema', id });
         const contractAddr = interaction.result.schema.address;
+        return contractAddr;
+    }
+    /**
+     * getDataAddress
+     *
+     * @param {string} id - Schema ID
+     * @return {string}
+     */
+    async getDataAddress(id) {
+        const unite = this.smartweave.contract(this.uniteAddr);
+        const interaction = await unite.viewState({ function: 'getData', id });
+        console.log(interaction);
+        const contractAddr = interaction.result.data.address;
         return contractAddr;
     }
     /**
@@ -142,7 +155,7 @@ class Unite {
      * @return {Contract}
      */
     async getContract(wallet, id) {
-        const contractAddr = await this.getAddress(id);
+        const contractAddr = await this.getSchemaAddress(id);
         const contract = this.smartweave.contract(contractAddr);
         contract.connect(wallet);
         return contract;
@@ -266,9 +279,17 @@ class Unite {
      * read
      *
      * @param {string} id - Title of the schema
-     * @return {Metadata}
+     * @return {MetadataState}
      */
     async read(id) {
+        const contractAddr = await this.getDataAddress(id);
+        const contract = this.smartweave.contract(contractAddr);
+        const initialState = await contract.readState();
+        const state = initialState.state;
+        // Get Field
+        // const interaction = { function: "get", field, id };
+        // const result: any = await this.contract.viewState(interaction);
+        return state;
     }
     /**
      * write
