@@ -6,8 +6,10 @@ export { initContext, deployUnite, connectWallet };
 
 // Schemas
 import createSchema from "./schemas/createSchema";
-import getSchema from "./schemas/getSchema";
-export { createSchema, getSchema };
+import getSchemaState from "./schemas/getSchemaState";
+import getSchemaContract from "./schemas/getSchemaContract";
+import addContributor from "./schemas/addContributor";
+export { createSchema, getSchemaState, getSchemaContract, addContributor };
 
 // Utils.
 import mineBlock from "./utils/mineBlock"

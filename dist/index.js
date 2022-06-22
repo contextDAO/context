@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.defaultState = exports.testWallet = exports.mineBlock = exports.getSchema = exports.createSchema = exports.connectWallet = exports.deployUnite = exports.initContext = void 0;
+exports.defaultState = exports.testWallet = exports.mineBlock = exports.addContributor = exports.getSchemaContract = exports.getSchemaState = exports.createSchema = exports.connectWallet = exports.deployUnite = exports.initContext = void 0;
 // Context.
 const initContext_1 = __importDefault(require("./context/initContext"));
 exports.initContext = initContext_1.default;
@@ -37,8 +37,12 @@ exports.connectWallet = connectWallet_1.default;
 // Schemas
 const createSchema_1 = __importDefault(require("./schemas/createSchema"));
 exports.createSchema = createSchema_1.default;
-const getSchema_1 = __importDefault(require("./schemas/getSchema"));
-exports.getSchema = getSchema_1.default;
+const getSchemaState_1 = __importDefault(require("./schemas/getSchemaState"));
+exports.getSchemaState = getSchemaState_1.default;
+const getSchemaContract_1 = __importDefault(require("./schemas/getSchemaContract"));
+exports.getSchemaContract = getSchemaContract_1.default;
+const addContributor_1 = __importDefault(require("./schemas/addContributor"));
+exports.addContributor = addContributor_1.default;
 // Utils.
 const mineBlock_1 = __importDefault(require("./utils/mineBlock"));
 exports.mineBlock = mineBlock_1.default;

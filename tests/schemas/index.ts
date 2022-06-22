@@ -1,7 +1,9 @@
 // Schemas.
 import testCreateSchema from "./testCreateSchema";
 import testGetSchema from "./testCreateSchema";
-export { testCreateSchema, testGetSchema  };
+import testAddContributor from "./testAddContributor";
+
+export { testCreateSchema, testGetSchema, testAddContributor  };
 
 /*
 import addContributors from "./schemas/addContributors";

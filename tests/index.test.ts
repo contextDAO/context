@@ -9,7 +9,7 @@ import * as schema from "./schemas";
 describe(`2 - Schemas`, () => {
   it(`2.1 - Register Schemas`, async () => { await schema.testCreateSchema(); });
   it(`2.2 - Get Schema`, async () => { await schema.testGetSchema(); });
-  // xit(`2.2 - Add a contributor`, async () => { await test.addContributors(); });
+  xit(`2.2 - Add a contributor`, async () => { await schema.testAddContributor(); });
   // xit(`2.3 - Approve a new proposal`, async () => { await test.approveProposal(); });
   // xit(`2.4 - Abandon a proposal`, async () => { await test.abandonProposal(); });
   // xit(`2.5 - Register SubSchemas`, async () => { await test.createSubSchema(); });
