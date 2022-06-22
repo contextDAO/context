@@ -1,20 +1,19 @@
 // Schemas.
 import testCreateSchema from "./testCreateSchema";
 import testGetSchema from "./testCreateSchema";
+
+export { testCreateSchema, testGetSchema };
+
+// Contributors
 import testAddContributor from "./testAddContributor";
+import testEditContributor from "./testAddContributor";
 
-export { testCreateSchema, testGetSchema, testAddContributor  };
+export { testAddContributor, testEditContributor };
 
-/*
-import addContributors from "./schemas/addContributors";
-import approveProposal from "./schemas/approveProposal";
-import abandonProposal from "./schemas/abandonProposal";
-import createSubSchema from "./schemas/createSubSchema";
+// Proposals
+import testAddProposal from "./testAddProposal";
+import testApproveProposal from "./testApproveProposal";
+import testAbandonProposal from "./testAbandonProposal";
 
+export { testAddProposal, testApproveProposal, testAbandonProposal };
 
-// Data.
-import writeData from "./data/writeData";
-import readData from "./data/readData";
-
-export { writeData, readData };
-*/

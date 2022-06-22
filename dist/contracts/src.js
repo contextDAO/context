@@ -201,8 +201,8 @@ const schemaContractSource = `
     return { state };
   };
 
-  // src/contracts/Schema/actions/write/updateProposal.ts
-  var updateProposal = async (state, { caller, input: { proposalId, status } }) => {
+  // src/contracts/Schema/actions/write/editProposal.ts
+  var editProposal = async (state, { caller, input: { proposalId, status } }) => {
     const proposal = state.proposals[proposalId];
     if (!proposal) {
     }
@@ -246,8 +246,8 @@ const schemaContractSource = `
         return await setRole(state, action);
       case "addProposal":
         return await addProposal(state, action);
-      case "updateProposal":
-        return await updateProposal(state, action);
+      case "editProposal":
+        return await editProposal(state, action);
       default:
         throw new ContractError("No function supplied or function not recognised: " + input.function);
     }

@@ -1,7 +1,7 @@
 import { addContributor } from "./actions/write/addContributor";
 import { setRole } from "./actions/write/setRole";
 import { addProposal } from "./actions/write/addProposal";
-import { updateProposal } from "./actions/write/updateProposal";
+import { editProposal } from "./actions/write/editProposal";
 import {
   SchemaAction,
   SchemaResult,
@@ -30,8 +30,8 @@ export async function handle(
       return await setRole(state, action);
     case "addProposal":
       return await addProposal(state, action);
-    case "updateProposal":
-      return await updateProposal(state, action);
+    case "editProposal":
+      return await editProposal(state, action);
     default:
       throw new ContractError(
         "No function supplied or function not recognised: " + input.function

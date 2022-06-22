@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.defaultState = exports.testWallet = exports.mineBlock = exports.addContributor = exports.getSchemaContract = exports.getSchemaState = exports.createSchema = exports.connectWallet = exports.deployUnite = exports.initContext = void 0;
+exports.defaultState = exports.testWallet = exports.mineBlock = exports.editProposal = exports.addProposal = exports.editContributor = exports.addContributor = exports.getSchemaContract = exports.getSchemaState = exports.createSchema = exports.connectWallet = exports.deployUnite = exports.initContext = void 0;
 // Context.
 const initContext_1 = __importDefault(require("./context/initContext"));
 exports.initContext = initContext_1.default;
@@ -43,6 +43,12 @@ const getSchemaContract_1 = __importDefault(require("./schemas/getSchemaContract
 exports.getSchemaContract = getSchemaContract_1.default;
 const addContributor_1 = __importDefault(require("./schemas/addContributor"));
 exports.addContributor = addContributor_1.default;
+const editContributor_1 = __importDefault(require("./schemas/editContributor"));
+exports.editContributor = editContributor_1.default;
+const addProposal_1 = __importDefault(require("./schemas/addProposal"));
+exports.addProposal = addProposal_1.default;
+const editProposal_1 = __importDefault(require("./schemas/editProposal"));
+exports.editProposal = editProposal_1.default;
 // Utils.
 const mineBlock_1 = __importDefault(require("./utils/mineBlock"));
 exports.mineBlock = mineBlock_1.default;

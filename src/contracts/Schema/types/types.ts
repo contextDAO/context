@@ -49,7 +49,7 @@ export type SchemaFunction =
   | "addContributor"
   | "getContributors"
   | "addProposal"
-  | "updateProposal"
+  | "editProposal"
   | "setRole";
 
 export type SchemaResult = { state: SchemaState };

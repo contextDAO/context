@@ -37,7 +37,7 @@ export interface SchemaAction {
 export interface SchemaInput {
     function: SchemaFunction;
 }
-export declare type SchemaFunction = "addContributor" | "getContributors" | "addProposal" | "updateProposal" | "setRole";
+export declare type SchemaFunction = "addContributor" | "getContributors" | "addProposal" | "editProposal" | "setRole";
 export declare type SchemaResult = {
     state: SchemaState;
 };

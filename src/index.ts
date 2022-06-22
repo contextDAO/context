@@ -9,7 +9,11 @@ import createSchema from "./schemas/createSchema";
 import getSchemaState from "./schemas/getSchemaState";
 import getSchemaContract from "./schemas/getSchemaContract";
 import addContributor from "./schemas/addContributor";
-export { createSchema, getSchemaState, getSchemaContract, addContributor };
+import editContributor from "./schemas/editContributor";
+import addProposal from "./schemas/addProposal";
+import editProposal from "./schemas/editProposal";
+
+export { createSchema, getSchemaState, getSchemaContract, addContributor, editContributor, addProposal, editProposal };
 
 // Utils.
 import mineBlock from "./utils/mineBlock"

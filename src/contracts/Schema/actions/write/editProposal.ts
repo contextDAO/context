@@ -1,6 +1,6 @@
 declare const ContractError;
 
-export const updateProposal = async (
+export const editProposal = async (
   state: SchemaState,
   { caller, input: { proposalId, status } }: SchemaAction
 ): Promise<SchemaResult> => {
