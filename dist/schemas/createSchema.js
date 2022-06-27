@@ -7,15 +7,16 @@ const src_1 = require("../contracts/src");
  *
  * @param {UniteContext} context
  * @param {string} schemaId - Title of the schema
+ * @param {SchemaState} newState
  */
-async function createSchema(context, schemaId) {
+async function createSchema(context, schemaId, newState) {
     // Check Errors.
     if (!context || !context.wallet) {
         throw (new Error(`You need to init the context and connect a wallet first`));
     }
     console.log("\n\nTODO : Check schema id is not registered\n\n");
     // Prepare initial state.
-    const state = state_1.schema;
+    const state = newState || state_1.schema;
     state.schemaId = schemaId;
     state.contributors[0].address = context.wallet.address;
     // deploy Schema.
