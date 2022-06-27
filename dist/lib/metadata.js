@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
- * Class Metadata - interactions with the metadata contract.
+ * Class Data - interactions with the metadata contract.
  */
-class Metadata {
+class Data {
     /**
      * @constructor
      *
@@ -19,7 +19,7 @@ class Metadata {
     /**
      * readState
      *
-     * @return {MetadataState}
+     * @return {DataState}
      */
     async readState() {
         const initialState = await this.contract.readState();
@@ -78,4 +78,4 @@ class Metadata {
         return result.result.value;
     }
 }
-exports.default = Metadata;
+exports.default = Data;

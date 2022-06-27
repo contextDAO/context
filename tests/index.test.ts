@@ -14,16 +14,17 @@ describe(`2 - Schemas`, () => {
   it(`2.5 - Add proposals`, async () => { await schema.testAddProposal(); });
   it(`2.6 - Approve one proposal`, async () => { await schema.testApproveProposal(); });
   it(`2.7 - Abandon one proposal`, async () => { await schema.testAbandonProposal(); });
-  // xit(`2.5 - Register SubSchemas`, async () => { await test.createSubSchema(); });
+  xit(`2.8 - Register Collection Schema`, async () => {});
+  xit(`2.9 - Register SubSchemas`, async () => {});
 });
 
 describe(`3 - Data`, () => {
-  // xit(`3.1 - Write Data`, async () => { await test.writeData(); });
-  // it(`3.2 - Read Data`, async () => { await test.readData(); });
-  xit(`3.1 - Update Data`, async () => {});
-  xit(`3.3 - Add items to Collections`, async () => { });
-  xit(`3.4 - Edit items from Collections`, async () => {});
-  xit(`3.5 - Register subnames`, async () => {});
+  xit(`3.1 - Write Data`, async () => {});
+  xit(`3.2 - Read Data`, async () => {});
+  xit(`3.3 - Update Data`, async () => {});
+  xit(`3.4 - Add items to Collections`, async () => { });
+  xit(`3.5 - Edit items from Collections`, async () => {});
+  xit(`3.6 - Register subnames`, async () => {});
 });
 
 describe(`4 - Economy`, () => {

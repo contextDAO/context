@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.collectionState = void 0;
 exports.collectionState = {
-    id: "Collection",
+    schemaId: "Collection",
     releaseId: 0,
     contributors: [
         {

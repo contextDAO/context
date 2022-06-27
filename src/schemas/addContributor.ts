@@ -7,15 +7,15 @@ import getSchemaContract from "./getSchemaContract";
  * addContributor
  *
  * @param {UniteContext}context 
- * @param {string} id - Title of the schema
+ * @param {string} schemaId - Title of the schema
  */
-export default async function addContributor(context: UniteContext, id: string) {
+export default async function addContributor(context: UniteContext, schemaId: string) {
   if (!context || !context.wallet) {
     throw(new Error(`You need to init the context and connect a wallet first`));
   }
   console.log("\n\nTODO : Check schema id is registered\n\n");
 
-  const contract: Contract = await getSchemaContract(context, id);
+  const contract: Contract = await getSchemaContract(context, schemaId);
   await contract.writeInteraction({ function: "addContributor" });
 }
 

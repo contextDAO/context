@@ -49,6 +49,7 @@ const addProposal_1 = __importDefault(require("./schemas/addProposal"));
 exports.addProposal = addProposal_1.default;
 const editProposal_1 = __importDefault(require("./schemas/editProposal"));
 exports.editProposal = editProposal_1.default;
+// Data
 // Utils.
 const mineBlock_1 = __importDefault(require("./utils/mineBlock"));
 exports.mineBlock = mineBlock_1.default;

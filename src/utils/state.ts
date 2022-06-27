@@ -1,5 +1,5 @@
 import { SchemaState, Proposal, Release } from "../contracts/Schema/types/types";
-import { MetadataState } from "../contracts/Metadata/types/types";
+import { DataState } from "../contracts/Data/types/types";
 import { UniteSchema, UniteState, UniteData } from "../contracts/Unite/types/types";
 
 export const unite: UniteState = {
@@ -12,7 +12,7 @@ export const unite: UniteState = {
 }
 
 export const schema: SchemaState = {
-  id: "",
+  schemaId: "",
   releaseId: -1,
   contributors: [
     {
@@ -24,10 +24,10 @@ export const schema: SchemaState = {
   releases: <Release[]>[],
 };
 
-export const data: MetadataState = {
+export const data: DataState = {
+  dataId: "",
   owner: "",
-  id: "",
   schema: "",
   release: -1,
-  metadata: {}
+  data: {}
 };

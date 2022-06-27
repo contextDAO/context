@@ -24,13 +24,13 @@ export interface DataResult {
 }
 
 export interface UniteSchema {
-  id: string;
+  schemaId: string;
   address: string;
   schemas?: UniteSchema[];
 }
 
 export interface UniteData{
-  id: string;
+  dataId: string;
   schema: string;
   address: string;
   data?: UniteData[];

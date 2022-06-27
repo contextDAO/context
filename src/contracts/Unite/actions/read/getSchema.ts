@@ -2,14 +2,14 @@ declare const ContractError;
 
 export const getSchema = async (
   state: UniteState,
-  { input: { id } }: UniteAction
+  { input: { schemaId } }: UniteAction
 ): Promise<PstResult> => {
 
-  if (typeof id !== "string") {
+  if (typeof schemaId!== "string") {
     throw new ContractError("Must specify an id");
   }
 
-  const schema = state.schemas.find(s => s.id === id);
+  const schema = state.schemas.find(s => s.schemaId === schemaId);
   return { result: { schema }};
 };
 

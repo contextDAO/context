@@ -7,9 +7,9 @@ import { Contract } from "redstone-smartweave";
  * createSchema
  *
  * @param {UniteContext} context
- * @param {string} id - Title of the schema
+ * @param {string} schemaId - Title of the schema
  */
-export default async function createSchema(context: UniteContext, id: string) {
+export default async function createSchema(context: UniteContext, schemaId: string) {
   // Check Errors.
   if (!context || !context.wallet) {
     throw(new Error(`You need to init the context and connect a wallet first`));
@@ -19,7 +19,7 @@ export default async function createSchema(context: UniteContext, id: string) {
 
   // Prepare initial state.
   const state: SchemaState = schema;
-  state.id = id;
+  state.schemaId = schemaId;
   state.contributors[0].address = context.wallet.address;
 
   // deploy Schema.
@@ -35,7 +35,7 @@ export default async function createSchema(context: UniteContext, id: string) {
     .connect(context.wallet.json);
   const interaction = {
     function: "registerSchema",
-    id,
+    schemaId,
     address: contractAddr,
   };
   await unite.writeInteraction(interaction);

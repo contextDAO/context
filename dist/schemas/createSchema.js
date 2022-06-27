@@ -6,9 +6,9 @@ const src_1 = require("../contracts/src");
  * createSchema
  *
  * @param {UniteContext} context
- * @param {string} id - Title of the schema
+ * @param {string} schemaId - Title of the schema
  */
-async function createSchema(context, id) {
+async function createSchema(context, schemaId) {
     // Check Errors.
     if (!context || !context.wallet) {
         throw (new Error(`You need to init the context and connect a wallet first`));
@@ -16,7 +16,7 @@ async function createSchema(context, id) {
     console.log("\n\nTODO : Check schema id is not registered\n\n");
     // Prepare initial state.
     const state = state_1.schema;
-    state.id = id;
+    state.schemaId = schemaId;
     state.contributors[0].address = context.wallet.address;
     // deploy Schema.
     const contractAddr = await context.smartweave.createContract.deploy({
@@ -30,7 +30,7 @@ async function createSchema(context, id) {
         .connect(context.wallet.json);
     const interaction = {
         function: "registerSchema",
-        id,
+        schemaId,
         address: contractAddr,
     };
     await unite.writeInteraction(interaction);

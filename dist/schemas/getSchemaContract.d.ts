@@ -4,7 +4,7 @@ import { Contract } from "redstone-smartweave";
  * getSchemaContract
  *
  * @param {UniteContext} context
- * @param {string} id - Title of the schema
+ * @param {string} schemaId - Title of the schema
  * @return {Contract}
  */
-export default function getSchemaContract(context: UniteContext, id: string): Promise<Contract>;
+export default function getSchemaContract(context: UniteContext, schemaId: string): Promise<Contract>;
