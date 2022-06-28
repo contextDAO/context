@@ -8,11 +8,11 @@ const getSchemaContract_1 = __importDefault(require("./getSchemaContract"));
  * getSchemaState
  *
  * @param {UniteContext} context
- * @param {string} id - Title of the schema
+ * @param {string} schemaId - Title of the schema
  */
-async function getSchemaState(context, id) {
+async function getSchemaState(context, schemaId) {
     // Get schema state.
-    const contract = await (0, getSchemaContract_1.default)(context, id);
+    const contract = await (0, getSchemaContract_1.default)(context, schemaId);
     const initialState = await contract.readState();
     const state = initialState.state;
     return state;

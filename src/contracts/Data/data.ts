@@ -4,8 +4,8 @@ import {
   DataState,
 } from "./types/types";
 import { addItem } from './actions/write/addItem';
-import { set } from './actions/write/set';
-import { get } from './actions/read/get';
+import { write } from './actions/write/write';
+import { read } from './actions/read/read';
 
 declare const ContractError: any;
 
@@ -23,10 +23,10 @@ export async function handle(
   const input = action.input;
 
   switch (input.function) {
-    case 'set':
-       return await set(state, action);
-    case 'get':
-       return await get(state, action);
+    case 'write':
+       return await write(state, action);
+    case 'read':
+       return await read(state, action);
     case 'addItem':
        return await addItem(state, action);
     default:

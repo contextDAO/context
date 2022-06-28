@@ -4,26 +4,8 @@ import { dataContractSource } from "../contracts/src";
 import { Contract } from "redstone-smartweave";
 import getUnite from "../context/getUnite";
 import getSchemaState from "../schemas/getSchemaState";
+import getSchemaContract from "../schemas/getSchemaContract";
 
-/**
- * createSchema
- *
- * @param {UniteContext} context
- * @param {string} id - Title of the schema
- * @param {string} schemaId - Schema
- * @param {any} data - Schema release
- */
- export default async function writeData(
-  context: UniteContext,
-  id: string,
-  schemaId: string,
-  data: any 
-): Promise<string> {
-
-  // Check Errors.
-  if (!context || !context.wallet) {
-    throw(new Error(`You need to init the context and connect a wallet first`));
-  }
 /*
   {state: UniteState, unite: Contract} = await getUnite(context);
 
@@ -58,6 +40,31 @@ import getSchemaState from "../schemas/getSchemaState";
   await unite.writeInteraction(interaction);
   return contractAddr;
  */
-  return "test";
-};
+
+/**
+ * writeData 
+ *
+ * @param {UniteContext}context 
+ * @param {string} schemaId
+ * @param {string} dataId 
+ * @param {object} data
+ */
+export default async function writeData(
+    context: UniteContext,
+    schemaId: string,
+    dataId: string,
+    data: any,
+  ) {
+  if (!context || !context.wallet) {
+    throw(new Error(`You need to init the context and connect a wallet first`));
+  }
+  const contract: Contract = await getSchemaContract(context, dataId);
+  const interaction = {
+    function: "addProposal",
+    schemaId,
+    dataId,
+    data
+  };
+  await contract.writeInteraction(interaction);
+}
 

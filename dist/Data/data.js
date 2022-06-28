@@ -12,21 +12,21 @@
     return { state };
   };
 
-  // src/contracts/Data/actions/write/set.ts
-  var set = async (state, { caller, input: { field, value } }) => {
+  // src/contracts/Data/actions/write/write.ts
+  var write = async (state, { caller, input: { field, value } }) => {
     if (state.owner !== caller) {
       throw new ContractError("Caller is not the owner.");
     }
-    state.metadata[field] = value;
+    state.data[field] = value;
     return { state };
   };
 
-  // src/contracts/Data/actions/read/get.ts
-  var get = async (state, { input: { field, id = null } }) => {
+  // src/contracts/Data/actions/read/read.ts
+  var read = async (state, { input: { field, id = null } }) => {
     if (id === null) {
-      return { result: { value: state.metadata[field] } };
+      return { result: { value: state.data[field] } };
     } else {
-      const item = state.metadata[field].find((e) => e.id === id);
+      const item = state.data[field].find((e) => e.id === id);
       return { result: { value: item } };
     }
   };
@@ -35,10 +35,10 @@
   async function handle(state, action) {
     const input = action.input;
     switch (input.function) {
-      case "set":
-        return await set(state, action);
-      case "get":
-        return await get(state, action);
+      case "write":
+        return await write(state, action);
+      case "read":
+        return await read(state, action);
       case "addItem":
         return await addItem(state, action);
       default:

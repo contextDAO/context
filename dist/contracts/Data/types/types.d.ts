@@ -1,9 +1,9 @@
 export interface DataState {
+    dataId: string;
     owner: string;
-    id: string;
     schema: string;
     release: number;
-    metadata: any;
+    data: any;
 }
 export interface DataAction {
     input: DataInput;
@@ -12,7 +12,7 @@ export interface DataAction {
 export interface DataInput {
     function: DataFunction;
 }
-export declare type DataFunction = "addItem" | "set" | "get";
+export declare type DataFunction = "addItem" | "write" | "read";
 export declare type DataResult = {
     state: DataState;
 };

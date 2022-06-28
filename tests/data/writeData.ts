@@ -1,13 +1,13 @@
-import { mineBlock, MetadataState } from "../../../src/index";
+import { mineBlock, writeData } from "../../src/index";
 
 /**
  * createSchema
  */
 export default async function writeData() {
-  await global.unite.write(
-      global.wallet,
-      `myNFT`,
+  await writeData(
+      global.unite,
       `NFT`,
+      `myNFT`,
       {
         name: `My first NFT`,
         image: `ar://1234`,

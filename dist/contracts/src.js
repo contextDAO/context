@@ -65,50 +65,50 @@ const uniteContractSource = `
   };
 
   // src/contracts/Unite/actions/write/registerSchema.ts
-  var registerSchema = async (state, { caller, input: { id, address } }) => {
-    if (id.length === 0 || address.length === 0) {
+  var registerSchema = async (state, { caller, input: { schemaId, address } }) => {
+    if (schemaId.length === 0 || address.length === 0) {
       throw new ContractError("Invalid id or address. Both should be valid strings");
     }
-    const schema = state.schemas.find((s) => s.id === id);
+    const schema = state.schemas.find((s) => s.schemaId === schemaId);
     if (schema) {
       throw new ContractError("Schema already exists");
     }
-    state.schemas.push({ id, address });
+    state.schemas.push({ schemaId, address });
     return { state };
   };
 
   // src/contracts/Unite/actions/write/registerData.ts
-  var registerData = async (state, { caller, input: { id, schema, address } }) => {
-    if (id.length === 0 || address.length === 0) {
+  var registerData = async (state, { caller, input: { dataId, schemaId, address } }) => {
+    if (dataId.length === 0 || address.length === 0) {
       throw new ContractError("Invalid id or address. Both should be valid strings");
     }
-    const findSchema = state.schemas.find((s) => s.id === schema);
+    const findSchema = state.schemas.find((s) => s.schemaId === schemaId);
     if (!findSchema) {
       throw new ContractError("Schema does not exist");
     }
-    const findData = state.data.find((s) => s.id === id);
+    const findData = state.data.find((s) => s.dataId === dataId);
     if (findData) {
       throw new ContractError("Data is already registered");
     }
-    state.data.push({ id, schema, address });
+    state.data.push({ dataId, schemaId, address });
     return { state };
   };
 
   // src/contracts/Unite/actions/read/getSchema.ts
-  var getSchema = async (state, { input: { id } }) => {
-    if (typeof id !== "string") {
+  var getSchema = async (state, { input: { schemaId } }) => {
+    if (typeof schemaId !== "string") {
       throw new ContractError("Must specify an id");
     }
-    const schema = state.schemas.find((s) => s.id === id);
+    const schema = state.schemas.find((s) => s.schemaId === schemaId);
     return { result: { schema } };
   };
 
   // src/contracts/Unite/actions/read/getData.ts
-  var getData = async (state, { input: { id } }) => {
-    if (typeof id !== "string") {
+  var getData = async (state, { input: { dataId } }) => {
+    if (typeof dataId !== "string") {
       throw new ContractError("Must specify an id");
     }
-    const data = state.data.find((s) => s.id === id);
+    const data = state.data.find((s) => s.dataId === dataId);
     return { result: { data } };
   };
 
@@ -270,21 +270,21 @@ const dataContractSource = `
     return { state };
   };
 
-  // src/contracts/Data/actions/write/set.ts
-  var set = async (state, { caller, input: { field, value } }) => {
+  // src/contracts/Data/actions/write/write.ts
+  var write = async (state, { caller, input: { field, value } }) => {
     if (state.owner !== caller) {
       throw new ContractError("Caller is not the owner.");
     }
-    state.metadata[field] = value;
+    state.data[field] = value;
     return { state };
   };
 
-  // src/contracts/Data/actions/read/get.ts
-  var get = async (state, { input: { field, id = null } }) => {
+  // src/contracts/Data/actions/read/read.ts
+  var read = async (state, { input: { field, id = null } }) => {
     if (id === null) {
-      return { result: { value: state.metadata[field] } };
+      return { result: { value: state.data[field] } };
     } else {
-      const item = state.metadata[field].find((e) => e.id === id);
+      const item = state.data[field].find((e) => e.id === id);
       return { result: { value: item } };
     }
   };
@@ -293,10 +293,10 @@ const dataContractSource = `
   async function handle(state, action) {
     const input = action.input;
     switch (input.function) {
-      case "set":
-        return await set(state, action);
-      case "get":
-        return await get(state, action);
+      case "write":
+        return await write(state, action);
+      case "read":
+        return await read(state, action);
       case "addItem":
         return await addItem(state, action);
       default:

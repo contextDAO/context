@@ -8,12 +8,17 @@ export { initContext, deployUnite, connectWallet };
 import createSchema from "./schemas/createSchema";
 import getSchemaState from "./schemas/getSchemaState";
 import getSchemaContract from "./schemas/getSchemaContract";
+export { createSchema, getSchemaState, getSchemaContract };
+
 import addContributor from "./schemas/addContributor";
 import editContributor from "./schemas/editContributor";
+export { addContributor, editContributor };
+
 import addProposal from "./schemas/addProposal";
 import editProposal from "./schemas/editProposal";
+export { addProposal, editProposal };
 
-export { createSchema, getSchemaState, getSchemaContract, addContributor, editContributor, addProposal, editProposal };
+// Data
 
 // Data.
 import writeData from "./data/writeData";

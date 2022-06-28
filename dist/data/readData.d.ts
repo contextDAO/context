@@ -1,6 +1,6 @@
 import { UniteContext } from "../types/types";
 /**
- * writeData
+ * readData
  *
  * @param {UniteContext}context
  * @param {string} schemaId

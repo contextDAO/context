@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.nftState = void 0;
 exports.nftState = {
-    id: "NFT",
+    schemaId: "NFT",
     releaseId: 0,
     contributors: [
         {

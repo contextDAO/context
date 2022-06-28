@@ -4,13 +4,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * getSchemaContract
  *
  * @param {UniteContext} context
- * @param {string} id - Title of the schema
+ * @param {string} schemaId - Title of the schema
  * @return {Contract}
  */
-async function getSchemaContract(context, id) {
+async function getSchemaContract(context, schemaId) {
     // Get Schema address.
     const unite = context.smartweave.contract(context.uniteAddr);
-    const interaction = await unite.viewState({ function: 'getSchema', id });
+    const interaction = await unite.viewState({ function: 'getSchema', schemaId });
     if (!interaction.result.schema) {
         throw (new Error(`Invalid Schema Id`));
     }

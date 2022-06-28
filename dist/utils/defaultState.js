@@ -10,7 +10,7 @@ exports.unite = {
     data: [],
 };
 exports.schema = {
-    id: "",
+    schemaId: "",
     releaseId: -1,
     contributors: [
         {
@@ -22,9 +22,9 @@ exports.schema = {
     releases: [],
 };
 exports.data = {
+    dataId: "",
     owner: "",
-    id: "",
     schema: "",
     release: -1,
-    metadata: {}
+    data: {}
 };

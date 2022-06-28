@@ -49,6 +49,7 @@ const addProposal_1 = __importDefault(require("./schemas/addProposal"));
 exports.addProposal = addProposal_1.default;
 const editProposal_1 = __importDefault(require("./schemas/editProposal"));
 exports.editProposal = editProposal_1.default;
+// Data
 // Data.
 const writeData_1 = __importDefault(require("./data/writeData"));
 exports.writeData = writeData_1.default;

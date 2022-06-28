@@ -2,14 +2,14 @@ declare const ContractError;
 
 export const getData = async (
   state: UniteState,
-  { input: { id } }: UniteAction
+  { input: { dataId } }: UniteAction
 ): Promise<DataResult> => {
 
-  if (typeof id !== "string") {
+  if (typeof dataId!== "string") {
     throw new ContractError("Must specify an id");
   }
 
-  const data = state.data.find(s => s.id === id);
+  const data = state.data.find(s => s.dataId === dataId);
   return { result: { data }};
 };
 
