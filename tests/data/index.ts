@@ -1,4 +1,4 @@
-import writeData from "./writeData";
-import readData from "./readData";
+import testWriteData from "./testWriteData";
+import testReadData from "./testReadData";
 
-export { readData, writeData };
+export { testWriteData, testReadData };

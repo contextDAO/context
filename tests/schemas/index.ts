@@ -1,6 +1,6 @@
 // Schemas.
 import testCreateSchema from "./testCreateSchema";
-import testGetSchema from "./testCreateSchema";
+import testGetSchema from "./testGetSchema";
 
 export { testCreateSchema, testGetSchema };
 

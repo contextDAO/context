@@ -1,3 +1,4 @@
+import getUnite from "../context/getUnite";
 import { SchemaState, UniteContext } from "../types/types";
 import { schema } from "../utils/defaultState";
 import { schemaContractSource } from "../contracts/src";
@@ -16,7 +17,11 @@ export default async function createSchema(context: UniteContext, schemaId: stri
     throw(new Error(`You need to init the context and connect a wallet first`));
   }
 
-  console.log("\n\nTODO : Check schema id is not registered\n\n");
+  const unite = await getUnite(context);
+
+  // dataId should not exist
+  const registeredSchema = unite.state.schemas.find(s => s.schemaId === schemaId);
+  if (registeredSchema) throw(new Error(`${schemaId} is already registered`));
 
   // Prepare initial state.
   const state: SchemaState = newState || schema;
@@ -31,14 +36,11 @@ export default async function createSchema(context: UniteContext, schemaId: stri
   });
 
   // Register Schema to Unite.
-  const unite: Contract = context.smartweave
-    .contract(context.uniteAddr)
-    .connect(context.wallet.json);
   const interaction = {
     function: "registerSchema",
     schemaId,
     address: contractAddr,
   };
-  await unite.writeInteraction(interaction);
+  await unite.contract.writeInteraction(interaction);
 }
 

@@ -18,8 +18,9 @@ describe(`2 - Schemas`, () => {
   xit(`2.9 - Register SubSchemas`, async () => {});
 });
 
+import * as data from "./data";
 describe(`3 - Data`, () => {
-  xit(`3.1 - Write Data`, async () => {});
+  it(`3.1 - Write Data`, async () => {await data.testWriteData(); });
   xit(`3.2 - Read Data`, async () => {});
   xit(`3.3 - Update Data`, async () => {});
   xit(`3.4 - Add items to Collections`, async () => { });

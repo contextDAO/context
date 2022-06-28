@@ -13,8 +13,6 @@ export default async function addContributor(context: UniteContext, schemaId: st
   if (!context || !context.wallet) {
     throw(new Error(`You need to init the context and connect a wallet first`));
   }
-  console.log("\n\nTODO : Check schema id is registered\n\n");
-
   const contract: Contract = await getSchemaContract(context, schemaId);
   await contract.writeInteraction({ function: "addContributor" });
 }

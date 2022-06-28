@@ -3,13 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const getSchemaContract_1 = __importDefault(require("../schemas/getSchemaContract"));
+const getUnite_1 = __importDefault(require("../context/getUnite"));
 /*
   {state: UniteState, unite: Contract} = await getUnite(context);
 
-  // id should not exist
-  const uniteData = state.data.find(s => s.id === id);
-  if (uniteData) throw(new Error(`${id} is already registered`));
 
   // schema should exist
   const uniteSchema = uniteState.schemas.find(s => s.id === schemaId);
@@ -50,13 +47,14 @@ async function writeData(context, schemaId, dataId, data) {
     if (!context || !context.wallet) {
         throw (new Error(`You need to init the context and connect a wallet first`));
     }
-    const contract = await (0, getSchemaContract_1.default)(context, dataId);
-    const interaction = {
-        function: "addProposal",
-        schemaId,
-        dataId,
-        data
-    };
-    await contract.writeInteraction(interaction);
+    const unite = await (0, getUnite_1.default)(context);
+    // dataId should not exist
+    const registeredData = unite.state.data.find(s => s.dataId === dataId);
+    if (registeredData)
+        throw (new Error(`${dataId} is already registered`));
+    // schemaId should exist
+    const schema = unite.state.schemas.find(s => s.schemaId === schemaId);
+    if (!schema)
+        throw (new Error(`${schemaId} is not registered`));
 }
 exports.default = writeData;

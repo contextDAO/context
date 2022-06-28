@@ -1,5 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const getUnite_1 = __importDefault(require("../context/getUnite"));
 const defaultState_1 = require("../utils/defaultState");
 const src_1 = require("../contracts/src");
 /**
@@ -14,7 +18,11 @@ async function createSchema(context, schemaId, newState) {
     if (!context || !context.wallet) {
         throw (new Error(`You need to init the context and connect a wallet first`));
     }
-    console.log("\n\nTODO : Check schema id is not registered\n\n");
+    const unite = await (0, getUnite_1.default)(context);
+    // dataId should not exist
+    const registeredSchema = unite.state.schemas.find(s => s.schemaId === schemaId);
+    if (registeredSchema)
+        throw (new Error(`${schemaId} is already registered`));
     // Prepare initial state.
     const state = newState || defaultState_1.schema;
     state.schemaId = schemaId;
@@ -26,14 +34,11 @@ async function createSchema(context, schemaId, newState) {
         src: src_1.schemaContractSource,
     });
     // Register Schema to Unite.
-    const unite = context.smartweave
-        .contract(context.uniteAddr)
-        .connect(context.wallet.json);
     const interaction = {
         function: "registerSchema",
         schemaId,
         address: contractAddr,
     };
-    await unite.writeInteraction(interaction);
+    await unite.contract.writeInteraction(interaction);
 }
 exports.default = createSchema;

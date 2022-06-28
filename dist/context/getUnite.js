@@ -8,9 +8,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 async function getUnite(context) {
     // Get schema state.
-    const unite = context.smartweave.contract(context.uniteAddr);
-    const initialState = await unite.readState();
+    const contract = context.smartweave.contract(context.uniteAddr);
+    if (context.wallet) {
+        contract.connect(context.wallet.json);
+    }
+    const initialState = await contract.readState();
     const state = initialState.state;
-    return { state, unite };
+    return { state, contract };
 }
 exports.default = getUnite;

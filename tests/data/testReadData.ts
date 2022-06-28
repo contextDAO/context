@@ -1,4 +1,4 @@
-import { MetadataState } from "../../../src/index";
+import { mineBlock, writeData } from "../../src/index";
 
 /**
  * readData 
