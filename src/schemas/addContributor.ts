@@ -1,5 +1,5 @@
 import { SchemaState, UniteContext } from "../types/types";
-import { schema } from "../utils/state";
+import { schema } from "../utils/defaultState";
 import { Contract } from "redstone-smartweave";
 import getSchemaContract from "./getSchemaContract";
 

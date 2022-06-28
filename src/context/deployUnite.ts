@@ -1,5 +1,5 @@
 import { UniteState, UniteContext } from "../types/types";
-import { unite } from "../utils/state";
+import { unite } from "../utils/defaultState";
 import { uniteContractSource } from "../contracts/src";
 
 /**

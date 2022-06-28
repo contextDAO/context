@@ -15,12 +15,18 @@ import editProposal from "./schemas/editProposal";
 
 export { createSchema, getSchemaState, getSchemaContract, addContributor, editContributor, addProposal, editProposal };
 
+// Data.
+import writeData from "./data/writeData";
+// import readData from "./data/readData";
+
+export { writeData };
+
 // Utils.
 import mineBlock from "./utils/mineBlock"
 import testWallet from "./utils/testWallet"
 export { mineBlock, testWallet };
 
 // States.
-import * as defaultState from "./utils/state"
+import * as defaultState from "./utils/defaultState"
 export { defaultState };
 

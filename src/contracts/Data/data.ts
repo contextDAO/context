@@ -1,7 +1,7 @@
 import {
-  MetadataAction,
-  MetadataResult,
-  MetadataState,
+  DataAction,
+  DataResult,
+  DataState,
 } from "./types/types";
 import { addItem } from './actions/write/addItem';
 import { set } from './actions/write/set';
@@ -12,14 +12,14 @@ declare const ContractError: any;
 /**
  * Main Entry point : handle
  *
- * @param {MetadataSchemaState} state
- * @param {MetadataAction} action
- * @return {MetadataResult}
+ * @param {DataSchemaState} state
+ * @param {DataAction} action
+ * @return {DataResult}
  */
 export async function handle(
-  state: MetadataState,
-  action: MetadataAction
-): Promise<MetadataResult> {
+  state: DataState,
+  action: DataAction
+): Promise<DataResult> {
   const input = action.input;
 
   switch (input.function) {

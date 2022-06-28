@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.metadataContractSource = exports.schemaContractSource = exports.uniteContractSource = void 0;
+exports.dataContractSource = exports.schemaContractSource = exports.uniteContractSource = void 0;
 const uniteContractSource = `
 (() => {
   // src/contracts/Unite/actions/read/balance.ts
@@ -255,9 +255,9 @@ const schemaContractSource = `
 })();
 `;
 exports.schemaContractSource = schemaContractSource;
-const metadataContractSource = `
+const dataContractSource = `
 (() => {
-  // src/contracts/Metadata/actions/write/addItem.ts
+  // src/contracts/Data/actions/write/addItem.ts
   var addItem = async (state, { caller, input: { field, item, id } }) => {
     if (state.owner !== caller) {
       throw new ContractError("Caller is not the owner.");
@@ -270,7 +270,7 @@ const metadataContractSource = `
     return { state };
   };
 
-  // src/contracts/Metadata/actions/write/set.ts
+  // src/contracts/Data/actions/write/set.ts
   var set = async (state, { caller, input: { field, value } }) => {
     if (state.owner !== caller) {
       throw new ContractError("Caller is not the owner.");
@@ -279,7 +279,7 @@ const metadataContractSource = `
     return { state };
   };
 
-  // src/contracts/Metadata/actions/read/get.ts
+  // src/contracts/Data/actions/read/get.ts
   var get = async (state, { input: { field, id = null } }) => {
     if (id === null) {
       return { result: { value: state.metadata[field] } };
@@ -289,7 +289,7 @@ const metadataContractSource = `
     }
   };
 
-  // src/contracts/Metadata/metadata.ts
+  // src/contracts/Data/data.ts
   async function handle(state, action) {
     const input = action.input;
     switch (input.function) {
@@ -305,4 +305,4 @@ const metadataContractSource = `
   }
 })();
 `;
-exports.metadataContractSource = metadataContractSource;
+exports.dataContractSource = dataContractSource;

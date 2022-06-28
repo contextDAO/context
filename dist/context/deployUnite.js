@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const state_1 = require("../utils/state");
+const defaultState_1 = require("../utils/defaultState");
 const src_1 = require("../contracts/src");
 /**
  * deployUnite
@@ -8,7 +8,7 @@ const src_1 = require("../contracts/src");
  * @param {UniteContext} context
  */
 async function deployUnite(context) {
-    const state = state_1.unite;
+    const state = defaultState_1.unite;
     if (!context || !context.wallet) {
         throw (new Error(`You need to init the context and connect a wallet first`));
     }

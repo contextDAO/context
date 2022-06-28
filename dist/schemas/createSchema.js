@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const state_1 = require("../utils/state");
+const defaultState_1 = require("../utils/defaultState");
 const src_1 = require("../contracts/src");
 /**
  * createSchema
@@ -15,7 +15,7 @@ async function createSchema(context, id) {
     }
     console.log("\n\nTODO : Check schema id is not registered\n\n");
     // Prepare initial state.
-    const state = state_1.schema;
+    const state = defaultState_1.schema;
     state.id = id;
     state.contributors[0].address = context.wallet.address;
     // deploy Schema.

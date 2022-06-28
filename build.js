@@ -5,7 +5,7 @@ const replace = require("replace-in-file");
 const contracts = [
   "/contracts/Unite/unite.ts",
   "/contracts/Schema/schema.ts",
-  "/contracts/Metadata/metadata.ts",
+  "/contracts/Data/data.ts",
 ];
 
 build({
@@ -30,12 +30,12 @@ build({
     });
     const unite = fs.readFileSync("./dist/Unite/unite.js").toString();
     const schema = fs.readFileSync("./dist/Schema/schema.js").toString();
-    const metadata = fs.readFileSync("./dist/Metadata/metadata.js").toString();
+    const data = fs.readFileSync("./dist/Data/data.js").toString();
     const fileContents = `
       const uniteContractSource : string = \`\n${unite}\`;
       const schemaContractSource : string = \`\n${schema}\`;
-      const metadataContractSource : string = \`\n${metadata}\`;
-      export {uniteContractSource, schemaContractSource, metadataContractSource };
+      const dataContractSource : string = \`\n${data}\`;
+      export {uniteContractSource, schemaContractSource, dataContractSource };
     `;
     fs.writeFileSync("./src/contracts/src.ts", fileContents);
   });

@@ -1,9 +1,9 @@
 declare const ContractError;
 
 export const get = async (
-  state: MetadataState,
-  { input: { field, id = null } }: MetadataAction
-  ): Promise<MetadataResult> => {
+  state: DataState,
+  { input: { field, id = null } }: DataAction
+  ): Promise<DataResult> => {
     if (id === null) {
       return { result: { value: state.metadata[field] } };
     } else {

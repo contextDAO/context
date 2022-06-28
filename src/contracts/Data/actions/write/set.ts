@@ -1,9 +1,9 @@
 declare const ContractError;
 
 export const set = async (
-  state: MetadataState,
-  { caller, input: { field, value} }: MetadataAction
-): Promise<MetadataResult> => {
+  state: DataState,
+  { caller, input: { field, value} }: DataAction
+): Promise<DataResult> => {
   if (state.owner !== caller) {
     throw new ContractError("Caller is not the owner.");
   }

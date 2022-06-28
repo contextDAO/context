@@ -1,6 +1,6 @@
 import { SchemaState, Proposal, Release } from "../contracts/Schema/types/types";
-import { MetadataState } from "../contracts/Metadata/types/types";
 import { UniteSchema, UniteState, UniteData } from "../contracts/Unite/types/types";
+import { DataState } from "../contracts/Data/types/types";
 
 export const unite: UniteState = {
   ticker: "UDAO",
@@ -24,7 +24,7 @@ export const schema: SchemaState = {
   releases: <Release[]>[],
 };
 
-export const data: MetadataState = {
+export const data: DataState = {
   owner: "",
   id: "",
   schema: "",
