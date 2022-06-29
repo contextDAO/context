@@ -17,6 +17,7 @@ import readData from "./data/readData";
 export { writeData, readData };
 import mineBlock from "./utils/mineBlock";
 import testWallet from "./utils/testWallet";
-export { mineBlock, testWallet };
+import openWallet from "./utils/openWallet";
+export { mineBlock, testWallet, openWallet };
 import * as defaultState from "./utils/defaultState";
 export { defaultState };

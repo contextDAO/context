@@ -13,7 +13,7 @@ export default async function connectWallet(dapp: DappContext, json: JWKInterfac
     json,
     address: await dapp.arweave.wallets.getAddress(json),
   }
-  context.wallet = wallet; 
+  dapp.wallet = wallet; 
 }
 
 

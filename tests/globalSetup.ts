@@ -8,7 +8,7 @@ const setup = async (): Promise<void> => {
   await global.arweave.start();
 
   // Init Context.
-  global.context = await initContext(`localhost`);
+  global.context = await initContext({ network: `localhost`});
 
   global.editor = await testWallet(global.context.arweave);
   global.contributor = await testWallet(global.context.arweave);

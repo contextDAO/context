@@ -18,8 +18,6 @@ import addProposal from "./schemas/addProposal";
 import editProposal from "./schemas/editProposal";
 export { addProposal, editProposal };
 
-// Data
-
 // Data.
 import writeData from "./data/writeData";
 import readData from "./data/readData";
@@ -29,7 +27,8 @@ export { writeData, readData };
 // Utils.
 import mineBlock from "./utils/mineBlock"
 import testWallet from "./utils/testWallet"
-export { mineBlock, testWallet };
+import openWallet from "./utils/openWallet"
+export { mineBlock, testWallet, openWallet };
 
 // States.
 import * as defaultState from "./utils/defaultState"

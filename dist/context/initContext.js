@@ -6,15 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const arweave_1 = __importDefault(require("arweave"));
 const redstone_smartweave_1 = require("redstone-smartweave");
 /**
- * Init Context Instance
+ * Get Connection
  *
  * @param {Network} network
- * @param {JWKInterface} wallet
- * @return {Context}
+ * @return {ArweaveConfiguration}
  */
-async function initContext(network, wallet) {
-    const dapp = {};
-    dapp.network = network;
+function getConnection(network) {
     // Connect to Arweave.
     let connection = {};
     if (network === "localhost") {
@@ -26,17 +23,32 @@ async function initContext(network, wallet) {
     else if (network === "mainnet") {
         connection = { host: "arweave.net", port: 443, protocol: "https" };
     }
+    return connection;
+}
+/**
+ * Init Context Instance
+ *
+ * @param {ContextConfiguration} configuration
+ * @return {Context}
+ */
+async function initContext(configuration) {
+    const dapp = {};
+    dapp.network = (configuration.network) ? configuration.network : `mainnet`;
+    // Arweave.
     redstone_smartweave_1.LoggerFactory.INST.logLevel("error");
-    dapp.arweave = arweave_1.default.init(connection);
+    dapp.arweave = arweave_1.default.init(getConnection(dapp.network));
     // Smartweave.
-    dapp.smartweave =
-        network === "localhost"
-            ? redstone_smartweave_1.SmartWeaveNodeFactory.forTesting(dapp.arweave)
-            : redstone_smartweave_1.SmartWeaveNodeFactory.memCached(dapp.arweave);
+    dapp.smartweave = dapp.network === "localhost"
+        ? redstone_smartweave_1.SmartWeaveNodeFactory.forTesting(dapp.arweave)
+        : redstone_smartweave_1.SmartWeaveNodeFactory.memCached(dapp.arweave);
     // Wallet
-    if (wallet) {
-        dapp.wallet = wallet;
+    if (configuration.wallet) {
+        dapp.wallet = {
+            json: configuration.wallet,
+            address: await dapp.arweave.wallets.getAddress(configuration.wallet),
+        };
     }
+    dapp.contextAddr = (configuration.address) ? configuration.address : ``;
     return dapp;
 }
 exports.default = initContext;

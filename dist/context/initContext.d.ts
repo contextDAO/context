@@ -1,10 +1,15 @@
-import { Wallet } from "../types/types";
 import { Network, DappContext } from "../types/types";
+import { JWKInterface } from "arweave/node/lib/wallet";
+declare type ContextConfiguration = {
+    network?: Network;
+    wallet?: JWKInterface;
+    address?: string;
+};
 /**
  * Init Context Instance
  *
- * @param {Network} network
- * @param {JWKInterface} wallet
+ * @param {ContextConfiguration} configuration
  * @return {Context}
  */
-export default function initContext(network: Network, wallet?: Wallet): Promise<DappContext>;
+export default function initContext(configuration: ContextConfiguration): Promise<DappContext>;
+export {};

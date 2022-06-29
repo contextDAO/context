@@ -2,20 +2,29 @@ import Arweave from "arweave";
 import { Wallet } from "../types/types";
 import { SmartWeaveNodeFactory, LoggerFactory } from "redstone-smartweave";
 import { Network, DappContext } from "../types/types";
+import {JWKInterface} from "arweave/node/lib/wallet";
+
+type ArweaveConfiguration = {
+  host: string;
+  port: number;
+  protocol: string;
+}
+
+type ContextConfiguration = {
+  network?: Network,
+  wallet?: JWKInterface,
+  address?: string;
+};
 
 /**
- * Init Context Instance
+ * Get Connection
  *
  * @param {Network} network
- * @param {JWKInterface} wallet
- * @return {Context}
+ * @return {ArweaveConfiguration}
  */
-export default async function initContext(network: Network, wallet?: Wallet): Promise<DappContext> {
-  const dapp: DappContext = {} as DappContext;
-  dapp.network = network;
-
+function getConnection(network: Network): ArweaveConfiguration {
   // Connect to Arweave.
-  let connection = {};
+  let connection: ArweaveConfiguration = {} as ArweaveConfiguration;
   if (network === "localhost") {
     connection = { host: "localhost", port: 1984, protocol: "http" };
   } else if (network === "testnet") {
@@ -23,20 +32,37 @@ export default async function initContext(network: Network, wallet?: Wallet): Pr
   } else if (network === "mainnet") {
     connection = { host: "arweave.net", port: 443, protocol: "https" };
   }
+  return connection; 
+}
+
+/**
+ * Init Context Instance
+ *
+ * @param {ContextConfiguration} configuration
+ * @return {Context}
+ */
+export default async function initContext(configuration: ContextConfiguration): Promise<DappContext> {
+  const dapp: DappContext = {} as DappContext;
+  dapp.network = (configuration.network) ? configuration.network : `mainnet`;
+
+  // Arweave.
   LoggerFactory.INST.logLevel("error");
-  dapp.arweave = Arweave.init(connection);
+  dapp.arweave = Arweave.init(getConnection(dapp.network));
 
   // Smartweave.
-  dapp.smartweave =
-  network === "localhost"
+  dapp.smartweave = dapp.network === "localhost"
     ? SmartWeaveNodeFactory.forTesting(dapp.arweave)
     : SmartWeaveNodeFactory.memCached(dapp.arweave);
 
   // Wallet
-  if (wallet) {
-    dapp.wallet = wallet;
+  if (configuration.wallet) {
+    dapp.wallet = {
+      json: configuration.wallet,
+      address: await dapp.arweave.wallets.getAddress(configuration.wallet),
+    }
   }
 
+  dapp.contextAddr = (configuration.address) ? configuration.address: ``;
   return dapp;
 }
 

@@ -11,6 +11,6 @@ async function connectWallet(dapp, json) {
         json,
         address: await dapp.arweave.wallets.getAddress(json),
     };
-    context.wallet = wallet;
+    dapp.wallet = wallet;
 }
 exports.default = connectWallet;
