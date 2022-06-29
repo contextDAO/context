@@ -1,9 +1,9 @@
 declare const ContractError;
 
 export const register = async (
-  state: UniteState,
-  { caller, input: { qty } }: UniteAction
-): Promise<UniteResult> => {
+  state: ContextState,
+  { caller, input: { qty } }: ContextAction
+): Promise<ContextResult> => {
   if (qty <= 0) {
     throw new ContractError("Invalid token mint");
   }

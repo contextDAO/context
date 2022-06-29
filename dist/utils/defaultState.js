@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.data = exports.schema = exports.unite = void 0;
-exports.unite = {
+exports.data = exports.schema = exports.context = void 0;
+exports.context = {
     ticker: "UDAO",
-    name: "Unite DAO Credits",
+    name: "Context DAO Credits",
     owner: "",
     balances: {},
     schemas: [],

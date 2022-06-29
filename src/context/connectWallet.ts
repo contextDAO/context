@@ -1,19 +1,19 @@
 import { Wallet } from "../types/types";
 import { JWKInterface } from "arweave/node/lib/wallet";
-import { UniteContext } from "../types/types";
+import { DappContext } from "../types/types";
 
 /**
  * Connect a wallet to the context
  *
- * @param {UniteContext}unite 
+ * @param {DappContext} dapp 
  * @param {JWKInterface} json
  */
-export default async function connectWallet(unite: UniteContext, json: JWKInterface) {
+export default async function connectWallet(dapp: DappContext, json: JWKInterface) {
   const wallet: Wallet = {
     json,
-    address: await unite.arweave.wallets.getAddress(json),
+    address: await dapp.arweave.wallets.getAddress(json),
   }
-  unite.wallet = wallet; 
+  context.wallet = wallet; 
 }
 
 

@@ -1,5 +1,5 @@
 (() => {
-  // src/contracts/Unite/actions/read/balance.ts
+  // src/contracts/Context/actions/read/balance.ts
   var balance = async (state, { input: { target } }) => {
     const ticker = state.ticker;
     const balances = state.balances;
@@ -12,7 +12,7 @@
     return { result: { target, ticker, balance: balances[target] } };
   };
 
-  // src/contracts/Unite/actions/write/mintTokens.ts
+  // src/contracts/Context/actions/write/mintTokens.ts
   var mintTokens = async (state, { caller, input: { qty } }) => {
     const balances = state.balances;
     if (qty <= 0) {
@@ -25,7 +25,7 @@
     return { state };
   };
 
-  // src/contracts/Unite/actions/write/transferTokens.ts
+  // src/contracts/Context/actions/write/transferTokens.ts
   var transferTokens = async (state, { caller, input: { target, qty } }) => {
     const balances = state.balances;
     if (!Number.isInteger(qty)) {
@@ -52,7 +52,7 @@
     return { state };
   };
 
-  // src/contracts/Unite/actions/write/register.ts
+  // src/contracts/Context/actions/write/register.ts
   var register = async (state, { caller, input: { qty } }) => {
     if (qty <= 0) {
       throw new ContractError("Invalid token mint");
@@ -60,7 +60,7 @@
     return { state };
   };
 
-  // src/contracts/Unite/actions/write/registerSchema.ts
+  // src/contracts/Context/actions/write/registerSchema.ts
   var registerSchema = async (state, { caller, input: { schemaId, address } }) => {
     if (schemaId.length === 0 || address.length === 0) {
       throw new ContractError("Invalid id or address. Both should be valid strings");
@@ -73,7 +73,7 @@
     return { state };
   };
 
-  // src/contracts/Unite/actions/write/registerData.ts
+  // src/contracts/Context/actions/write/registerData.ts
   var registerData = async (state, { caller, input: { dataId, schemaId, address } }) => {
     if (dataId.length === 0 || address.length === 0) {
       throw new ContractError("Invalid id or address. Both should be valid strings");
@@ -90,7 +90,7 @@
     return { state };
   };
 
-  // src/contracts/Unite/actions/read/getSchema.ts
+  // src/contracts/Context/actions/read/getSchema.ts
   var getSchema = async (state, { input: { schemaId } }) => {
     if (typeof schemaId !== "string") {
       throw new ContractError("Must specify an id");
@@ -99,7 +99,7 @@
     return { result: { schema } };
   };
 
-  // src/contracts/Unite/actions/read/getData.ts
+  // src/contracts/Context/actions/read/getData.ts
   var getData = async (state, { input: { dataId } }) => {
     if (typeof dataId !== "string") {
       throw new ContractError("Must specify an id");
@@ -108,7 +108,7 @@
     return { result: { data } };
   };
 
-  // src/contracts/Unite/unite.ts
+  // src/contracts/Context/context.ts
   async function handle(state, action) {
     const input = action.input;
     switch (input.function) {

@@ -1,7 +1,7 @@
 {
-  "name": "@unitedao/unite",
-  "version": "1.0.20",
-  "description": "Unite DAO base contracts AND SDK",
+  "name": "@contextdao/context",
+  "version": "1.0.0",
+  "description": "Context DAO base contracts AND SDK",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "author": {
@@ -13,7 +13,7 @@
   "licence": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Unite-DAO/unite.git"
+    "url": "https://github.com/contextDAO/context.git"
   },
   "scripts": {
     "lint": "eslint . --fix",

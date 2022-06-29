@@ -26,12 +26,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.defaultState = exports.testWallet = exports.mineBlock = exports.readData = exports.writeData = exports.editProposal = exports.addProposal = exports.editContributor = exports.addContributor = exports.getSchemaContract = exports.getSchemaState = exports.createSchema = exports.connectWallet = exports.deployUnite = exports.initContext = void 0;
+exports.defaultState = exports.testWallet = exports.mineBlock = exports.readData = exports.writeData = exports.editProposal = exports.addProposal = exports.editContributor = exports.addContributor = exports.getSchemaContract = exports.getSchemaState = exports.createSchema = exports.connectWallet = exports.deployContext = exports.initContext = void 0;
 // Context.
 const initContext_1 = __importDefault(require("./context/initContext"));
 exports.initContext = initContext_1.default;
-const deployUnite_1 = __importDefault(require("./context/deployUnite"));
-exports.deployUnite = deployUnite_1.default;
+const deployContext_1 = __importDefault(require("./context/deployContext"));
+exports.deployContext = deployContext_1.default;
 const connectWallet_1 = __importDefault(require("./context/connectWallet"));
 exports.connectWallet = connectWallet_1.default;
 // Schemas

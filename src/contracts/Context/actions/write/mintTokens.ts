@@ -1,9 +1,9 @@
 declare const ContractError;
 
 export const mintTokens = async (
-  state: UniteState,
-  { caller, input: { qty } }: UniteAction
-): Promise<UniteResult> => {
+  state: ContextState,
+  { caller, input: { qty } }: ContextAction
+): Promise<ContextResult> => {
   const balances = state.balances;
 
   if (qty <= 0) {

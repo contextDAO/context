@@ -1,10 +1,10 @@
 import { Wallet } from "../types/types";
-import { Network, UniteContext } from "../types/types";
+import { Network, DappContext } from "../types/types";
 /**
- * Init Unite Instance
+ * Init Context Instance
  *
  * @param {Network} network
  * @param {JWKInterface} wallet
- * @return {Unite}
+ * @return {Context}
  */
-export default function initContext(network: Network, wallet?: Wallet): Promise<UniteContext>;
+export default function initContext(network: Network, wallet?: Wallet): Promise<DappContext>;

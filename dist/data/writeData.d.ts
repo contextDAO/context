@@ -1,10 +1,10 @@
-import { UniteContext } from "../types/types";
+import { DappContext } from "../types/types";
 /**
  * writeData
  *
- * @param {UniteContext}context
+ * @param {DappContext} dapp
  * @param {string} schemaId
  * @param {string} dataId
  * @param {object} data
  */
-export default function writeData(context: UniteContext, schemaId: string, dataId: string, data: any): Promise<string>;
+export default function writeData(dapp: DappContext, schemaId: string, dataId: string, data: any): Promise<string>;

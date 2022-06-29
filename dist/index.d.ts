@@ -1,7 +1,7 @@
 import initContext from "./context/initContext";
-import deployUnite from "./context/deployUnite";
+import deployContext from "./context/deployContext";
 import connectWallet from "./context/connectWallet";
-export { initContext, deployUnite, connectWallet };
+export { initContext, deployContext, connectWallet };
 import createSchema from "./schemas/createSchema";
 import getSchemaState from "./schemas/getSchemaState";
 import getSchemaContract from "./schemas/getSchemaContract";

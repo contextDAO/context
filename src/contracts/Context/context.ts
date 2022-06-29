@@ -6,21 +6,21 @@ import { registerSchema } from "./actions/write/registerSchema";
 import { registerData} from "./actions/write/registerData";
 import { getSchema } from "./actions/read/getSchema";
 import { getData} from "./actions/read/getData";
-import { UniteAction, UniteResult, UniteState, PstResult } from "./types/types";
+import { ContextAction, ContextResult, ContextState, PstResult } from "./types/types";
 
 declare const ContractError;
 
 /**
  * Handle function
  *
- * @param {UniteState} state
- * @param {UniteAction} action
- * @return {UniteResult}
+ * @param {ContextState} state
+ * @param {ContextAction} action
+ * @return {ContextResult}
  */
 export async function handle(
-  state: UniteState,
-  action: UniteAction
-): Promise<UniteResult> {
+  state: ContextState,
+  action: ContextAction
+): Promise<ContextResult> {
   const input = action.input;
 
   switch (input.function) {

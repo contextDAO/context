@@ -1,26 +1,26 @@
-import { UniteContext } from "../types/types";
+import { DappContext } from "../types/types";
 import { Contract } from "redstone-smartweave";
 
 /**
  * getDataContract
  *
- * @param {UniteContext} context
+ * @param {DappContext} dapp
  * @param {string} dataId
  * @return {Contract}
  */
-export default async function getDataContract(context: UniteContext, dataId: string): Promise<Contract> {
+export default async function getDataContract(dapp: DappContext, dataId: string): Promise<Contract> {
   // Get Schema address.
-  const unite: Contract = context.smartweave.contract(context.uniteAddr);
-  const interaction: any = await unite.viewState({ function: 'getData', dataId});
+  const context: Contract = dapp.smartweave.contract(dapp.contextAddr);
+  const interaction: any = await context.viewState({ function: 'getData', dataId});
   if (!interaction.result.data) {
     throw(new Error(`Invalid Schema Id`));
   }
   const contractAddr = interaction.result.data.address;
-  const contract: Contract = context.smartweave.contract(contractAddr);
+  const contract: Contract = dapp.smartweave.contract(contractAddr);
 
   // Conect wallet
-  if (context.wallet) {
-   contract.connect(context.wallet.json);
+  if (dapp.wallet) {
+   contract.connect(dapp.wallet.json);
   }
 
   return contract;

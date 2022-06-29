@@ -1,18 +1,18 @@
 import Arweave from "arweave";
 import { Wallet } from "../types/types";
 import { SmartWeaveNodeFactory, LoggerFactory } from "redstone-smartweave";
-import { Network, UniteContext } from "../types/types";
+import { Network, DappContext } from "../types/types";
 
 /**
- * Init Unite Instance
+ * Init Context Instance
  *
  * @param {Network} network
  * @param {JWKInterface} wallet
- * @return {Unite}
+ * @return {Context}
  */
-export default async function initContext(network: Network, wallet?: Wallet): Promise<UniteContext> {
-  const unite: UniteContext = {} as UniteContext;
-  unite.network = network;
+export default async function initContext(network: Network, wallet?: Wallet): Promise<DappContext> {
+  const dapp: DappContext = {} as DappContext;
+  dapp.network = network;
 
   // Connect to Arweave.
   let connection = {};
@@ -24,20 +24,20 @@ export default async function initContext(network: Network, wallet?: Wallet): Pr
     connection = { host: "arweave.net", port: 443, protocol: "https" };
   }
   LoggerFactory.INST.logLevel("error");
-  unite.arweave = Arweave.init(connection);
+  dapp.arweave = Arweave.init(connection);
 
   // Smartweave.
-  unite.smartweave =
+  dapp.smartweave =
   network === "localhost"
-    ? SmartWeaveNodeFactory.forTesting(unite.arweave)
-    : SmartWeaveNodeFactory.memCached(unite.arweave);
+    ? SmartWeaveNodeFactory.forTesting(dapp.arweave)
+    : SmartWeaveNodeFactory.memCached(dapp.arweave);
 
   // Wallet
   if (wallet) {
-    unite.wallet = wallet;
+    dapp.wallet = wallet;
   }
 
-  return unite;
+  return dapp;
 }
 
 

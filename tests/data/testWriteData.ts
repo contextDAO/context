@@ -10,12 +10,12 @@ const nftData = {
  */
 export default async function testWriteData() {
   expect(async () => {
-    await writeData(global.unite, `NoSchema`, `myNFT`, nftData );
+    await writeData(global.context, `NoSchema`, `myNFT`, nftData );
   })
   .rejects
   .toThrow(`NoSchema is not registered`);
 
 
-  await writeData(global.unite, `NFT`, `myNFT`, nftData );
-  await mineBlock(global.unite.arweave);
+  await writeData(global.context, `NFT`, `myNFT`, nftData );
+  await mineBlock(global.context.arweave);
 }

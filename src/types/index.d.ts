@@ -1,11 +1,11 @@
 /* eslint-disable no-var */
 import ArLocal from "arlocal";
-import { Unite } from "../src/index";
+import { Context } from "../src/index";
 import { Wallet } from "./types";
 
 declare global {
   var arweave: Arlocal;
-  var unite: Unite;
+  var context: Context;
   var editor: Wallet;
   var contributor: Wallet;
   var user: Wallet;

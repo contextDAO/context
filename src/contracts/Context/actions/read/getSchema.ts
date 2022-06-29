@@ -1,8 +1,8 @@
 declare const ContractError;
 
 export const getSchema = async (
-  state: UniteState,
-  { input: { schemaId } }: UniteAction
+  state: ContextState,
+  { input: { schemaId } }: ContextAction
 ): Promise<PstResult> => {
 
   if (typeof schemaId!== "string") {

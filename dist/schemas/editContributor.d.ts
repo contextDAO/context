@@ -1,10 +1,10 @@
-import { UniteContext } from "../types/types";
+import { DappContext } from "../types/types";
 /**
  * editContributor
  *
- * @param {UniteContext} context
+ * @param {DappContext} dapp
  * @param {string} id - Title of the schema
  * @param {string} userAddr - User address
  * @param {string} role - New role
  */
-export default function editContributor(context: UniteContext, id: string, userAddr: string, role: string): Promise<void>;
+export default function editContributor(dapp: DappContext, id: string, userAddr: string, role: string): Promise<void>;

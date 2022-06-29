@@ -1,15 +1,15 @@
 import Arweave from "arweave";
 import { SmartWeave } from "redstone-smartweave";
 import { JWKInterface } from "arweave/node/lib/wallet";
-import { UniteState, UniteSchema, UniteData } from "../contracts/Unite/types/types";
+import { ContextState, ContextSchema, ContextData } from "../contracts/Context/types/types";
 import { SchemaState, Field, ProposalStatus } from "../contracts/Schema/types/types";
 import { DataState } from "../contracts/Data/types/types";
 
-type UniteContext = {
+type DappContext= {
   network: Network;
   arweave: Arweave;
   smartweave: SmartWeave;
-  uniteAddr: string; 
+  contextAddr: string; 
   wallet?: Wallet;
 }
 
@@ -24,12 +24,12 @@ type Network = "localhost" | "testnet" | "mainnet";
 export {
   Wallet,
   Network,
-  UniteContext,
-  UniteState,
+  DappContext,
+  ContextState,
   SchemaState,
   Field,
   ProposalStatus,
   DataState,
-  UniteSchema,
-  UniteData
+  ContextSchema,
+  ContextData
 };

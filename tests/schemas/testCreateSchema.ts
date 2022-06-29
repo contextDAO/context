@@ -6,10 +6,10 @@ import { humanState } from "../../src/tools/schemas/human";
  */
 export default async function testCreateSchema() {
   // Create empty schemas.
-  await createSchema(global.unite, `Human`, humanState );
-  await createSchema(global.unite, `NFT` );
+  await createSchema(global.context, `Human`, humanState );
+  await createSchema(global.context, `NFT` );
 
   // get the schema and check values.
-  await mineBlock(global.unite.arweave);
+  await mineBlock(global.context.arweave);
 }
 

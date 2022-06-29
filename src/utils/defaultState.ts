@@ -1,14 +1,14 @@
 import { SchemaState, Proposal, Release } from "../contracts/Schema/types/types";
-import { UniteSchema, UniteState, UniteData } from "../contracts/Unite/types/types";
+import { ContextSchema, ContextState, ContextData } from "../contracts/Context/types/types";
 import { DataState } from "../contracts/Data/types/types";
 
-export const unite: UniteState = {
+export const context: ContextState = {
   ticker: "UDAO",
-  name: "Unite DAO Credits",
+  name: "Context DAO Credits",
   owner: "",
   balances: {},
-  schemas: <UniteSchema[]>[],
-  data: <UniteData[]>[],
+  schemas: <ContextSchema[]>[],
+  data: <ContextData[]>[],
 }
 
 export const schema: SchemaState = {

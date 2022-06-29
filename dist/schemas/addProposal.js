@@ -7,16 +7,16 @@ const getSchemaContract_1 = __importDefault(require("./getSchemaContract"));
 /**
  * addProposal
  *
- * @param {UniteContext}context
+ * @param {DappContext}dapp
  * @param {string} id - Title of the schema
  * @param {string} proposalName
  * @param {Field} field
  */
-async function addProposal(context, id, proposalName, field) {
-    if (!context || !context.wallet) {
-        throw (new Error(`You need to init the context and connect a wallet first`));
+async function addProposal(dapp, id, proposalName, field) {
+    if (!dapp || !dapp.wallet) {
+        throw (new Error(`You need to init the dapp and connect a wallet first`));
     }
-    const contract = await (0, getSchemaContract_1.default)(context, id);
+    const contract = await (0, getSchemaContract_1.default)(dapp, id);
     const interaction = {
         function: "addProposal",
         proposalName,

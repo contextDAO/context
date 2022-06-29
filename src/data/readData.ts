@@ -1,29 +1,29 @@
-import { UniteContext, UniteData, DataState } from "../types/types";
-import getUnite from "../context/getUnite";
+import { DappContext, ContextData, DataState } from "../types/types";
+import getContext from "../context/getContext";
 import { Contract } from "redstone-smartweave";
 import getDataContract from "./getDataContract";
 
 /**
  * readData
  *
- * @param {UniteContext}context 
+ * @param {DappContext} dapp
  * @param {string} dataId 
  */
 export default async function readData(
-    context: UniteContext,
+    dapp: DappContext,
     dataId: string,
 ) : Promise<DataState> {
-  if (!context || !context.wallet) {
+  if (!dapp || !dapp.wallet) {
     throw(new Error(`You need to init the context and connect a wallet first`));
   }
 
-  const unite = await getUnite(context);
+  const context = await getContext(dapp);
 
   // dataId should not exist
-  const registeredData = unite.state.data.find((s: UniteData) => s.dataId === dataId);
+  const registeredData = context.state.data.find((s: ContextData) => s.dataId === dataId);
   if (!registeredData) throw(new Error(`${dataId} is not registered`));
 
-  const contract: Contract = await getDataContract(context, dataId);
+  const contract: Contract = await getDataContract(dapp, dataId);
   const initialState = await contract.readState();
   const state: DataState = initialState.state as DataState;
   return state;

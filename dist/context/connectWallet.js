@@ -3,14 +3,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Connect a wallet to the context
  *
- * @param {UniteContext}unite
+ * @param {DappContext} dapp
  * @param {JWKInterface} json
  */
-async function connectWallet(unite, json) {
+async function connectWallet(dapp, json) {
     const wallet = {
         json,
-        address: await unite.arweave.wallets.getAddress(json),
+        address: await dapp.arweave.wallets.getAddress(json),
     };
-    unite.wallet = wallet;
+    context.wallet = wallet;
 }
 exports.default = connectWallet;

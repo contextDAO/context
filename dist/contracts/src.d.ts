@@ -1,4 +1,4 @@
-declare const uniteContractSource: string;
+declare const contextContractSource: string;
 declare const schemaContractSource: string;
 declare const dataContractSource: string;
-export { uniteContractSource, schemaContractSource, dataContractSource };
+export { contextContractSource, schemaContractSource, dataContractSource };

@@ -1,10 +1,10 @@
-import { Field, UniteContext } from "../types/types";
+import { Field, DappContext } from "../types/types";
 /**
  * addProposal
  *
- * @param {UniteContext}context
+ * @param {DappContext}dapp
  * @param {string} id - Title of the schema
  * @param {string} proposalName
  * @param {Field} field
  */
-export default function addProposal(context: UniteContext, id: string, proposalName: string, field: Field): Promise<void>;
+export default function addProposal(dapp: DappContext, id: string, proposalName: string, field: Field): Promise<void>;

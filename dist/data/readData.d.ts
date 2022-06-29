@@ -1,8 +1,8 @@
-import { UniteContext, DataState } from "../types/types";
+import { DappContext, DataState } from "../types/types";
 /**
  * readData
  *
- * @param {UniteContext}context
+ * @param {DappContext} dapp
  * @param {string} dataId
  */
-export default function readData(context: UniteContext, dataId: string): Promise<DataState>;
+export default function readData(dapp: DappContext, dataId: string): Promise<DataState>;

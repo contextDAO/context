@@ -1,7 +1,6 @@
 
-# UniteDAO
-## unite-ar-contracts
-UnietDAO is a series of Smart Contract on Arweave to coordinate the  creation of standards, and we all need standards.
+# ContextDAO
+ContextDAO is a series of Smart Contract on Arweave to coordinate the  creation of standards, and we all need standards.
 For example, we still lack of a common definition of the fields for the metadata of NFTs. How do I use my NFT Car in a different game if the names of the fields in the metadata are different? We can’t achieve real interoperability unless we all speak the same language.
 
 **Example**

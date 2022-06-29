@@ -1,8 +1,8 @@
-import { UniteContext } from "../types/types";
+import { DappContext } from "../types/types";
 /**
  * addContributor
  *
- * @param {UniteContext}context
+ * @param {DappContext} dapp
  * @param {string} schemaId - Title of the schema
  */
-export default function addContributor(context: UniteContext, schemaId: string): Promise<void>;
+export default function addContributor(dapp: DappContext, schemaId: string): Promise<void>;

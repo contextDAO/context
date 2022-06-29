@@ -3,7 +3,7 @@ const { build } = require("esbuild");
 const replace = require("replace-in-file");
 
 const contracts = [
-  "/contracts/Unite/unite.ts",
+  "/contracts/Context/context.ts",
   "/contracts/Schema/schema.ts",
   "/contracts/Data/data.ts",
 ];
@@ -28,14 +28,14 @@ build({
       to: "",
       countMatches: true,
     });
-    const unite = fs.readFileSync("./dist/Unite/unite.js").toString();
+    const context = fs.readFileSync("./dist/Context/context.js").toString();
     const schema = fs.readFileSync("./dist/Schema/schema.js").toString();
     const data = fs.readFileSync("./dist/Data/data.js").toString();
     const fileContents = `
-      const uniteContractSource : string = \`\n${unite}\`;
+      const contextContractSource : string = \`\n${context}\`;
       const schemaContractSource : string = \`\n${schema}\`;
       const dataContractSource : string = \`\n${data}\`;
-      export {uniteContractSource, schemaContractSource, dataContractSource };
+      export {contextContractSource, schemaContractSource, dataContractSource };
     `;
     fs.writeFileSync("./src/contracts/src.ts", fileContents);
   });

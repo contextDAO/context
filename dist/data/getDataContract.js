@@ -3,22 +3,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * getDataContract
  *
- * @param {UniteContext} context
+ * @param {DappContext} dapp
  * @param {string} dataId
  * @return {Contract}
  */
-async function getDataContract(context, dataId) {
+async function getDataContract(dapp, dataId) {
     // Get Schema address.
-    const unite = context.smartweave.contract(context.uniteAddr);
-    const interaction = await unite.viewState({ function: 'getData', dataId });
+    const context = dapp.smartweave.contract(dapp.contextAddr);
+    const interaction = await context.viewState({ function: 'getData', dataId });
     if (!interaction.result.data) {
         throw (new Error(`Invalid Schema Id`));
     }
     const contractAddr = interaction.result.data.address;
-    const contract = context.smartweave.contract(contractAddr);
+    const contract = dapp.smartweave.contract(contractAddr);
     // Conect wallet
-    if (context.wallet) {
-        contract.connect(context.wallet.json);
+    if (dapp.wallet) {
+        contract.connect(dapp.wallet.json);
     }
     return contract;
 }

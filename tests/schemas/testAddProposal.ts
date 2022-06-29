@@ -12,11 +12,11 @@ const field: Field = {
  * approveProposal
  */
 export default async function testAddProposal() {
-  await connectWallet(global.unite, global.contributor.json);
-  await addProposal(global.unite, `NFT`, `Add Level Field`, field);
-  await mineBlock(global.unite.arweave);
+  await connectWallet(global.context, global.contributor.json);
+  await addProposal(global.context, `NFT`, `Add Level Field`, field);
+  await mineBlock(global.context.arweave);
 
-  let nft: SchemaState = await getSchemaState(global.unite, `NFT`);
+  let nft: SchemaState = await getSchemaState(global.context, `NFT`);
   expect(nft.proposals.length).toEqual(1);
   expect(nft.proposals[0].name).toEqual(`Add Level Field`);
   expect(nft.proposals[0].status).toEqual(`proposal`);
@@ -28,8 +28,8 @@ export default async function testAddProposal() {
 
   // Add another field.
   field.name = `level2`;
-  await addProposal(global.unite, `NFT`, `Add Level Field`, field);
-  await mineBlock(global.unite.arweave);
-  nft = await getSchemaState(global.unite, `NFT`);
+  await addProposal(global.context, `NFT`, `Add Level Field`, field);
+  await mineBlock(global.context.arweave);
+  nft = await getSchemaState(global.context, `NFT`);
   expect(nft.proposals.length).toEqual(2);
 }

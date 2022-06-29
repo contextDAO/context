@@ -1,9 +1,9 @@
-import { SchemaState, UniteContext } from "../types/types";
+import { SchemaState, DappContext } from "../types/types";
 /**
  * createSchema
  *
- * @param {UniteContext} context
+ * @param {DappContext} dapp
  * @param {string} schemaId - Title of the schema
  * @param {SchemaState} newState
  */
-export default function createSchema(context: UniteContext, schemaId: string, newState?: SchemaState): Promise<void>;
+export default function createSchema(dapp: DappContext, schemaId: string, newState?: SchemaState): Promise<void>;

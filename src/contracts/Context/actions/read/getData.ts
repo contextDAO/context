@@ -1,8 +1,8 @@
 declare const ContractError;
 
 export const getData = async (
-  state: UniteState,
-  { input: { dataId } }: UniteAction
+  state: ContextState,
+  { input: { dataId } }: ContextAction
 ): Promise<DataResult> => {
 
   if (typeof dataId!== "string") {

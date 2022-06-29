@@ -5,7 +5,7 @@ import { DataState } from "../../src/types/types";
  * testReadData 
  */
 export default async function testReadData() {
-  const state: DataState = await readData(global.unite, `myNFT` );
+  const state: DataState = await readData(global.context, `myNFT` );
   expect(state.owner).toEqual(global.contributor.address);
   expect(state.dataId).toEqual(`myNFT`);
   expect(state.schemaId).toEqual(`NFT`);

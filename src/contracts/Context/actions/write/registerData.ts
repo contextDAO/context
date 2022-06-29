@@ -1,9 +1,9 @@
 declare const ContractError;
 
 export const registerData = async (
-  state: UniteState ,
-  { caller, input: { dataId, schemaId, address } }: UniteAction
-): Promise<UniteResult> => {
+  state: ContextState ,
+  { caller, input: { dataId, schemaId, address } }: ContextAction
+): Promise<ContextResult> => {
 
   // Valid parameters.
   if (dataId.length === 0 || address.length === 0) {

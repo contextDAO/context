@@ -1,10 +1,10 @@
-import { UniteContext } from "../types/types";
+import { DappContext } from "../types/types";
 import { Contract } from "redstone-smartweave";
 /**
  * getDataContract
  *
- * @param {UniteContext} context
+ * @param {DappContext} dapp
  * @param {string} dataId
  * @return {Contract}
  */
-export default function getDataContract(context: UniteContext, dataId: string): Promise<Contract>;
+export default function getDataContract(dapp: DappContext, dataId: string): Promise<Contract>;
