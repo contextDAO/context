@@ -14,6 +14,8 @@ export { addContributor, editContributor };
 import addProposal from "./schemas/addProposal";
 import editProposal from "./schemas/editProposal";
 export { addProposal, editProposal };
+import { Field, Proposal, ProposalStatus } from "./types/types";
+export { Field, Proposal, ProposalStatus };
 import writeData from "./data/writeData";
 import readData from "./data/readData";
 export { writeData, readData };

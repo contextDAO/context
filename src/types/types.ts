@@ -2,7 +2,7 @@ import Arweave from "arweave";
 import { SmartWeave } from "redstone-smartweave";
 import { JWKInterface } from "arweave/node/lib/wallet";
 import { ContextState, ContextSchema, ContextData } from "../contracts/Context/types/types";
-import { SchemaState, Field, ProposalStatus } from "../contracts/Schema/types/types";
+import { SchemaState, Field, Proposal, ProposalStatus } from "../contracts/Schema/types/types";
 import { DataState } from "../contracts/Data/types/types";
 
 type DappContext = {
@@ -28,6 +28,7 @@ export {
   ContextState,
   SchemaState,
   Field,
+  Proposal,
   ProposalStatus,
   DataState,
   ContextSchema,
