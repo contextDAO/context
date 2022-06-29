@@ -1,5 +1,5 @@
 import { mineBlock, createSchema } from "../../src/index";
-import { humanState } from "../../src/tools/schemas/human";
+import { humanState } from "../../src/utils/schemas/human";
 
 /**
  * testCreateSchema
