@@ -1,7 +1,7 @@
 export interface DataState {
     dataId: string;
+    schemaId: string;
     owner: string;
-    schema: string;
     release: number;
     data: any;
 }

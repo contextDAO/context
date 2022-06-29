@@ -1,41 +1,7 @@
-import { UniteContext, UniteState, DataState } from "../types/types";
-// import { dataContractSource } from "../contracts/src";
-import { Contract } from "redstone-smartweave";
+import { UniteContext, DataState, SchemaState, UniteSchema, UniteData } from "../types/types";
+import { dataContractSource } from "../contracts/src";
 import getUnite from "../context/getUnite";
-// import getSchemaState from "../schemas/getSchemaState";
-import getSchemaContract from "../schemas/getSchemaContract";
-
-/*
-  {state: UniteState, unite: Contract} = await getUnite(context);
-
-
-  // schema should exist
-  const uniteSchema = uniteState.schemas.find(s => s.id === schemaId);
-  if (!uniteSchema) throw(new Error(`Schema "${schemaId}" does not exist`));
-  const uniteSchemaState = await getSchemaState(context, schemaId);
-
-  // Create Data Contract.
-  const state: DataState = data as DataState;
-  state.owner = context.wallet.address;
-  state.id = id;
-  state.schema = schemaId;
-  state.release = uniteSchemaState.releaseId;
-  const contractAddr = await context.smartweave.createContract.deploy({
-    wallet: context.wallet.json,
-    initState: JSON.stringify(state),
-    src: dataContractSource,
-  });
-
-  // Register Name.
-  const interaction = {
-    function: "registerData",
-    id,
-    schema: schemaId,
-    address: contractAddr,
-  };
-  await unite.writeInteraction(interaction);
-  return contractAddr;
- */
+import getSchemaState from "../schemas/getSchemaState";
 
 /**
  * writeData 
@@ -58,12 +24,36 @@ export default async function writeData(
   const unite = await getUnite(context);
 
   // dataId should not exist
-  const registeredData = unite.state.data.find(s => s.dataId === dataId);
+  const registeredData = unite.state.data.find((s: UniteData) => s.dataId === dataId);
   if (registeredData) throw(new Error(`${dataId} is already registered`));
 
   // schemaId should exist
-  const schema = unite.state.schemas.find(s => s.schemaId === schemaId);
+  const schema = unite.state.schemas.find((s: UniteSchema) => s.schemaId === schemaId);
   if (!schema) throw(new Error(`${schemaId} is not registered`));
 
+  const schemaState: SchemaState = await getSchemaState(context, schemaId);
+  // Create Data Contract.
+  const state: DataState = {
+    owner: context.wallet.address,
+    dataId,
+    schemaId,
+    release: schemaState.releaseId,
+    data
+  };
+  const contractAddr = await context.smartweave.createContract.deploy({
+    wallet: context.wallet.json,
+    initState: JSON.stringify(state),
+    src: dataContractSource,
+  });
+
+  // Register Name.
+  const interaction = {
+    function: "registerData",
+    dataId,
+    schemaId,
+    address: contractAddr,
+  };
+  await unite.contract.writeInteraction(interaction);
+  return contractAddr;
 }
 

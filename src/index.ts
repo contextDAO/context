@@ -22,9 +22,9 @@ export { addProposal, editProposal };
 
 // Data.
 import writeData from "./data/writeData";
-// import readData from "./data/readData";
+import readData from "./data/readData";
 
-export { writeData };
+export { writeData, readData };
 
 // Utils.
 import mineBlock from "./utils/mineBlock"

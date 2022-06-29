@@ -26,8 +26,8 @@ export const schema: SchemaState = {
 
 export const data: DataState = {
   dataId: "",
+  schemaId: "",
   owner: "",
-  schema: "",
   release: -1,
   data: {}
 };

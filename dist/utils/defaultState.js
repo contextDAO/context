@@ -23,8 +23,8 @@ exports.schema = {
 };
 exports.data = {
     dataId: "",
+    schemaId: "",
     owner: "",
-    schema: "",
     release: -1,
     data: {}
 };

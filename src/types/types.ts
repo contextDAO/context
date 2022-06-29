@@ -1,7 +1,7 @@
 import Arweave from "arweave";
 import { SmartWeave } from "redstone-smartweave";
 import { JWKInterface } from "arweave/node/lib/wallet";
-import { UniteState } from "../contracts/Unite/types/types";
+import { UniteState, UniteSchema, UniteData } from "../contracts/Unite/types/types";
 import { SchemaState, Field, ProposalStatus } from "../contracts/Schema/types/types";
 import { DataState } from "../contracts/Data/types/types";
 
@@ -21,4 +21,15 @@ type Wallet = {
 
 type Network = "localhost" | "testnet" | "mainnet";
 
-export { Wallet, Network, UniteContext, UniteState, SchemaState, Field, ProposalStatus, DataState };
+export {
+  Wallet,
+  Network,
+  UniteContext,
+  UniteState,
+  SchemaState,
+  Field,
+  ProposalStatus,
+  DataState,
+  UniteSchema,
+  UniteData
+};

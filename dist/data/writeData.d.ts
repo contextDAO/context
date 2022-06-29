@@ -7,4 +7,4 @@ import { UniteContext } from "../types/types";
  * @param {string} dataId
  * @param {object} data
  */
-export default function writeData(context: UniteContext, schemaId: string, dataId: string, data: any): Promise<void>;
+export default function writeData(context: UniteContext, schemaId: string, dataId: string, data: any): Promise<string>;

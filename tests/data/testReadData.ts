@@ -1,17 +1,14 @@
-import { mineBlock, writeData } from "../../src/index";
+import { readData } from "../../src/index";
+import { DataState } from "../../src/types/types";
 
 /**
- * readData 
+ * testReadData 
  */
-export default async function readData() {
-//   const metadata: MetadataState = await global.unite.read(`myNFT`);
-//  console.log(metadata);
-  /*
-    const state: MetadataState = await metadata.readState();
-    expect(state.owner).toEqual(global.walletAddress);
-    expect(state.id).toEqual(`myNFT`);
-    expect(state.schema).toEqual(`NFT`);
-    expect(state.release).toEqual(0);
-    expect(state.metadata).toEqual({});
-*/
+export default async function testReadData() {
+  const state: DataState = await readData(global.unite, `myNFT` );
+  expect(state.owner).toEqual(global.contributor.address);
+  expect(state.dataId).toEqual(`myNFT`);
+  expect(state.schemaId).toEqual(`NFT`);
+  expect(state.release).toEqual(0);
+  expect(state.data).toEqual({ name: 'My first NFT', image: 'ar://1234' });
 }

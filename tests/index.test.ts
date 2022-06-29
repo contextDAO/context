@@ -21,7 +21,7 @@ describe(`2 - Schemas`, () => {
 import * as data from "./data";
 describe(`3 - Data`, () => {
   it(`3.1 - Write Data`, async () => {await data.testWriteData(); });
-  xit(`3.2 - Read Data`, async () => {});
+  it(`3.2 - Read Data`, async () => {await data.testReadData(); });
   xit(`3.3 - Update Data`, async () => {});
   xit(`3.4 - Add items to Collections`, async () => { });
   xit(`3.5 - Edit items from Collections`, async () => {});

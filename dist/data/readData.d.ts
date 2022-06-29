@@ -1,10 +1,8 @@
-import { UniteContext } from "../types/types";
+import { UniteContext, DataState } from "../types/types";
 /**
  * readData
  *
  * @param {UniteContext}context
- * @param {string} schemaId
  * @param {string} dataId
- * @param {object} data
  */
-export default function writeData(context: UniteContext, schemaId: string, dataId: string, data: any): Promise<void>;
+export default function readData(context: UniteContext, dataId: string): Promise<DataState>;
