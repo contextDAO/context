@@ -5,7 +5,7 @@ import { ContextState, ContextSchema, ContextData } from "../contracts/Context/t
 import { SchemaState, Field, ProposalStatus } from "../contracts/Schema/types/types";
 import { DataState } from "../contracts/Data/types/types";
 
-type DappContext= {
+type DappContext = {
   network: Network;
   arweave: Arweave;
   smartweave: SmartWeave;

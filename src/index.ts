@@ -1,3 +1,7 @@
+// Types
+import { DappContext, SchemaState, Wallet } from "./types/types";
+export { DappContext, SchemaState, Wallet };
+
 // Context.
 import initContext from "./context/initContext";
 import deployContext from "./context/deployContext";
