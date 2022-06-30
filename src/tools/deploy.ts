@@ -8,29 +8,31 @@ type Network = "localhost" | "testnet" | "mainnet";
 const main = async (network: Network, walletFile: string) => {
   if (!network || !walletFile) {
     console.log(
-      "Usage: node deploy.js --network=localhost|testnet|arweave --wallet=<json_wallet_file>"
+      "Usage: node deploy.js --network=mine|testnet|arweave --wallet=<json_wallet_file>"
     );
     process.exit();
   }
-  const localhost: boolean = network === `localhost`;
+  const mine: boolean = network !== `mainnet`;
   const wallet = openWallet(walletFile);
   const dapp: DappContext = await initContext({ network, wallet });
 
-  if (localhost) await dapp.arweave.api.get(`/mint/${dapp.wallet?.address}/1000000000000000`);
+  if (mine) await dapp.arweave.api.get(`/mint/${dapp.wallet?.address}/1000000000000000`);
 
   // Deploy Context Registry.
+  console.log("Deploy Context");
   await deployContext(dapp);
-  if (localhost) await mineBlock(dapp.arweave);
+  console.log("Context Registry : " + dapp.contextAddr);
+  if (mine) await mineBlock(dapp.arweave);
 
   // Create Human Schema.
+  console.log("Register Human");
   await createSchema(dapp, `Human`, humanState );
-  if (localhost) await mineBlock(dapp.arweave);
+  if (mine) await mineBlock(dapp.arweave);
 
   // Create Organization Schema.
-  await createSchema(dapp, `Org`, organizationState);
-  if (localhost) await mineBlock(dapp.arweave);
-
-  console.log(`Context registry = ${dapp.contextAddr}`);
+  console.log("Register Organization");
+  // await createSchema(dapp, `Org`, organizationState);
+  // if (mine) await mineBlock(dapp.arweave);
 };
 
 const argv = minimist(process.argv.slice(1));
