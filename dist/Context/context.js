@@ -15,6 +15,9 @@
   // src/contracts/Context/actions/write/mintTokens.ts
   var mintTokens = async (state, { caller, input: { qty } }) => {
     const balances = state.balances;
+    if (state.owner !== caller) {
+      throw new ContractError("Only the owner can mint tokens.");
+    }
     if (qty <= 0) {
       throw new ContractError("Invalid token mint");
     }
@@ -108,10 +111,22 @@
     return { result: { data } };
   };
 
+  // src/contracts/Context/actions/write/evolve.ts
+  var evolve = async (state, { caller, input: { value } }) => {
+    if (!state.canEvolve) {
+      throw new ContractError("This contract cannot evolve.");
+    }
+    if (state.owner !== caller) {
+      throw new ContractError("Only the owner can evolve a contract.");
+    }
+    state.evolve = input.value;
+    return { state };
+  };
+
   // src/contracts/Context/context.ts
   async function handle(state, action) {
-    const input = action.input;
-    switch (input.function) {
+    const input2 = action.input;
+    switch (input2.function) {
       case "mint":
         return await mintTokens(state, action);
       case "transfer":
@@ -128,8 +143,10 @@
         return await registerData(state, action);
       case "getData":
         return await getData(state, action);
+      case "evolve":
+        return await evolve(state, action);
       default:
-        throw new ContractError("No function supplied or function not recognised: " + input.function);
+        throw new ContractError("No function supplied or function not recognised: " + input2.function);
     }
   }
 })();

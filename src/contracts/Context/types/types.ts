@@ -37,6 +37,7 @@ export interface ContextData{
 }
 
 export interface ContextState {
+  canEvolve: boolean;
   ticker: string;
   name: string;
   owner: string;
@@ -47,6 +48,6 @@ export interface ContextState {
   data: ContextData[];
 }
 
-export type ContextFunction = 'transfer' | 'mint' | 'balance' | 'register' | 'registerSchema' | 'getSchema' | 'registerData' | 'getData';
+export type ContextFunction = 'transfer' | 'mint' | 'balance' | 'register' | 'registerSchema' | 'getSchema' | 'registerData' | 'getData' | 'evolve';
 
 export type ContextResult = { state: ContextState } | { result: PstResult } | { result: SchemaResult } | { result: DataResult };

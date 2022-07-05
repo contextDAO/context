@@ -6,6 +6,9 @@ export const mintTokens = async (
 ): Promise<ContextResult> => {
   const balances = state.balances;
 
+  if(state.owner !== caller) {
+    throw new ContractError('Only the owner can mint tokens.');
+  }
   if (qty <= 0) {
     throw new ContractError("Invalid token mint");
   }
