@@ -3,6 +3,7 @@ import { ContextSchema, ContextState, ContextData } from "../contracts/Context/t
 import { DataState } from "../contracts/Data/types/types";
 
 export const context: ContextState = {
+  canEvolve: true,
   ticker: "UDAO",
   name: "Context DAO Credits",
   owner: "",

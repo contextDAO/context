@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.data = exports.schema = exports.context = void 0;
 exports.context = {
+    canEvolve: true,
     ticker: "UDAO",
     name: "Context DAO Credits",
     owner: "",
