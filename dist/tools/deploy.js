@@ -30,8 +30,9 @@ const main = async (network, walletFile) => {
         await (0, mineBlock_1.default)(dapp.arweave);
     // Create Organization Schema.
     console.log("Register Organization");
-    // await createSchema(dapp, `Org`, organizationState);
-    // if (mine) await mineBlock(dapp.arweave);
+    await (0, index_1.createSchema)(dapp, `Org`, schemas_1.organizationState);
+    if (mine)
+        await (0, mineBlock_1.default)(dapp.arweave);
 };
 const argv = (0, minimist_1.default)(process.argv.slice(1));
 main(argv.network, argv.wallet);

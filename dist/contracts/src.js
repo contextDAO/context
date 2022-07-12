@@ -44,7 +44,7 @@ const contextContractSource = `
     if (qty <= 0 || caller === target) {
       throw new ContractError("Invalid token transfer");
     }
-    if (!balances[caller]) {
+    if (!(caller in balances)) {
       throw new ContractError("Caller balance is not defined!");
     }
     if (balances[caller] < qty) {
