@@ -15,12 +15,12 @@ async function mintTokens(dapp, qty) {
     if (!dapp || !dapp.wallet) {
         throw (new Error(`You need to init the dapp and connect a wallet first`));
     }
-    const unite = await (0, getContext_1.default)(dapp);
+    const context = await (0, getContext_1.default)(dapp);
     // Mint Tokens.
     const interaction = {
-        function: "mintTokens",
+        function: "mint",
         qty,
     };
-    await unite.contract.writeInteraction(interaction);
+    await context.contract.writeInteraction(interaction);
 }
 exports.default = mintTokens;

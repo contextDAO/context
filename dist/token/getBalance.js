@@ -15,10 +15,10 @@ async function getBalance(dapp, address) {
         throw (new Error(`You need to init the context and connect a wallet first`));
     }
     const context = await (0, getContext_1.default)(dapp);
-    const { result: balance } = await context.contract.viewState({
+    const result = await context.contract.viewState({
         function: 'balance',
         target: address,
     });
-    return balance;
+    return result.result.balance;
 }
 exports.default = getBalance;

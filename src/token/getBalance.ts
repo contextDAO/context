@@ -17,11 +17,10 @@ export default async function getBalance(
   }
 
   const context = await getContext(dapp);
-  const { result: balance} = await context.contract.viewState({
+  const result: any = await context.contract.viewState({
     function: 'balance',
     target: address,
   });
-
-  return balance as number;
+  return result.result.balance;
 }
 
