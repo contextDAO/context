@@ -16,7 +16,7 @@ async function readData(dapp, dataId) {
         throw (new Error(`You need to init the context and connect a wallet first`));
     }
     const context = await (0, getContext_1.default)(dapp);
-    // dataId should not exist
+    // dataId should exist
     const registeredData = context.state.data.find((s) => s.dataId === dataId);
     if (!registeredData)
         throw (new Error(`${dataId} is not registered`));

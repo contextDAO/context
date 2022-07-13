@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.defaultState = exports.openWallet = exports.testWallet = exports.mineBlock = exports.readData = exports.writeData = exports.editProposal = exports.addProposal = exports.editContributor = exports.addContributor = exports.getSchemaContract = exports.getSchemaState = exports.createSchema = exports.connectWallet = exports.deployContext = exports.initContext = void 0;
+exports.defaultState = exports.openWallet = exports.testWallet = exports.mineBlock = exports.readData = exports.writeData = exports.editProposal = exports.addProposal = exports.editContributor = exports.addContributor = exports.getSchemaContract = exports.getSchemaState = exports.createSchema = exports.getBalance = exports.mintTokens = exports.connectWallet = exports.deployContext = exports.initContext = void 0;
 // Context.
 const initContext_1 = __importDefault(require("./context/initContext"));
 exports.initContext = initContext_1.default;
@@ -34,6 +34,11 @@ const deployContext_1 = __importDefault(require("./context/deployContext"));
 exports.deployContext = deployContext_1.default;
 const connectWallet_1 = __importDefault(require("./context/connectWallet"));
 exports.connectWallet = connectWallet_1.default;
+// Token
+const mintTokens_1 = __importDefault(require("./token/mintTokens"));
+exports.mintTokens = mintTokens_1.default;
+const getBalance_1 = __importDefault(require("./token/getBalance"));
+exports.getBalance = getBalance_1.default;
 // Schemas
 const createSchema_1 = __importDefault(require("./schemas/createSchema"));
 exports.createSchema = createSchema_1.default;
