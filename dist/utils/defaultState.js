@@ -11,7 +11,6 @@ exports.context = {
     data: [],
 };
 exports.schema = {
-    schemaId: "",
     releaseId: -1,
     contributors: [
         {
@@ -23,7 +22,6 @@ exports.schema = {
     releases: [],
 };
 exports.data = {
-    dataId: "",
     schemaId: "",
     owner: "",
     release: -1,

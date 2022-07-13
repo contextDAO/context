@@ -8,7 +8,6 @@ export default async function testGetSchema() {
   const nft: typeof defaultState.schema = await getSchemaState(global.context, `NFT` );
 
   // Test results
-  expect(nft.schemaId).toEqual(`NFT`);
   expect(nft.contributors[0].address).toEqual(global.editor.address);
   expect(nft.contributors[0].role).toEqual(`editor`);
   const human: typeof defaultState.schema = await getSchemaState(global.context, `Human` );

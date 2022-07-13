@@ -29,7 +29,6 @@ export interface Release {
 }
 
 export interface SchemaState {
-  schemaId: string;
   releaseId: number;
   contributors: Contributor[];
   proposals: Proposal[];

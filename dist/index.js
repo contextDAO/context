@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.defaultState = exports.openWallet = exports.testWallet = exports.mineBlock = exports.readData = exports.writeData = exports.editProposal = exports.addProposal = exports.editContributor = exports.addContributor = exports.getSchemaContract = exports.getSchemaState = exports.createSchema = exports.getBalance = exports.mintTokens = exports.connectWallet = exports.deployContext = exports.initContext = void 0;
+exports.defaultState = exports.openWallet = exports.testWallet = exports.mineBlock = exports.readDataPod = exports.registerDataPod = exports.deployDataPod = exports.editProposal = exports.addProposal = exports.editContributor = exports.addContributor = exports.getSchemaContract = exports.getSchemaState = exports.registerSchema = exports.deploySchema = exports.getBalance = exports.mintTokens = exports.connectWallet = exports.deployContext = exports.initContext = void 0;
 // Context.
 const initContext_1 = __importDefault(require("./context/initContext"));
 exports.initContext = initContext_1.default;
@@ -40,8 +40,10 @@ exports.mintTokens = mintTokens_1.default;
 const getBalance_1 = __importDefault(require("./token/getBalance"));
 exports.getBalance = getBalance_1.default;
 // Schemas
-const createSchema_1 = __importDefault(require("./schemas/createSchema"));
-exports.createSchema = createSchema_1.default;
+const deploySchema_1 = __importDefault(require("./schemas/deploySchema"));
+exports.deploySchema = deploySchema_1.default;
+const registerSchema_1 = __importDefault(require("./schemas/registerSchema"));
+exports.registerSchema = registerSchema_1.default;
 const getSchemaState_1 = __importDefault(require("./schemas/getSchemaState"));
 exports.getSchemaState = getSchemaState_1.default;
 const getSchemaContract_1 = __importDefault(require("./schemas/getSchemaContract"));
@@ -55,10 +57,12 @@ exports.addProposal = addProposal_1.default;
 const editProposal_1 = __importDefault(require("./schemas/editProposal"));
 exports.editProposal = editProposal_1.default;
 // Data.
-const writeData_1 = __importDefault(require("./data/writeData"));
-exports.writeData = writeData_1.default;
-const readData_1 = __importDefault(require("./data/readData"));
-exports.readData = readData_1.default;
+const deployDataPod_1 = __importDefault(require("./datapod/deployDataPod"));
+exports.deployDataPod = deployDataPod_1.default;
+const registerDataPod_1 = __importDefault(require("./datapod/registerDataPod"));
+exports.registerDataPod = registerDataPod_1.default;
+const readDataPod_1 = __importDefault(require("./datapod/readDataPod"));
+exports.readDataPod = readDataPod_1.default;
 // Utils.
 const mineBlock_1 = __importDefault(require("./utils/mineBlock"));
 exports.mineBlock = mineBlock_1.default;

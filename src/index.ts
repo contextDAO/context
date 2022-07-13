@@ -15,10 +15,11 @@ import getBalance from './token/getBalance'
 export { mintTokens, getBalance };
 
 // Schemas
-import createSchema from "./schemas/createSchema";
+import deploySchema from "./schemas/deploySchema";
+import registerSchema from "./schemas/registerSchema";
 import getSchemaState from "./schemas/getSchemaState";
 import getSchemaContract from "./schemas/getSchemaContract";
-export { createSchema, getSchemaState, getSchemaContract };
+export { deploySchema, registerSchema, getSchemaState, getSchemaContract };
 
 import addContributor from "./schemas/addContributor";
 import editContributor from "./schemas/editContributor";
@@ -32,10 +33,11 @@ import { Field, Proposal, Release, ProposalStatus } from "./types/types";
 export { Field, Proposal, ProposalStatus, Release };
 
 // Data.
-import writeData from "./data/writeData";
-import readData from "./data/readData";
+import deployDataPod from "./datapod/deployDataPod";
+import registerDataPod from "./datapod/registerDataPod";
+import readDataPod from "./datapod/readDataPod";
 
-export { writeData, readData };
+export { deployDataPod, registerDataPod, readDataPod };
 
 // Utils.
 import mineBlock from "./utils/mineBlock"

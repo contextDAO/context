@@ -1,4 +1,4 @@
-import { mineBlock, writeData, getBalance } from "../../src/index";
+import { mineBlock, getBalance } from "../../src/index";
 
 /**
  * getBalance

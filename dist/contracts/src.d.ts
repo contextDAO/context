@@ -1,4 +1,4 @@
 declare const contextContractSource: string;
 declare const schemaContractSource: string;
-declare const dataContractSource: string;
-export { contextContractSource, schemaContractSource, dataContractSource };
+declare const dataPodContractSource: string;
+export { contextContractSource, schemaContractSource, dataPodContractSource };

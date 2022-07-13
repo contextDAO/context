@@ -1,6 +1,6 @@
 import { SchemaState, Proposal, Release } from "../contracts/Schema/types/types";
 import { ContextSchema, ContextState, ContextData } from "../contracts/Context/types/types";
-import { DataState } from "../contracts/Data/types/types";
+import { DataPodState } from "../contracts/DataPod/types/types";
 
 export const context: ContextState = {
   canEvolve: true,
@@ -13,7 +13,6 @@ export const context: ContextState = {
 }
 
 export const schema: SchemaState = {
-  schemaId: "",
   releaseId: -1,
   contributors: [
     {
@@ -25,8 +24,7 @@ export const schema: SchemaState = {
   releases: <Release[]>[],
 };
 
-export const data: DataState = {
-  dataId: "",
+export const data: DataPodState = {
   schemaId: "",
   owner: "",
   release: -1,

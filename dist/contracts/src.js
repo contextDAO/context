@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.dataContractSource = exports.schemaContractSource = exports.contextContractSource = void 0;
+exports.dataPodContractSource = exports.schemaContractSource = exports.contextContractSource = void 0;
 const contextContractSource = `
 (() => {
   // src/contracts/Context/actions/read/balance.ts
@@ -272,9 +272,9 @@ const schemaContractSource = `
 })();
 `;
 exports.schemaContractSource = schemaContractSource;
-const dataContractSource = `
+const dataPodContractSource = `
 (() => {
-  // src/contracts/Data/actions/write/addItem.ts
+  // src/contracts/DataPod/actions/write/addItem.ts
   var addItem = async (state, { caller, input: { field, item, id } }) => {
     if (state.owner !== caller) {
       throw new ContractError("Caller is not the owner.");
@@ -287,7 +287,7 @@ const dataContractSource = `
     return { state };
   };
 
-  // src/contracts/Data/actions/write/write.ts
+  // src/contracts/DataPod/actions/write/write.ts
   var write = async (state, { caller, input: { field, value } }) => {
     if (state.owner !== caller) {
       throw new ContractError("Caller is not the owner.");
@@ -296,7 +296,7 @@ const dataContractSource = `
     return { state };
   };
 
-  // src/contracts/Data/actions/read/read.ts
+  // src/contracts/DataPod/actions/read/read.ts
   var read = async (state, { input: { field, id = null } }) => {
     if (id === null) {
       return { result: { value: state.data[field] } };
@@ -306,7 +306,7 @@ const dataContractSource = `
     }
   };
 
-  // src/contracts/Data/data.ts
+  // src/contracts/DataPod/datapod.ts
   async function handle(state, action) {
     const input = action.input;
     switch (input.function) {
@@ -322,4 +322,4 @@ const dataContractSource = `
   }
 })();
 `;
-exports.dataContractSource = dataContractSource;
+exports.dataPodContractSource = dataPodContractSource;

@@ -18,10 +18,10 @@ describe(`2 - Schemas`, () => {
   xit(`2.9 - Register SubSchemas`, async () => {});
 });
 
-import * as data from './data';
-describe(`3 - Data`, () => {
-  it(`3.1 - Write Data`, async () => { await data.testWriteData(); });
-  it(`3.2 - Read Data`, async () => { await data.testReadData(); });
+import * as data from './datapod';
+describe(`3 - DataPod`, () => {
+  it(`3.1 - Write Data`, async () => { await data.testWriteDataPod(); });
+  it(`3.2 - Read Data`, async () => { await data.testReadDataPod(); });
   xit(`3.3 - Update Data`, async () => {});
   xit(`3.4 - Add items to Collections`, async () => { });
   xit(`3.5 - Edit items from Collections`, async () => {});

@@ -3,7 +3,7 @@ import { SmartWeave } from "redstone-smartweave";
 import { JWKInterface } from "arweave/node/lib/wallet";
 import { ContextState, ContextSchema, ContextData } from "../contracts/Context/types/types";
 import { SchemaState, Field, Proposal, Release, ProposalStatus } from "../contracts/Schema/types/types";
-import { DataState } from "../contracts/Data/types/types";
+import { DataPodState } from "../contracts/DataPod/types/types";
 declare type DappContext = {
     network: Network;
     arweave: Arweave;
@@ -17,4 +17,4 @@ declare type Wallet = {
     balance?: number;
 };
 declare type Network = "localhost" | "testnet" | "mainnet";
-export { Wallet, Network, DappContext, ContextState, SchemaState, Field, Proposal, Release, ProposalStatus, DataState, ContextSchema, ContextData };
+export { Wallet, Network, DappContext, ContextState, SchemaState, Field, Proposal, Release, ProposalStatus, DataPodState, ContextSchema, ContextData };
