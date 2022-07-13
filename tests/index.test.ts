@@ -1,11 +1,11 @@
 // Context.
-import * as context from "./context";
+import * as context from './context';
 describe(`1 - Context`, () => {
   it(`1.1 - Deploy Context`, async () => { await context.testDeploy(); });
 });
 
 // Schemas.
-import * as schema from "./schemas";
+import * as schema from './schemas';
 describe(`2 - Schemas`, () => {
   it(`2.1 - Register Schemas`, async () => { await schema.testCreateSchema(); });
   it(`2.2 - Get Schema`, async () => { await schema.testGetSchema(); });
@@ -18,7 +18,7 @@ describe(`2 - Schemas`, () => {
   xit(`2.9 - Register SubSchemas`, async () => {});
 });
 
-import * as data from "./data";
+import * as data from './data';
 describe(`3 - Data`, () => {
   it(`3.1 - Write Data`, async () => {await data.testWriteData(); });
   it(`3.2 - Read Data`, async () => {await data.testReadData(); });
@@ -28,6 +28,8 @@ describe(`3 - Data`, () => {
   xit(`3.6 - Register subnames`, async () => {});
 });
 
-describe(`4 - Dapp`, () => {
-  xit(`4.1 - Mint new Tokens`, async () => {});
+import * as token from './token';
+describe(`4 - Token`, () => {
+  it(`4.1 - Mint new Tokens`, async () => { await token.testMintTokens(); });
+  it(`4.2 - Get Balance`, async () => { await token.testGetBalance(); });
 });

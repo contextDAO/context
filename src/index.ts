@@ -9,6 +9,11 @@ import deployContext from "./context/deployContext";
 import connectWallet from "./context/connectWallet";
 export { initContext, deployContext, connectWallet };
 
+// Token
+import mintTokens from './token/mintTokens'
+import getBalance from './token/getBalance'
+export { mintTokens, getBalance };
+
 // Schemas
 import createSchema from "./schemas/createSchema";
 import getSchemaState from "./schemas/getSchemaState";

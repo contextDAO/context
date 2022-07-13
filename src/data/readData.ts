@@ -19,7 +19,7 @@ export default async function readData(
 
   const context = await getContext(dapp);
 
-  // dataId should not exist
+  // dataId should exist
   const registeredData = context.state.data.find((s: ContextData) => s.dataId === dataId);
   if (!registeredData) throw(new Error(`${dataId} is not registered`));
 
