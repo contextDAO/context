@@ -23,8 +23,8 @@ import addProposal from "./schemas/addProposal";
 import editProposal from "./schemas/editProposal";
 export { addProposal, editProposal };
 
-import { Field, Proposal, ProposalStatus } from "./types/types";
-export { Field, Proposal, ProposalStatus};
+import { Field, Proposal, Release, ProposalStatus } from "./types/types";
+export { Field, Proposal, ProposalStatus, Release };
 
 // Data.
 import writeData from "./data/writeData";
