@@ -1,7 +1,7 @@
 // Types
 import { JWKInterface } from "arweave/node/lib/wallet";
-import { DappContext, SchemaState, Wallet } from "./types/types";
-export { DappContext, SchemaState, Wallet, JWKInterface };
+import { DappContext, SchemaState, Wallet, Network } from "./types/types";
+export { DappContext, SchemaState, Wallet, JWKInterface, Network };
 
 // Context.
 import initContext from "./context/initContext";

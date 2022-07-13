@@ -30,6 +30,7 @@ export interface ContextData {
     data?: ContextData[];
 }
 export interface ContextState {
+    canEvolve: boolean;
     ticker: string;
     name: string;
     owner: string;
@@ -39,7 +40,7 @@ export interface ContextState {
     schemas: ContextSchema[];
     data: ContextData[];
 }
-export declare type ContextFunction = 'transfer' | 'mint' | 'balance' | 'register' | 'registerSchema' | 'getSchema' | 'registerData' | 'getData';
+export declare type ContextFunction = 'transfer' | 'mint' | 'balance' | 'register' | 'registerSchema' | 'getSchema' | 'registerData' | 'getData' | 'evolve';
 export declare type ContextResult = {
     state: ContextState;
 } | {

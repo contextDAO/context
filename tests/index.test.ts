@@ -28,6 +28,6 @@ describe(`3 - Data`, () => {
   xit(`3.6 - Register subnames`, async () => {});
 });
 
-describe(`4 - Economy`, () => {
+describe(`4 - Dapp`, () => {
   xit(`4.1 - Mint new Tokens`, async () => {});
 });
