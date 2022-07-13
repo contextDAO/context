@@ -1,6 +1,6 @@
 {
   "name": "@contextdao/context",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Context DAO base contracts AND SDK",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
