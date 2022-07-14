@@ -4,15 +4,16 @@ import { Contract } from "redstone-smartweave";
 import getDataContract from "./getDataContract";
 
 /**
- * readData
+ * getDataPod
  *
  * @param {DappContext} dapp
  * @param {string} dataId 
+ * @return {{DataPodState, Contract}}
  */
-export default async function readData(
+export default async function getDataPod(
     dapp: DappContext,
     dataId: string,
-) : Promise<DataPodState> {
+) : Promise<{state: DataPodState, contract: Contract}> {
   if (!dapp || !dapp.wallet) {
     throw(new Error(`You need to init the context and connect a wallet first`));
   }
@@ -26,6 +27,6 @@ export default async function readData(
   const contract: Contract = await getDataContract(dapp, dataId);
   const initialState = await contract.readState();
   const state: DataPodState = initialState.state as DataPodState;
-  return state;
+  return {state, contract};
 }
 

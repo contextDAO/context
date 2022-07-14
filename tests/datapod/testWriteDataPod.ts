@@ -1,6 +1,7 @@
 import { mineBlock, registerDataPod, deployDataPod } from "../../src/index";
 
 const nftData = {
+  id: 1,
   name: `My first NFT`,
   image: `ar://1234`,
 };

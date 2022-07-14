@@ -35,9 +35,10 @@ export { Field, Proposal, ProposalStatus, Release };
 // Data.
 import deployDataPod from "./datapod/deployDataPod";
 import registerDataPod from "./datapod/registerDataPod";
-import readDataPod from "./datapod/readDataPod";
+import getDataPod from "./datapod/getDataPod";
+import updateDataPod from "./datapod/updateDataPod";
 
-export { deployDataPod, registerDataPod, readDataPod };
+export { deployDataPod, registerDataPod, getDataPod, updateDataPod };
 
 // Utils.
 import mineBlock from "./utils/mineBlock"

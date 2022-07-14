@@ -11,5 +11,5 @@ export default async function testAbandonProposal() {
 
   const nft: SchemaState = await getSchemaState(global.context, `NFT`);
   expect(nft.proposals[1].status).toEqual(`abandoned`);
-  expect(nft.releaseId).toEqual(0);
+  expect(nft.releaseId).toEqual(1);
 }

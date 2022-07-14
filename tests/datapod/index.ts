@@ -1,4 +1,5 @@
 import testWriteDataPod from "./testWriteDataPod";
-import testReadDataPod from "./testReadDataPod";
+import testGetDataPod from "./testGetDataPod";
+import testUpdateDataPod from "./testUpdateDataPod";
 
-export { testWriteDataPod, testReadDataPod };
+export { testWriteDataPod, testGetDataPod, testUpdateDataPod };

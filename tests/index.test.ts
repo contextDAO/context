@@ -14,15 +14,14 @@ describe(`2 - Schemas`, () => {
   it(`2.5 - Add proposals`, async () => { await schema.testAddProposal(); });
   it(`2.6 - Approve one proposal`, async () => { await schema.testApproveProposal(); });
   it(`2.7 - Abandon one proposal`, async () => { await schema.testAbandonProposal(); });
-  xit(`2.8 - Register Collection Schema`, async () => {});
-  xit(`2.9 - Register SubSchemas`, async () => {});
+  xit(`2.8 - Register SubSchemas`, async () => {});
 });
 
 import * as data from './datapod';
 describe(`3 - DataPod`, () => {
   it(`3.1 - Write Data`, async () => { await data.testWriteDataPod(); });
-  it(`3.2 - Read Data`, async () => { await data.testReadDataPod(); });
-  xit(`3.3 - Update Data`, async () => {});
+  it(`3.2 - Get Data`, async () => { await data.testGetDataPod(); });
+  it(`3.3 - Update Data`, async () => { await data.testUpdateDataPod(); });
   xit(`3.4 - Add items to Collections`, async () => { });
   xit(`3.5 - Edit items from Collections`, async () => {});
   xit(`3.6 - Register subnames`, async () => {});
