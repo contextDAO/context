@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.defaultState = exports.openWallet = exports.testWallet = exports.mineBlock = exports.readDataPod = exports.registerDataPod = exports.deployDataPod = exports.editProposal = exports.addProposal = exports.editContributor = exports.addContributor = exports.getSchemaContract = exports.getSchemaState = exports.registerSchema = exports.deploySchema = exports.getBalance = exports.mintTokens = exports.connectWallet = exports.deployContext = exports.initContext = void 0;
+exports.defaultState = exports.openWallet = exports.testWallet = exports.mineBlock = exports.updateDataPod = exports.getDataPod = exports.registerDataPod = exports.deployDataPod = exports.editProposal = exports.addProposal = exports.editContributor = exports.addContributor = exports.getSchemaContract = exports.getSchemaState = exports.registerSchema = exports.deploySchema = exports.getBalance = exports.mintTokens = exports.connectWallet = exports.deployContext = exports.initContext = void 0;
 // Context.
 const initContext_1 = __importDefault(require("./context/initContext"));
 exports.initContext = initContext_1.default;
@@ -61,8 +61,10 @@ const deployDataPod_1 = __importDefault(require("./datapod/deployDataPod"));
 exports.deployDataPod = deployDataPod_1.default;
 const registerDataPod_1 = __importDefault(require("./datapod/registerDataPod"));
 exports.registerDataPod = registerDataPod_1.default;
-const readDataPod_1 = __importDefault(require("./datapod/readDataPod"));
-exports.readDataPod = readDataPod_1.default;
+const getDataPod_1 = __importDefault(require("./datapod/getDataPod"));
+exports.getDataPod = getDataPod_1.default;
+const updateDataPod_1 = __importDefault(require("./datapod/updateDataPod"));
+exports.updateDataPod = updateDataPod_1.default;
 // Utils.
 const mineBlock_1 = __importDefault(require("./utils/mineBlock"));
 exports.mineBlock = mineBlock_1.default;

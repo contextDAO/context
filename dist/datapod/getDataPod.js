@@ -6,12 +6,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const getContext_1 = __importDefault(require("../context/getContext"));
 const getDataContract_1 = __importDefault(require("./getDataContract"));
 /**
- * readData
+ * getDataPod
  *
  * @param {DappContext} dapp
  * @param {string} dataId
+ * @return {{DataPodState, Contract}}
  */
-async function readData(dapp, dataId) {
+async function getDataPod(dapp, dataId) {
     if (!dapp || !dapp.wallet) {
         throw (new Error(`You need to init the context and connect a wallet first`));
     }
@@ -23,6 +24,6 @@ async function readData(dapp, dataId) {
     const contract = await (0, getDataContract_1.default)(dapp, dataId);
     const initialState = await contract.readState();
     const state = initialState.state;
-    return state;
+    return { state, contract };
 }
-exports.default = readData;
+exports.default = getDataPod;
