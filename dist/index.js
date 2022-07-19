@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.defaultState = exports.openWallet = exports.testWallet = exports.mineBlock = exports.updateDataPod = exports.getDataPod = exports.registerDataPod = exports.deployDataPod = exports.editProposal = exports.addProposal = exports.editContributor = exports.addContributor = exports.getSchemaContract = exports.getSchemaState = exports.registerSchema = exports.deploySchema = exports.getBalance = exports.mintTokens = exports.connectWallet = exports.deployContext = exports.initContext = void 0;
+exports.contextContractSource = exports.defaultState = exports.openWallet = exports.testWallet = exports.mineBlock = exports.updateDataPod = exports.getDataPod = exports.registerDataPod = exports.deployDataPod = exports.editProposal = exports.addProposal = exports.editContributor = exports.addContributor = exports.getSchemaContract = exports.getSchemaState = exports.registerSchema = exports.deploySchema = exports.getBalance = exports.mintTokens = exports.connectWallet = exports.deployContext = exports.initContext = void 0;
 // Context.
 const initContext_1 = __importDefault(require("./context/initContext"));
 exports.initContext = initContext_1.default;
@@ -75,3 +75,6 @@ exports.openWallet = openWallet_1.default;
 // States.
 const defaultState = __importStar(require("./utils/defaultState"));
 exports.defaultState = defaultState;
+// COntract source
+const src_1 = require("./contracts/src");
+Object.defineProperty(exports, "contextContractSource", { enumerable: true, get: function () { return src_1.contextContractSource; } });

@@ -146,6 +146,7 @@
       case "getData":
         return await getData(state, action);
       case "evolve":
+      case "improve":
         return await evolve(state, action);
       default:
         throw new ContractError("No function supplied or function not recognised: " + input2.function);

@@ -32,3 +32,5 @@ import openWallet from "./utils/openWallet";
 export { mineBlock, testWallet, openWallet };
 import * as defaultState from "./utils/defaultState";
 export { defaultState };
+import { contextContractSource } from "./contracts/src";
+export { contextContractSource };

@@ -48,6 +48,6 @@ export interface ContextState {
   data: ContextData[];
 }
 
-export type ContextFunction = 'transfer' | 'mint' | 'balance' | 'register' | 'registerSchema' | 'getSchema' | 'registerData' | 'getData' | 'evolve';
+export type ContextFunction = 'transfer' | 'mint' | 'balance' | 'register' | 'registerSchema' | 'getSchema' | 'registerData' | 'getData' | 'evolve' | 'improve';
 
 export type ContextResult = { state: ContextState } | { result: PstResult } | { result: SchemaResult } | { result: DataResult };

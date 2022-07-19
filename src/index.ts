@@ -41,12 +41,15 @@ import updateDataPod from "./datapod/updateDataPod";
 export { deployDataPod, registerDataPod, getDataPod, updateDataPod };
 
 // Utils.
-import mineBlock from "./utils/mineBlock"
-import testWallet from "./utils/testWallet"
-import openWallet from "./utils/openWallet"
+import mineBlock from "./utils/mineBlock";
+import testWallet from "./utils/testWallet";
+import openWallet from "./utils/openWallet";
 export { mineBlock, testWallet, openWallet };
 
 // States.
-import * as defaultState from "./utils/defaultState"
+import * as defaultState from "./utils/defaultState";
 export { defaultState };
 
+// COntract source
+import { contextContractSource } from "./contracts/src";
+export { contextContractSource };

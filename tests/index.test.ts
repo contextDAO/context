@@ -31,4 +31,6 @@ import * as token from './token';
 describe(`4 - Token`, () => {
   it(`4.1 - Mint new Tokens`, async () => { await token.testMintTokens(); });
   it(`4.2 - Get Balance`, async () => { await token.testGetBalance(); });
+  xit(`4.3 - Set token Price`, async () => {});
+  xit(`4.4 - Register a new name - pay price`, async () => {});
 });

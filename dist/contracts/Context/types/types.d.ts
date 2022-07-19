@@ -40,7 +40,7 @@ export interface ContextState {
     schemas: ContextSchema[];
     data: ContextData[];
 }
-export declare type ContextFunction = 'transfer' | 'mint' | 'balance' | 'register' | 'registerSchema' | 'getSchema' | 'registerData' | 'getData' | 'evolve';
+export declare type ContextFunction = 'transfer' | 'mint' | 'balance' | 'register' | 'registerSchema' | 'getSchema' | 'registerData' | 'getData' | 'evolve' | 'improve';
 export declare type ContextResult = {
     state: ContextState;
 } | {
