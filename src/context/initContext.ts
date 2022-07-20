@@ -50,9 +50,17 @@ export default async function initContext(configuration: ContextConfiguration): 
   dapp.arweave = Arweave.init(getConnection(dapp.network));
 
   // Smartweave.
-  dapp.smartweave = dapp.network === "localhost"
-    ? SmartWeaveNodeFactory.forTesting(dapp.arweave)
-    : SmartWeaveNodeFactory.memCached(dapp.arweave);
+  switch (dapp.network) {
+    case `localhost` : 
+      dapp.smartweave = SmartWeaveNodeFactory.forTesting(dapp.arweave);
+      break;
+    case `testnet` : 
+      dapp.smartweave = SmartWeaveNodeFactory.memCachedBased(dapp.arweave).useArweaveGateway().build();
+      break;
+    case `mainnet` : 
+      dapp.smartweave = SmartWeaveNodeFactory.memCached(dapp.arweave);
+      break;
+  }
 
   // Wallet
   if (configuration.wallet) {

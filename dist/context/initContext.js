@@ -38,9 +38,17 @@ async function initContext(configuration) {
     redstone_smartweave_1.LoggerFactory.INST.logLevel("error");
     dapp.arweave = arweave_1.default.init(getConnection(dapp.network));
     // Smartweave.
-    dapp.smartweave = dapp.network === "localhost"
-        ? redstone_smartweave_1.SmartWeaveNodeFactory.forTesting(dapp.arweave)
-        : redstone_smartweave_1.SmartWeaveNodeFactory.memCached(dapp.arweave);
+    switch (dapp.network) {
+        case `localhost`:
+            dapp.smartweave = redstone_smartweave_1.SmartWeaveNodeFactory.forTesting(dapp.arweave);
+            break;
+        case `testnet`:
+            dapp.smartweave = redstone_smartweave_1.SmartWeaveNodeFactory.memCachedBased(dapp.arweave).useArweaveGateway().build();
+            break;
+        case `mainnet`:
+            dapp.smartweave = redstone_smartweave_1.SmartWeaveNodeFactory.memCached(dapp.arweave);
+            break;
+    }
     // Wallet
     if (configuration.wallet) {
         dapp.wallet = {

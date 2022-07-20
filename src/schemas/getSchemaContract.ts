@@ -11,7 +11,7 @@ import { Contract } from "redstone-smartweave";
 export default async function getSchemaContract(dapp: DappContext, schemaId: string): Promise<Contract> {
   // Get Schema address.
   const context: Contract = dapp.smartweave.contract(dapp.contextAddr);
-  const interaction: any = await context.viewState({ function: 'getSchema', schemaId});
+  const interaction: any = await context.viewState({ function: 'getSchema', schemaId });
   if (!interaction.result.schema) {
     throw(new Error(`Invalid Schema Id`));
   }
