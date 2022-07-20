@@ -2,6 +2,7 @@
 import * as context from './context';
 describe(`1 - Context`, () => {
   it(`1.1 - Deploy Context`, async () => { await context.testDeploy(); });
+  it(`1.2 - Evolve Context`, async () => { await context.testEvolve(); });
 });
 
 // Schemas.

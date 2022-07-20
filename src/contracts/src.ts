@@ -67,6 +67,9 @@
 
   // src/contracts/Context/actions/write/registerSchema.ts
   var registerSchema = async (state, { caller, input: { schemaId, address } }) => {
+    if (state.owner !== caller) {
+      throw new ContractError("Only the owner can register a Schema.");
+    }
     if (schemaId.length === 0 || address.length === 0) {
       throw new ContractError("Invalid id or address. Both should be valid strings");
     }
@@ -115,20 +118,23 @@
 
   // src/contracts/Context/actions/write/evolve.ts
   var evolve = async (state, { caller, input: { value } }) => {
+    if (state.owner !== caller) {
+      throw new ContractError("Only the owner can register Data.");
+    }
     if (!state.canEvolve) {
       throw new ContractError("This contract cannot evolve.");
     }
     if (state.owner !== caller) {
       throw new ContractError("Only the owner can evolve a contract.");
     }
-    state.evolve = input.value;
+    state.evolve = value;
     return { state };
   };
 
   // src/contracts/Context/context.ts
   async function handle(state, action) {
-    const input2 = action.input;
-    switch (input2.function) {
+    const input = action.input;
+    switch (input.function) {
       case "mint":
         return await mintTokens(state, action);
       case "transfer":
@@ -146,10 +152,9 @@
       case "getData":
         return await getData(state, action);
       case "evolve":
-      case "improve":
         return await evolve(state, action);
       default:
-        throw new ContractError("No function supplied or function not recognised: " + input2.function);
+        throw new ContractError("No function supplied or function not recognised: " + input.function);
     }
   }
 })();

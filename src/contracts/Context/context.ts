@@ -43,7 +43,6 @@ export async function handle(
     case "getData":
       return await getData(state, action);
     case "evolve":
-    case "improve":
       return await evolve(state, action);
     default:
       throw new ContractError(

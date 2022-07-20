@@ -5,6 +5,10 @@ export const evolve = async (
   { caller, input: { value } }: ContextAction
 ): Promise<ContextResult> => {
 
+  if(state.owner !== caller) {
+    throw new ContractError('Only the owner can register Data.');
+  }
+
   if(!state.canEvolve) {
     throw new ContractError('This contract cannot evolve.');
   }
@@ -13,7 +17,7 @@ export const evolve = async (
     throw new ContractError('Only the owner can evolve a contract.');
   }
 
-  state.evolve = input.value
+  state.evolve = value
   return { state };
 };
 
