@@ -6,8 +6,9 @@ export { DappContext, SchemaState, Wallet, JWKInterface, Network };
 // Context.
 import initContext from "./context/initContext";
 import deployContext from "./context/deployContext";
+import evolveContext from "./context/evolveContext";
 import connectWallet from "./context/connectWallet";
-export { initContext, deployContext, connectWallet };
+export { initContext, deployContext, evolveContext, connectWallet };
 
 // Token
 import mintTokens from './token/mintTokens'

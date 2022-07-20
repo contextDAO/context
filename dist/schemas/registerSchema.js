@@ -16,9 +16,9 @@ async function registerSchema(dapp, schemaId, schemaAddr) {
     if (!dapp || !dapp.wallet) {
         throw (new Error(`You need to init the dapp and connect a wallet first`));
     }
-    const unite = await (0, getContext_1.default)(dapp);
+    const context = await (0, getContext_1.default)(dapp);
     // dataId should not exist
-    const registeredSchema = unite.state.schemas.find((s) => s.schemaId === schemaId);
+    const registeredSchema = context.state.schemas.find((s) => s.schemaId === schemaId);
     if (registeredSchema)
         throw (new Error(`${schemaId} is already registered`));
     // Register Schema to Context.
@@ -27,6 +27,6 @@ async function registerSchema(dapp, schemaId, schemaAddr) {
         schemaId,
         address: schemaAddr,
     };
-    await unite.contract.writeInteraction(interaction);
+    await context.contract.writeInteraction(interaction);
 }
 exports.default = registerSchema;
